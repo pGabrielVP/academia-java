@@ -98,11 +98,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Deletar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DeletarEntidadeActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="EditarEntidade">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EditarEntidadeActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
