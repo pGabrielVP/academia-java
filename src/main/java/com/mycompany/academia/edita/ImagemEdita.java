@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.persistence.Persistence;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -146,6 +147,9 @@ public class ImagemEdita extends javax.swing.JPanel {
     private void entradaImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaImagemActionPerformed
         // cria um dialog para escolher um arquivo
         JFileChooser fc = new JFileChooser();
+        // filtra somente arquivos .png
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("png files", "png"));
         // salva o arquivo selecionado na variavel file, tambem muda o texto de caminhoImagem para o nome do arquivo selecionado
         if (evt.getSource() == entradaImagem) {
             int returnVal = fc.showOpenDialog(this);
