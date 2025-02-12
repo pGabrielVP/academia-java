@@ -4,8 +4,15 @@
  */
 package com.mycompany.academia.lista;
 
+import com.mycompany.academia.controle.ImagemJpaController;
+import com.mycompany.academia.controle.exceptions.IllegalOrphanException;
+import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
 import com.mycompany.academia.edita.ImagemEdita;
 import com.mycompany.academia.entidades.Imagem;
+import com.mycompany.tablemodel.TableModelImagem;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.Persistence;
 import javax.swing.JDialog;
 
 /**
@@ -54,8 +61,18 @@ public class ListaImagem extends javax.swing.JInternalFrame {
         });
 
         DeletarEntidade.setText("Deletar");
+        DeletarEntidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeletarEntidadeActionPerformed(evt);
+            }
+        });
 
         EditarEntidade.setText("Editar");
+        EditarEntidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarEntidadeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,7 +108,6 @@ public class ListaImagem extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CriarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CriarEntidadeActionPerformed
-        // TODO: atualizar a lista sempre que uma imagem nova for adicionada
         JDialog jDialog = new JDialog();
         ImagemEdita entrada = new ImagemEdita(new Imagem(), jDialog);
         jDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -102,7 +118,40 @@ public class ListaImagem extends javax.swing.JInternalFrame {
         jDialog.validate();
         jDialog.setModal(true);
         jDialog.setVisible(true);
+        // TODO: atualizar a lista sempre que uma imagem nova for adicionada
     }//GEN-LAST:event_CriarEntidadeActionPerformed
+
+    private void EditarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarEntidadeActionPerformed
+        ImagemJpaController controller = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+        JDialog jDialog = new JDialog();
+        // recupera a imagem do banco de dados para ser editado
+        Imagem editando = controller.findImagem(Integer.valueOf(ListaEntidades.getValueAt(ListaEntidades.getSelectedRow(), 0).toString()));
+        ImagemEdita entrada = new ImagemEdita(editando, jDialog);
+
+        jDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        jDialog.add(entrada);
+        jDialog.setSize(entrada.getPreferredSize());
+
+        jDialog.validate();
+        jDialog.setModal(true);
+        jDialog.setVisible(true);
+        
+        // TODO: Atualizar a lista depois de editar uma entidade
+    }//GEN-LAST:event_EditarEntidadeActionPerformed
+
+    private void DeletarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarEntidadeActionPerformed
+        ImagemJpaController controller = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+        try {
+            // retorna um integer com o valor da coluna 0 (id) na linha selecionada
+            // deleta a entidade no banco de dados
+            controller.destroy(Integer.valueOf(ListaEntidades.getValueAt(ListaEntidades.getSelectedRow(), 0).toString()));
+        } catch (IllegalOrphanException | NonexistentEntityException ex) {
+            Logger.getLogger(ListaImagem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // atualiza lista depois de deletar uma entidade
+        ListaEntidades.setModel(new TableModelImagem());
+    }//GEN-LAST:event_DeletarEntidadeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CriarEntidade;

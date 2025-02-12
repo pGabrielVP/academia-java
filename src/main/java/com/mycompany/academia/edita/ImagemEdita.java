@@ -5,6 +5,7 @@
 package com.mycompany.academia.edita;
 
 import com.mycompany.academia.controle.ImagemJpaController;
+import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
 import com.mycompany.academia.entidades.Imagem;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,6 +29,7 @@ public class ImagemEdita extends javax.swing.JPanel {
 
     /**
      * Creates new form edita
+     *
      * @param img
      * @param parent
      */
@@ -155,24 +157,53 @@ public class ImagemEdita extends javax.swing.JPanel {
     }//GEN-LAST:event_entradaImagemActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
-        // entidade controle com as funções do CRUD.
-        ImagemJpaController ijc = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+        if (imagem.getId() == null) {
+            // entidade controle com as funções do CRUD.
+            ImagemJpaController ijc = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
-        // Cria um ByteArray com a imagem selecionada pelo usuario.
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(ImageIO.read(file), "png", baos);
-        } catch (IOException ex) {
-            Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
+            // Cria um ByteArray com a imagem selecionada pelo usuario.
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(ImageIO.read(file), "png", baos);
+            } catch (IOException ex) {
+                Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // define a imagem e descrição da entidade imagem para ser salvo no banco de dados. Id é definido automaticamente.
+            imagem.setImagem(baos.toByteArray());
+            imagem.setDescricao(entradaDescricao.getText());
+
+            // começa a transação para criar uma nova entidade no banco.
+            ijc.create(imagem);
+            owner.dispose();
+        } else {
+            ImagemJpaController ijc = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+            // Se editando e nenhum arquivo selecionado
+            // a nova imagem continua sendo a imagem antiga
+            if (file == null) {
+                imagem.setImagem(imagem.getImagem());
+            } else { // se algum arquivo for selecionado então transforma em byte array e salva como a nova imagem
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                try {
+                    ImageIO.write(ImageIO.read(file), "png", baos);
+                } catch (IOException ex) {
+                    Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                imagem.setImagem(baos.toByteArray());
+            }
+            imagem.setDescricao(entradaDescricao.getText());
+
+            try {
+                // começa a transação para criar uma nova entidade no banco.
+                ijc.edit(imagem);
+            } catch (NonexistentEntityException ex) {
+                Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            owner.dispose();
         }
 
-        // define a imagem e descrição da entidade imagem para ser salvo no banco de dados. Id é definido automaticamente.
-        imagem.setImagem(baos.toByteArray());
-        imagem.setDescricao(entradaDescricao.getText());
-
-        // começa a transação para criar uma nova entidade no banco.
-        ijc.create(imagem);
-        owner.dispose();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
 
