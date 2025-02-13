@@ -53,6 +53,8 @@ public class Academia extends javax.swing.JFrame {
             .addGap(0, 586, Short.MAX_VALUE)
         );
 
+        jDesktopPane1.setDragMode(jDesktopPane1.OUTLINE_DRAG_MODE);
+
         jMenu2.setText("Rotinas");
 
         novaRotinaMenu.setText("Novo");
