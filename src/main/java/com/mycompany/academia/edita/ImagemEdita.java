@@ -198,7 +198,7 @@ public class ImagemEdita extends javax.swing.JPanel {
             imagem.setDescricao(entradaDescricao.getText());
 
             try {
-                // começa a transação para criar uma nova entidade no banco.
+                // começa a transação para editar a entidade no banco.
                 ijc.edit(imagem);
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
