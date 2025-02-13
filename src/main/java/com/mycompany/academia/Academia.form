@@ -91,6 +91,9 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JDesktopPane" name="jDesktopPane1">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="jDesktopPane1.setDragMode(jDesktopPane1.OUTLINE_DRAG_MODE);"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
