@@ -9,7 +9,7 @@ import com.mycompany.academia.controle.exceptions.IllegalOrphanException;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
 import com.mycompany.academia.edita.ImagemEdita;
 import com.mycompany.academia.entidades.Imagem;
-import com.mycompany.tablemodel.TableModelImagem;
+import com.mycompany.academia.datamodel.TableModelImagem;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Persistence;
@@ -50,7 +50,7 @@ public class ListaImagem extends javax.swing.JInternalFrame {
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         setPreferredSize(new java.awt.Dimension(919, 565));
 
-        ListaEntidades.setModel(new com.mycompany.tablemodel.TableModelImagem());
+        ListaEntidades.setModel(new com.mycompany.academia.datamodel.TableModelImagem());
         jScrollPane2.setViewportView(ListaEntidades);
 
         CriarEntidade.setText("Criar");
