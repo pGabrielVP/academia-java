@@ -4,12 +4,11 @@
  */
 package com.mycompany.academia.lista;
 
-import com.mycompany.academia.controle.ImagemJpaController;
-import com.mycompany.academia.controle.exceptions.IllegalOrphanException;
+import com.mycompany.academia.controle.ImagemKeywordJpaController;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
-import com.mycompany.academia.edita.ImagemEdita;
-import com.mycompany.academia.entidades.Imagem;
-import com.mycompany.academia.datamodel.TableModelImagem;
+import com.mycompany.academia.datamodel.TableModelImagemKeyword;
+import com.mycompany.academia.edita.ImagemKeywordEdita;
+import com.mycompany.academia.entidades.ImagemKeyword;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Persistence;
@@ -19,12 +18,14 @@ import javax.swing.JDialog;
  *
  * @author paulo
  */
-public class ListaImagem extends javax.swing.JInternalFrame {
+public class ListaImagemKeyword extends javax.swing.JInternalFrame {
+
+    private final ImagemKeywordJpaController controller = new ImagemKeywordJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     /**
      * Creates new form ModeloCrud
      */
-    public ListaImagem() {
+    public ListaImagemKeyword() {
         initComponents();
     }
 
@@ -46,11 +47,11 @@ public class ListaImagem extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
-        setTitle("Lista de Imagens");
+        setTitle("Lista Imagem_Keyword");
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         setPreferredSize(new java.awt.Dimension(919, 565));
 
-        ListaEntidades.setModel(new com.mycompany.academia.datamodel.TableModelImagem());
+        ListaEntidades.setModel(new com.mycompany.academia.datamodel.TableModelImagemKeyword());
         jScrollPane2.setViewportView(ListaEntidades);
 
         CriarEntidade.setText("Criar");
@@ -109,7 +110,7 @@ public class ListaImagem extends javax.swing.JInternalFrame {
 
     private void CriarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CriarEntidadeActionPerformed
         JDialog jDialog = new JDialog();
-        ImagemEdita entrada = new ImagemEdita(new Imagem(), jDialog);
+        ImagemKeywordEdita entrada = new ImagemKeywordEdita(new ImagemKeyword(), jDialog);
         jDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         jDialog.add(entrada);
@@ -122,11 +123,10 @@ public class ListaImagem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CriarEntidadeActionPerformed
 
     private void EditarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarEntidadeActionPerformed
-        ImagemJpaController controller = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
         JDialog jDialog = new JDialog();
-        // recupera a imagem do banco de dados para ser editado
-        Imagem editando = controller.findImagem(Integer.valueOf(ListaEntidades.getValueAt(ListaEntidades.getSelectedRow(), 0).toString()));
-        ImagemEdita entrada = new ImagemEdita(editando, jDialog);
+        // procura o objeto no banco de dados para editar
+        ImagemKeyword editando = controller.findImagemKeyword(Integer.valueOf(ListaEntidades.getValueAt(ListaEntidades.getSelectedRow(), 0).toString()));
+        ImagemKeywordEdita entrada = new ImagemKeywordEdita(editando, jDialog);
 
         jDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -141,16 +141,15 @@ public class ListaImagem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_EditarEntidadeActionPerformed
 
     private void DeletarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletarEntidadeActionPerformed
-        ImagemJpaController controller = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
         try {
             // retorna um integer com o valor da coluna 0 (id) na linha selecionada
             // deleta a entidade no banco de dados
             controller.destroy(Integer.valueOf(ListaEntidades.getValueAt(ListaEntidades.getSelectedRow(), 0).toString()));
-        } catch (IllegalOrphanException | NonexistentEntityException ex) {
-            Logger.getLogger(ListaImagem.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(ListaImagemKeyword.class.getName()).log(Level.SEVERE, null, ex);
         }
         // atualiza lista depois de deletar uma entidade
-        ListaEntidades.setModel(new TableModelImagem());
+        ListaEntidades.setModel(new TableModelImagemKeyword());
     }//GEN-LAST:event_DeletarEntidadeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

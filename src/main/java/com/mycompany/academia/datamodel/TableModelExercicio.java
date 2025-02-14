@@ -4,28 +4,30 @@
  */
 package com.mycompany.academia.datamodel;
 
-import com.mycompany.academia.controle.ImagemJpaController;
-import com.mycompany.academia.entidades.Imagem;
+import com.mycompany.academia.controle.ExercicioJpaController;
+import com.mycompany.academia.entidades.Exercicio;
 import java.util.List;
 import javax.persistence.Persistence;
-import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author paulo
  */
-public class TableModelImagem extends AbstractTableModel {
+public class TableModelExercicio extends AbstractTableModel {
 
-    String[] columnNames = {"Id", "Imagem", "Descricao"};
+    // nome das colunas
+    String[] columnNames = {"Id", "Nome", "Movimento"};
 
-    ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    List<Imagem> listaImagens = imagemJpaController.findImagemEntities();
+    // conexão com o banco
+    // lista com o valores recuperados
+    ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    List<Exercicio> listaImagens = exercicioJpaController.findExercicioEntities();
 
     @Override
     public int getRowCount() {
         // numero de entidades no banco de dados.
-        return imagemJpaController.getImagemCount();
+        return exercicioJpaController.getExercicioCount();
     }
 
     @Override
@@ -40,10 +42,9 @@ public class TableModelImagem extends AbstractTableModel {
         if (columnIndex == 0) {
             return listaImagens.get(rowIndex).getId();
         } else if (columnIndex == 1) {
-            ImageIcon imageIcon = new ImageIcon(listaImagens.get(rowIndex).getImagem());
-            return imageIcon;
+            return listaImagens.get(rowIndex).getNome();
         } else if (columnIndex == 2) {
-            return listaImagens.get(rowIndex).getDescricao();
+            return listaImagens.get(rowIndex).getMovimento();
         }
         throw new Error("columnIndex value not in range");
     }

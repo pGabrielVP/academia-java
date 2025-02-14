@@ -4,8 +4,8 @@
  */
 package com.mycompany.academia.datamodel;
 
-import com.mycompany.academia.controle.ImagemJpaController;
-import com.mycompany.academia.entidades.Imagem;
+import com.mycompany.academia.controle.ImagemKeywordJpaController;
+import com.mycompany.academia.entidades.ImagemKeyword;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.swing.ImageIcon;
@@ -15,17 +15,17 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author paulo
  */
-public class TableModelImagem extends AbstractTableModel {
+public class TableModelImagemKeyword extends AbstractTableModel {
 
-    String[] columnNames = {"Id", "Imagem", "Descricao"};
+    String[] columnNames = {"Id", "Imagem", "Keyword"};
 
-    ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    List<Imagem> listaImagens = imagemJpaController.findImagemEntities();
+    ImagemKeywordJpaController imagemKeywordJpaController = new ImagemKeywordJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    List<ImagemKeyword> listaImagemKeyword = imagemKeywordJpaController.findImagemKeywordEntities();
 
     @Override
     public int getRowCount() {
         // numero de entidades no banco de dados.
-        return imagemJpaController.getImagemCount();
+        return imagemKeywordJpaController.getImagemKeywordCount();
     }
 
     @Override
@@ -36,14 +36,14 @@ public class TableModelImagem extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        // adiciona as entradas do banco de dados na tabela.
+        // adiciona as entradas da lista na tabela.
         if (columnIndex == 0) {
-            return listaImagens.get(rowIndex).getId();
+            return listaImagemKeyword.get(rowIndex).getId();
         } else if (columnIndex == 1) {
-            ImageIcon imageIcon = new ImageIcon(listaImagens.get(rowIndex).getImagem());
+            ImageIcon imageIcon = new ImageIcon(listaImagemKeyword.get(rowIndex).getImagem().getImagem());
             return imageIcon;
         } else if (columnIndex == 2) {
-            return listaImagens.get(rowIndex).getDescricao();
+            return listaImagemKeyword.get(rowIndex).getKeyword();
         }
         throw new Error("columnIndex value not in range");
     }

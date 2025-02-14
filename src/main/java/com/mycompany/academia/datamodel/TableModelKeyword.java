@@ -4,46 +4,42 @@
  */
 package com.mycompany.academia.datamodel;
 
-import com.mycompany.academia.controle.ImagemJpaController;
-import com.mycompany.academia.entidades.Imagem;
+import com.mycompany.academia.controle.KeywordsJpaController;
+import com.mycompany.academia.entidades.Keywords;
 import java.util.List;
 import javax.persistence.Persistence;
-import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author paulo
  */
-public class TableModelImagem extends AbstractTableModel {
+public class TableModelKeyword extends AbstractTableModel {
 
-    String[] columnNames = {"Id", "Imagem", "Descricao"};
+    String[] columnNames = {"Id", "Keyword"};
 
-    ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    List<Imagem> listaImagens = imagemJpaController.findImagemEntities();
+    KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    List<Keywords> listaKeywords = keywordsJpaController.findKeywordsEntities();
 
     @Override
     public int getRowCount() {
         // numero de entidades no banco de dados.
-        return imagemJpaController.getImagemCount();
+        return keywordsJpaController.getKeywordsCount();
     }
 
     @Override
     public int getColumnCount() {
         // numero de colunas na tabela.
-        return 3;
+        return 2;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         // adiciona as entradas do banco de dados na tabela.
         if (columnIndex == 0) {
-            return listaImagens.get(rowIndex).getId();
+            return listaKeywords.get(rowIndex).getId();
         } else if (columnIndex == 1) {
-            ImageIcon imageIcon = new ImageIcon(listaImagens.get(rowIndex).getImagem());
-            return imageIcon;
-        } else if (columnIndex == 2) {
-            return listaImagens.get(rowIndex).getDescricao();
+            return listaKeywords.get(rowIndex).getKeyword();
         }
         throw new Error("columnIndex value not in range");
     }
