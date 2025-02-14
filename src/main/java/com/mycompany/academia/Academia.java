@@ -4,7 +4,11 @@
  */
 package com.mycompany.academia;
 
+import com.mycompany.academia.lista.ListaExercicio;
 import com.mycompany.academia.lista.ListaImagem;
+import com.mycompany.academia.lista.ListaImagemKeyword;
+import com.mycompany.academia.lista.ListaKeyword;
+import com.mycompany.academia.lista.ListaMovimento;
 import javax.swing.JInternalFrame;
 
 /**
@@ -70,6 +74,11 @@ public class Academia extends javax.swing.JFrame {
         jMenu1.setText("Entidades");
 
         ExercicioMenu.setText("Exercicio");
+        ExercicioMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExercicioMenuActionPerformed(evt);
+            }
+        });
         jMenu1.add(ExercicioMenu);
 
         ImagemMenu.setText("Imagem");
@@ -81,12 +90,27 @@ public class Academia extends javax.swing.JFrame {
         jMenu1.add(ImagemMenu);
 
         ImagemKeywordMenu.setText("ImagemKeyword");
+        ImagemKeywordMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImagemKeywordMenuActionPerformed(evt);
+            }
+        });
         jMenu1.add(ImagemKeywordMenu);
 
         KeywordsMenu.setText("Keywords");
+        KeywordsMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KeywordsMenuActionPerformed(evt);
+            }
+        });
         jMenu1.add(KeywordsMenu);
 
         MovimentoMenu.setText("Movimento");
+        MovimentoMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MovimentoMenuActionPerformed(evt);
+            }
+        });
         jMenu1.add(MovimentoMenu);
 
         jMenuBar1.add(jMenu1);
@@ -118,6 +142,38 @@ public class Academia extends javax.swing.JFrame {
     private void novaRotinaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaRotinaMenuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_novaRotinaMenuActionPerformed
+
+    private void ExercicioMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExercicioMenuActionPerformed
+        JInternalFrame listaExercicio = new ListaExercicio();
+        listaExercicio.setVisible(true);
+
+        jDesktopPane1.add(listaExercicio);
+        jDesktopPane1.validate();
+    }//GEN-LAST:event_ExercicioMenuActionPerformed
+
+    private void ImagemKeywordMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagemKeywordMenuActionPerformed
+        JInternalFrame listaImagemKeyword = new ListaImagemKeyword();
+        listaImagemKeyword.setVisible(true);
+
+        jDesktopPane1.add(listaImagemKeyword);
+        jDesktopPane1.validate();
+    }//GEN-LAST:event_ImagemKeywordMenuActionPerformed
+
+    private void KeywordsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeywordsMenuActionPerformed
+        JInternalFrame listaKeyword = new ListaKeyword();
+        listaKeyword.setVisible(true);
+
+        jDesktopPane1.add(listaKeyword);
+        jDesktopPane1.validate();
+    }//GEN-LAST:event_KeywordsMenuActionPerformed
+
+    private void MovimentoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MovimentoMenuActionPerformed
+        JInternalFrame listaMovimento = new ListaMovimento();
+        listaMovimento.setVisible(true);
+
+        jDesktopPane1.add(listaMovimento);
+        jDesktopPane1.validate();
+    }//GEN-LAST:event_MovimentoMenuActionPerformed
 
     /**
      * @param args the command line arguments
