@@ -24,6 +24,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ImagemEdita extends javax.swing.JPanel {
 
+    // conexão com o banco de dados 
+    private ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+
+    // objeto sendo criado ou editado
+    // arquivo selecionado pelo usuario
+    // janela para ser fechada quando a transação com o banco de dados for concluida
     private Imagem imagem;
     private File file;
     private JDialog owner;
@@ -147,10 +153,13 @@ public class ImagemEdita extends javax.swing.JPanel {
     private void entradaImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaImagemActionPerformed
         // cria um dialog para escolher um arquivo
         JFileChooser fc = new JFileChooser();
+
         // filtra somente arquivos .png
         fc.setAcceptAllFileFilterUsed(false);
         fc.addChoosableFileFilter(new FileNameExtensionFilter("png files", "png"));
-        // salva o arquivo selecionado na variavel file, tambem muda o texto de caminhoImagem para o nome do arquivo selecionado
+
+        // salva o arquivo selecionado na variavel file 
+        // muda o texto de caminhoImagem para o nome do arquivo selecionado
         if (evt.getSource() == entradaImagem) {
             int returnVal = fc.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -161,10 +170,9 @@ public class ImagemEdita extends javax.swing.JPanel {
     }//GEN-LAST:event_entradaImagemActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        // se o objeto sendo editado nao tiver id, id for null, cria um objeto novo no banco de dados
+        // se o objeto sendo editado ja tiver um id atuliza o objeto e salvo no banco de dados.
         if (imagem.getId() == null) {
-            // entidade controle com as funções do CRUD.
-            ImagemJpaController ijc = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-
             // Cria um ByteArray com a imagem selecionada pelo usuario.
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
@@ -173,38 +181,41 @@ public class ImagemEdita extends javax.swing.JPanel {
                 Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // define a imagem e descrição da entidade imagem para ser salvo no banco de dados. Id é definido automaticamente.
+            // define a imagem e descrição do objeto e salva no banco de dados
             imagem.setImagem(baos.toByteArray());
             imagem.setDescricao(entradaDescricao.getText());
 
-            // começa a transação para criar uma nova entidade no banco.
-            ijc.create(imagem);
+            // cria o novo objeto no banco de dados e fecha o JDialog
+            imagemJpaController.create(imagem);
             owner.dispose();
         } else {
-            ImagemJpaController ijc = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
             // Se editando e nenhum arquivo selecionado
             // a nova imagem continua sendo a imagem antiga
             if (file == null) {
                 imagem.setImagem(imagem.getImagem());
-            } else { // se algum arquivo for selecionado então transforma em byte array e salva como a nova imagem
+            } else {
+                // se algum arquivo for selecionado então transforma em byte array 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 try {
                     ImageIO.write(ImageIO.read(file), "png", baos);
                 } catch (IOException ex) {
                     Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                // define a nova imagem no objeto
                 imagem.setImagem(baos.toByteArray());
             }
+            // define a descrição do objeto
             imagem.setDescricao(entradaDescricao.getText());
 
+            // atualiza o objeto no banco de dados
             try {
-                // começa a transação para editar a entidade no banco.
-                ijc.edit(imagem);
+                imagemJpaController.edit(imagem);
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ImagemEdita.class.getName()).log(Level.SEVERE, null, ex);
             }
+            // fecha o JDialog
             owner.dispose();
         }
 

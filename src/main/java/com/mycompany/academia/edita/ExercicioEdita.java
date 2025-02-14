@@ -20,7 +20,7 @@ import javax.swing.JDialog;
  */
 public class ExercicioEdita extends javax.swing.JPanel {
 
-    // conecção com o banco de dados 
+    // conexão com o banco de dados 
     private MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
     private ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
@@ -149,12 +149,12 @@ public class ExercicioEdita extends javax.swing.JPanel {
             exercicioJpaController.create(exercicio);
             owner.dispose();
         } else {
-            // define o nome e o movimento da entidade exercicio para ser salvo no banco de dados. Id é definido automaticamente.
+            // define o nome e o movimento do objeto e salva no banco de dados
             exercicio.setNome(EntradaNome.getText());
             exercicio.setMovimento((Movimento) EntradaMovimento.getSelectedItem()); // TODO: Arruma isso aqui
 
+            // atualiza o objeto no banco de dados
             try {
-                // atualiza o objeto no banco de dados
                 exercicioJpaController.edit(exercicio);
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
