@@ -5,8 +5,8 @@
 package com.mycompany.academia.edita;
 
 import com.mycompany.academia.controle.ExercicioJpaController;
+import com.mycompany.academia.controle.MovimentoJpaController;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
-import com.mycompany.academia.datamodel.ComboBoxModelExercicio;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.Movimento;
 import java.util.logging.Level;
@@ -20,6 +20,15 @@ import javax.swing.JDialog;
  */
 public class ExercicioEdita extends javax.swing.JPanel {
 
+    // conecção com o banco de dados 
+    private MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+
+    // dados para o combobox
+    private Movimento[] listaMovimento = movimentoJpaController.findMovimentoEntities().toArray(Movimento[]::new);
+
+    // objeto sendo criado ou editado
+    // janela para ser fechada quando a transação com o banco de dados for concluida
     private Exercicio exercicio;
     private JDialog owner;
 
@@ -81,7 +90,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
             EntradaNome.setText(exercicio.getNome());
         }
 
-        EntradaMovimento.setModel(new ComboBoxModelExercicio());
+        EntradaMovimento.setModel(new javax.swing.DefaultComboBoxModel<>(listaMovimento));
         EntradaMovimento.setToolTipText("exemplo de movimento do exercicio");
         if (exercicio.getMovimento() != null) {
             EntradaMovimento.setSelectedItem(exercicio.getMovimento());
@@ -129,32 +138,30 @@ public class ExercicioEdita extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        // se o objeto sendo editado nao tiver id, id for null, cria um objeto novo no banco de dados
+        // se o objeto sendo editado ja tiver um id atuliza o objeto e salvo no banco de dados.
         if (exercicio.getId() == null) {
-            // entidade controle com as funções do CRUD.
-            ExercicioJpaController ejc = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-
-            // define o nome e o movimento da entidade exercicio para ser salvo no banco de dados. Id é definido automaticamente.
+            // define nome e movimento do objeto
             exercicio.setNome(EntradaNome.getText());
-            exercicio.setMovimento((Movimento) EntradaMovimento.getSelectedItem()); // TODO: Arruma isso aqui
+            exercicio.setMovimento((Movimento) EntradaMovimento.getSelectedItem());
 
-            // começa a transação para criar uma nova entidade no banco.
-            ejc.create(exercicio);
+            // cria o novo objeto no banco de dados e fecha JDialog
+            exercicioJpaController.create(exercicio);
             owner.dispose();
         } else {
-            ExercicioJpaController ejc = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-
             // define o nome e o movimento da entidade exercicio para ser salvo no banco de dados. Id é definido automaticamente.
             exercicio.setNome(EntradaNome.getText());
             exercicio.setMovimento((Movimento) EntradaMovimento.getSelectedItem()); // TODO: Arruma isso aqui
 
             try {
-                // começa a transação para editar a entidade no banco.
-                ejc.edit(exercicio);
+                // atualiza o objeto no banco de dados
+                exercicioJpaController.edit(exercicio);
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
             }
+            // fecha o JDialog
             owner.dispose();
         }
 
