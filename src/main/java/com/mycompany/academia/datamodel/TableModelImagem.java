@@ -6,7 +6,6 @@ package com.mycompany.academia.datamodel;
 
 import com.mycompany.academia.controle.ImagemJpaController;
 import com.mycompany.academia.entidades.Imagem;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.swing.ImageIcon;

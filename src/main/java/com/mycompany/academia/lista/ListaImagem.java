@@ -136,7 +136,7 @@ public class ListaImagem extends javax.swing.JInternalFrame {
         jDialog.validate();
         jDialog.setModal(true);
         jDialog.setVisible(true);
-        
+
         // TODO: Atualizar a lista depois de editar uma entidade
     }//GEN-LAST:event_EditarEntidadeActionPerformed
 
