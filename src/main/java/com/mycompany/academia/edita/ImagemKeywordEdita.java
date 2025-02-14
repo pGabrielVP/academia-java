@@ -22,15 +22,17 @@ import com.mycompany.academia.entidades.Keywords;
  */
 public class ImagemKeywordEdita extends javax.swing.JPanel {
 
-    // entityController
+    // conexão com o banco de dados 
     ImagemKeywordJpaController imagemKeywordJpaController = new ImagemKeywordJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
     ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
     KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
-    // combobox data
+    // dados para o combobox
     Imagem[] listaImagens = imagemJpaController.findImagemEntities().toArray(Imagem[]::new);
     Keywords[] listaKeywords = keywordsJpaController.findKeywordsEntities().toArray(Keywords[]::new);
 
+    // objeto sendo criado ou editado
+    // janela para ser fechada quando a transação com o banco de dados for concluida
     private ImagemKeyword imagem_keyword;
     private JDialog owner;
 
@@ -132,6 +134,8 @@ public class ImagemKeywordEdita extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        // se o objeto sendo editado nao tiver id, id for null, cria um objeto novo no banco de dados
+        // se o objeto sendo editado ja tiver um id atuliza o objeto e salvo no banco de dados.
         if (imagem_keyword.getId() == null) {
             // associa uma imagem a uma keyword da entidade imagem_keyword para ser salvo no banco de dados. Id é definido automaticamente.
             imagem_keyword.setImagem((Imagem) entradaImagem.getSelectedItem());

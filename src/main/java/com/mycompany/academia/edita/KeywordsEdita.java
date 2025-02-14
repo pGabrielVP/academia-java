@@ -17,9 +17,12 @@ import javax.swing.JDialog;
  * @author paulo
  */
 public class KeywordsEdita extends javax.swing.JPanel {
+    // conexão com o banco de dados 
 
     KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
+    // objeto sendo criado ou editado
+    // janela para ser fechada quando a transação com o banco de dados for concluida
     private Keywords keyword;
     private JDialog owner;
 
@@ -111,6 +114,8 @@ public class KeywordsEdita extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        // se o objeto sendo editado nao tiver id, id for null, cria um objeto novo no banco de dados
+        // se o objeto sendo editado ja tiver um id atuliza o objeto e salvo no banco de dados.
         if (keyword.getId() == null) {
             // keyword.keyword = user input
             keyword.setKeyword(entradaKeyword.getText());

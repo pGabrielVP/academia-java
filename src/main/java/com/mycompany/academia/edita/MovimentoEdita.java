@@ -20,7 +20,7 @@ import javax.swing.JDialog;
  */
 public class MovimentoEdita extends javax.swing.JPanel {
 
-    // conecção com o banco de dados 
+    // conexão com o banco de dados 
     private ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
     private MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
@@ -141,6 +141,7 @@ public class MovimentoEdita extends javax.swing.JPanel {
             movimentoJpaController.create(movimento);
             owner.dispose();
         } else {
+            // define as imagens de antes e depois do objeto
             movimento.setAntes((Imagem) entradaImagemAntes.getSelectedItem());
             movimento.setDepois((Imagem) entradaImagemAntes.getSelectedItem());
 
