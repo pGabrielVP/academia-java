@@ -19,12 +19,12 @@ import javax.swing.JDialog;
 public class KeywordsEdita extends javax.swing.JPanel {
     // conexão com o banco de dados 
 
-    KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     // objeto sendo criado ou editado
     // janela para ser fechada quando a transação com o banco de dados for concluida
-    private Keywords keyword;
-    private JDialog owner;
+    private final Keywords keyword;
+    private final JDialog owner;
 
     /**
      * Creates new form edita

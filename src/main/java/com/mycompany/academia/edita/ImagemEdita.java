@@ -25,14 +25,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class ImagemEdita extends javax.swing.JPanel {
 
     // conexão com o banco de dados 
-    private ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     // objeto sendo criado ou editado
     // arquivo selecionado pelo usuario
     // janela para ser fechada quando a transação com o banco de dados for concluida
-    private Imagem imagem;
+    private final Imagem imagem;
     private File file;
-    private JDialog owner;
+    private final JDialog owner;
 
     /**
      * Creates new form edita

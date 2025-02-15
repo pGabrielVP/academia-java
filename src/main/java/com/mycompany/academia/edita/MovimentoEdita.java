@@ -9,10 +9,12 @@ import com.mycompany.academia.controle.MovimentoJpaController;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
 import com.mycompany.academia.entidades.Imagem;
 import com.mycompany.academia.entidades.Movimento;
+import com.mycompany.academia.renderer.RendererImagem;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Persistence;
 import javax.swing.JDialog;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -21,16 +23,18 @@ import javax.swing.JDialog;
 public class MovimentoEdita extends javax.swing.JPanel {
 
     // conexão com o banco de dados 
-    private ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    private MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     // dados para o combobox
-    private Imagem[] listaImagens = imagemJpaController.findImagemEntities().toArray(Imagem[]::new);
+    private final Imagem[] listaImagens = imagemJpaController.findImagemEntities().toArray(Imagem[]::new);
+    // renderer para o combobox
+    private final ListCellRenderer<? super Imagem> rendererImagem = new RendererImagem();
 
     // objeto sendo criado ou editado
     // janela para ser fechada quando a transação com o banco de dados for concluida
-    private Movimento movimento;
-    private JDialog owner;
+    private final Movimento movimento;
+    private final JDialog owner;
 
     /**
      * Creates new form edita
@@ -85,8 +89,10 @@ public class MovimentoEdita extends javax.swing.JPanel {
         });
 
         entradaImagemAntes.setModel(new javax.swing.DefaultComboBoxModel<>(listaImagens));
+        entradaImagemAntes.setRenderer(rendererImagem);
 
         entradaImagemDepois.setModel(new javax.swing.DefaultComboBoxModel<>(listaImagens));
+        entradaImagemDepois.setRenderer(rendererImagem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -95,6 +101,7 @@ public class MovimentoEdita extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botaoSalvar)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelId)
@@ -104,8 +111,7 @@ public class MovimentoEdita extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(entradaId)
                             .addComponent(entradaImagemDepois, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(entradaImagemAntes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(botaoSalvar))
+                            .addComponent(entradaImagemAntes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -135,7 +141,7 @@ public class MovimentoEdita extends javax.swing.JPanel {
         if (movimento.getId() == null) {
             // define as imagens de antes e depois do objeto
             movimento.setAntes((Imagem) entradaImagemAntes.getSelectedItem());
-            movimento.setDepois((Imagem) entradaImagemAntes.getSelectedItem());
+            movimento.setDepois((Imagem) entradaImagemDepois.getSelectedItem());
 
             // cria o novo objeto no banco de dados e fecha JDialog
             movimentoJpaController.create(movimento);

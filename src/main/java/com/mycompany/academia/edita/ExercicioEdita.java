@@ -1,6 +1,7 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.null    return null;
+}llva to edit this template
  */
 package com.mycompany.academia.edita;
 
@@ -9,10 +10,12 @@ import com.mycompany.academia.controle.MovimentoJpaController;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.Movimento;
+import com.mycompany.academia.renderer.RendererMovimento;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Persistence;
 import javax.swing.JDialog;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -21,16 +24,17 @@ import javax.swing.JDialog;
 public class ExercicioEdita extends javax.swing.JPanel {
 
     // conexão com o banco de dados 
-    private MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    private ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
-    // dados para o combobox
-    private Movimento[] listaMovimento = movimentoJpaController.findMovimentoEntities().toArray(Movimento[]::new);
+    // renderer e dados para o combobox
+    private final Movimento[] listaMovimento = movimentoJpaController.findMovimentoEntities().toArray(Movimento[]::new);
+    private final ListCellRenderer<? super Object> rendererMovimento = new RendererMovimento();
 
     // objeto sendo criado ou editado
     // janela para ser fechada quando a transação com o banco de dados for concluida
-    private Exercicio exercicio;
-    private JDialog owner;
+    private final Exercicio exercicio;
+    private final JDialog owner;
 
     /**
      * Creates new form edita
@@ -91,7 +95,9 @@ public class ExercicioEdita extends javax.swing.JPanel {
         }
 
         EntradaMovimento.setModel(new javax.swing.DefaultComboBoxModel<>(listaMovimento));
+        EntradaMovimento.setRenderer(rendererMovimento);
         EntradaMovimento.setToolTipText("exemplo de movimento do exercicio");
+        EntradaMovimento.setMinimumSize(new java.awt.Dimension(76, 50));
         if (exercicio.getMovimento() != null) {
             EntradaMovimento.setSelectedItem(exercicio.getMovimento());
         }
@@ -128,9 +134,9 @@ public class ExercicioEdita extends javax.swing.JPanel {
                     .addComponent(EntradaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelNome))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelMovimento)
-                    .addComponent(EntradaMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(EntradaMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(botaoSalvar)
                 .addContainerGap(67, Short.MAX_VALUE))
