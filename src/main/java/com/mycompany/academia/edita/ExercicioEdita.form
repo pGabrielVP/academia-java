@@ -57,11 +57,11 @@
                   <Component id="labelNome" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labelMovimento" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="EntradaMovimento" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="labelMovimento" min="-2" max="-2" attributes="0"/>
+                  <Component id="EntradaMovimento" min="-2" pref="26" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="botaoSalvar" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="67" max="32767" attributes="0"/>
           </Group>
@@ -114,10 +114,13 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="EntradaMovimento">
       <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="EntradaMovimento.setRenderer(rendererMovimento);">
           <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(listaMovimento)" type="code"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="exemplo de movimento do exercicio"/>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[76, 50]"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if (exercicio.getMovimento() != null) {&#xa;    EntradaMovimento.setSelectedItem(exercicio.getMovimento());&#xa;}"/>

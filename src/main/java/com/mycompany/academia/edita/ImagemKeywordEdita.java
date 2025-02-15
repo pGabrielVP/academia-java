@@ -15,6 +15,9 @@ import java.util.logging.Logger;
 import javax.persistence.Persistence;
 import javax.swing.JDialog;
 import com.mycompany.academia.entidades.Keywords;
+import com.mycompany.academia.renderer.RendererImagem;
+import com.mycompany.academia.renderer.RendererKeyword;
+import javax.swing.ListCellRenderer;
 
 /**
  *
@@ -23,18 +26,21 @@ import com.mycompany.academia.entidades.Keywords;
 public class ImagemKeywordEdita extends javax.swing.JPanel {
 
     // conexão com o banco de dados 
-    ImagemKeywordJpaController imagemKeywordJpaController = new ImagemKeywordJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final ImagemKeywordJpaController imagemKeywordJpaController = new ImagemKeywordJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final ImagemJpaController imagemJpaController = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final KeywordsJpaController keywordsJpaController = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     // dados para o combobox
-    Imagem[] listaImagens = imagemJpaController.findImagemEntities().toArray(Imagem[]::new);
-    Keywords[] listaKeywords = keywordsJpaController.findKeywordsEntities().toArray(Keywords[]::new);
+    private final Imagem[] listaImagens = imagemJpaController.findImagemEntities().toArray(Imagem[]::new);
+    private final Keywords[] listaKeywords = keywordsJpaController.findKeywordsEntities().toArray(Keywords[]::new);
+    // renderer para o combobox
+    private final ListCellRenderer<? super Imagem> rendererImagem = new RendererImagem();
+    private final ListCellRenderer<? super Keywords> rendererKeyword = new RendererKeyword();
 
     // objeto sendo criado ou editado
     // janela para ser fechada quando a transação com o banco de dados for concluida
-    private ImagemKeyword imagem_keyword;
-    private JDialog owner;
+    private final ImagemKeyword imagem_keyword;
+    private final JDialog owner;
 
     /**
      * Creates new form edita
@@ -89,8 +95,10 @@ public class ImagemKeywordEdita extends javax.swing.JPanel {
         });
 
         entradaImagem.setModel(new javax.swing.DefaultComboBoxModel<>(listaImagens));
+        entradaImagem.setRenderer(rendererImagem);
 
         entradaKeyword.setModel(new javax.swing.DefaultComboBoxModel<>(listaKeywords));
+        entradaKeyword.setRenderer(rendererKeyword);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

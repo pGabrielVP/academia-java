@@ -110,6 +110,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="entradaImagem.setRenderer(rendererImagem);"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Imagem&gt;"/>
       </AuxValues>
     </Component>
@@ -120,6 +121,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="entradaKeyword.setRenderer(rendererKeyword);"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Keywords&gt;"/>
       </AuxValues>
     </Component>
