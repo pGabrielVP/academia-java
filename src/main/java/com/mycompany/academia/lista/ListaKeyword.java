@@ -21,7 +21,7 @@ import javax.swing.JDialog;
  */
 public class ListaKeyword extends javax.swing.JInternalFrame {
 
-    private KeywordsJpaController controller = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final KeywordsJpaController controller = new KeywordsJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     /**
      * Creates new form ModeloCrud
