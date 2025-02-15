@@ -21,7 +21,7 @@ import javax.swing.JDialog;
  */
 public class ListaMovimento extends javax.swing.JInternalFrame {
 
-    MovimentoJpaController controller = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private final MovimentoJpaController controller = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     /**
      * Creates new form ModeloCrud

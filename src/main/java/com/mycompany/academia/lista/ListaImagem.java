@@ -21,6 +21,8 @@ import javax.swing.JDialog;
  */
 public class ListaImagem extends javax.swing.JInternalFrame {
 
+    private final ImagemJpaController controller = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+
     /**
      * Creates new form ModeloCrud
      */
@@ -122,7 +124,6 @@ public class ListaImagem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CriarEntidadeActionPerformed
 
     private void EditarEntidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarEntidadeActionPerformed
-        ImagemJpaController controller = new ImagemJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
         JDialog jDialog = new JDialog();
         // recupera a imagem do banco de dados para ser editado
         Imagem editando = controller.findImagem(Integer.valueOf(ListaEntidades.getValueAt(ListaEntidades.getSelectedRow(), 0).toString()));
