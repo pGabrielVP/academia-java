@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia;
 
+import com.mycompany.academia.rotina.Rotina;
 import com.mycompany.academia.lista.ListaExercicio;
 import com.mycompany.academia.lista.ListaImagem;
 import com.mycompany.academia.lista.ListaImagemKeyword;
@@ -130,7 +131,7 @@ public class Academia extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    // TODO: Não deixar abrir multiplas janelas iguais 
     private void ImagemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagemMenuActionPerformed
         JInternalFrame listaImagem = new ListaImagem();
         listaImagem.setVisible(true);
@@ -140,7 +141,10 @@ public class Academia extends javax.swing.JFrame {
     }//GEN-LAST:event_ImagemMenuActionPerformed
 
     private void novaRotinaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaRotinaMenuActionPerformed
-        // TODO add your handling code here:
+        JInternalFrame rotina = new Rotina();
+        rotina.setVisible(true);
+        jDesktopPane1.add(rotina);
+        jDesktopPane1.validate();
     }//GEN-LAST:event_novaRotinaMenuActionPerformed
 
     private void ExercicioMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExercicioMenuActionPerformed
