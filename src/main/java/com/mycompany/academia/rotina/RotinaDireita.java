@@ -20,7 +20,9 @@ public class RotinaDireita extends javax.swing.JPanel {
     public RotinaDireita() {
         initComponents();
         deletarBotao.addActionListener((e) -> {
-            data.remove(listaA.getSelectedIndex());
+            if (!listaA.isSelectionEmpty()) {
+                data.remove(listaA.getSelectedIndex());
+            }
         });
     }
 
@@ -37,6 +39,7 @@ public class RotinaDireita extends javax.swing.JPanel {
         deletarBotao = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaA = new javax.swing.JList<>();
+        aRButton = new javax.swing.JRadioButton();
 
         setPreferredSize(new java.awt.Dimension(819, 551));
 
@@ -46,6 +49,8 @@ public class RotinaDireita extends javax.swing.JPanel {
         listaA.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listaA);
 
+        aRButton.setText("A");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -53,19 +58,22 @@ public class RotinaDireita extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(151, 151, 151)
+                        .addComponent(aRButton))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(82, 82, 82)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(deletarBotao)
-                        .addGap(31, 31, 31)))
-                .addContainerGap(656, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(deletarBotao)))
+                .addContainerGap(561, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(150, Short.MAX_VALUE)
+                .addContainerGap(123, Short.MAX_VALUE)
+                .addComponent(aRButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(deletarBotao)
@@ -75,6 +83,7 @@ public class RotinaDireita extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton aRButton;
     private javax.swing.JButton deletarBotao;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
