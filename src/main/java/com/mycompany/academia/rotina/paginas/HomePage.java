@@ -12,7 +12,7 @@ import com.mycompany.academia.rotina.RotinaEsquerda;
  */
 public class HomePage extends javax.swing.JPanel {
 
-    private RotinaEsquerda parent;
+    private final RotinaEsquerda parent;
 
     /**
      * Creates new form HomePage
