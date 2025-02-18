@@ -4,8 +4,12 @@
  */
 package com.mycompany.academia.rotina;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 /**
  *
@@ -14,6 +18,7 @@ import javax.swing.JList;
 public class RotinaDireita extends javax.swing.JPanel {
 
     public DefaultListModel<String> data = new DefaultListModel<>();
+    private final List<DefaultListModel<String>> model_lista = new ArrayList<>();
 
     /**
      * Creates new form RotinaDireita
@@ -27,10 +32,17 @@ public class RotinaDireita extends javax.swing.JPanel {
 //            }
 //        });
         adicionar_nova_lista.addActionListener((e) -> {
-            JList<String> nova_janela = new JList<>();
-            nova_janela.setModel(data);
-
-            painel_lista.addTab("lista " + (painel_lista.getTabCount() + 1), nova_janela);
+            // cria novas instancias
+            JScrollPane painel_barra_rolagem = new JScrollPane();
+            JList<String> lista_nova_janela = new JList<>();
+            // model para armazenar os exercicios
+            model_lista.add(new DefaultListModel<>());
+            // adiciona o model na lista
+            lista_nova_janela.setModel(model_lista.get(painel_lista.getTabCount()));
+            // coloca a lista dentro do painel com a barra de rolagem
+            painel_barra_rolagem.setViewportView(lista_nova_janela);
+            // cria uma nova guia e adiciona o painel criado
+            painel_lista.addTab("lista " + (painel_lista.getTabCount() + 1), painel_barra_rolagem);
         });
     }
 
@@ -96,4 +108,13 @@ public class RotinaDireita extends javax.swing.JPanel {
     private javax.swing.JButton imprimir;
     private javax.swing.JTabbedPane painel_lista;
     // End of variables declaration//GEN-END:variables
+
+    public JTabbedPane getPainel_lista() {
+        return painel_lista;
+    }
+
+    public List<DefaultListModel<String>> getModel_lista() {
+        return model_lista;
+    }
+
 }
