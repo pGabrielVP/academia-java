@@ -18,7 +18,6 @@ import javax.swing.JTabbedPane;
  */
 public class RotinaDireita extends javax.swing.JPanel {
 
-    public DefaultListModel<String> data = new DefaultListModel<>();
     private final List<DefaultListModel<String>> model_lista = new ArrayList<>();
 
     /**
