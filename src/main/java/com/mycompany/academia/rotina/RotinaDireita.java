@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.rotina;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -25,12 +26,6 @@ public class RotinaDireita extends javax.swing.JPanel {
      */
     public RotinaDireita() {
         initComponents();
-        // remove um exercicio da lista
-//        deletarBotao.addActionListener((e) -> {
-//            if (!listaA.isSelectionEmpty()) {
-//                data.remove(listaA.getSelectedIndex());
-//            }
-//        });
         adicionar_nova_lista.addActionListener((e) -> {
             // cria novas instancias
             JScrollPane painel_barra_rolagem = new JScrollPane();
@@ -43,6 +38,14 @@ public class RotinaDireita extends javax.swing.JPanel {
             painel_barra_rolagem.setViewportView(lista_nova_janela);
             // cria uma nova guia e adiciona o painel criado
             painel_lista.addTab("lista " + (painel_lista.getTabCount() + 1), painel_barra_rolagem);
+        });
+        deletar_selecao.addActionListener((e) -> {
+            int guia = painel_lista.getSelectedIndex();
+            Component painel = painel_lista.getComponentAt(guia);
+            Component lista = ((JScrollPane) painel).getViewport().getView();
+            int indice_item_selecionado = ((JList) lista).getSelectedIndex();
+
+            model_lista.get(guia).remove(indice_item_selecionado);
         });
     }
 
