@@ -5,6 +5,7 @@
 package com.mycompany.academia.rotina;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -19,10 +20,17 @@ public class RotinaDireita extends javax.swing.JPanel {
      */
     public RotinaDireita() {
         initComponents();
-        deletarBotao.addActionListener((e) -> {
-            if (!listaA.isSelectionEmpty()) {
-                data.remove(listaA.getSelectedIndex());
-            }
+        // remove um exercicio da lista
+//        deletarBotao.addActionListener((e) -> {
+//            if (!listaA.isSelectionEmpty()) {
+//                data.remove(listaA.getSelectedIndex());
+//            }
+//        });
+        adicionar_nova_lista.addActionListener((e) -> {
+            JList<String> nova_janela = new JList<>();
+            nova_janela.setModel(data);
+
+            painel_lista.addTab("lista " + (painel_lista.getTabCount() + 1), nova_janela);
         });
     }
 
@@ -35,58 +43,57 @@ public class RotinaDireita extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        deletarBotao = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listaA = new javax.swing.JList<>();
-        aRButton = new javax.swing.JRadioButton();
+        painel_lista = new javax.swing.JTabbedPane();
+        adicionar_nova_lista = new javax.swing.JButton();
+        deletar_selecao = new javax.swing.JButton();
+        imprimir = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(819, 551));
 
-        deletarBotao.setText("remover selecionados");
+        adicionar_nova_lista.setText("Nova Lista");
 
-        listaA.setModel(data);
-        listaA.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(listaA);
+        deletar_selecao.setText("Remover Selecionado");
 
-        aRButton.setText("A");
+        imprimir.setText("Imprimir");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(painel_lista, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(aRButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(deletarBotao)))
-                .addContainerGap(561, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(deletar_selecao)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(adicionar_nova_lista)
+                                .addGap(30, 30, 30)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(imprimir)
+                        .addGap(42, 42, 42))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(painel_lista, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(123, Short.MAX_VALUE)
-                .addComponent(aRButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deletarBotao)
-                .addGap(36, 36, 36))
+                .addGap(47, 47, 47)
+                .addComponent(adicionar_nova_lista)
+                .addGap(18, 18, 18)
+                .addComponent(deletar_selecao)
+                .addGap(18, 18, 18)
+                .addComponent(imprimir)
+                .addContainerGap(387, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton aRButton;
-    private javax.swing.JButton deletarBotao;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> listaA;
+    private javax.swing.JButton adicionar_nova_lista;
+    private javax.swing.JButton deletar_selecao;
+    private javax.swing.JButton imprimir;
+    private javax.swing.JTabbedPane painel_lista;
     // End of variables declaration//GEN-END:variables
 }
