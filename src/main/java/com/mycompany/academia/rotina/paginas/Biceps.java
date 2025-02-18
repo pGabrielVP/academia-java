@@ -26,8 +26,7 @@ public class Biceps extends javax.swing.JPanel {
             "Rosca 21",
             "Chin-up"
     );
-    private RotinaEsquerda parent;
-    // pra minha sanidade
+    private final RotinaEsquerda parent;
     private final RotinaDireita rotina_direita;
 
     /**
@@ -48,11 +47,11 @@ public class Biceps extends javax.swing.JPanel {
         for (String exercicio : exerciciosBiceps) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
-                rotinaDireita.data.addElement(exercicio);
+                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
             });
             jPanel1.add(add_novo);
         }
-
     }
 
     /**

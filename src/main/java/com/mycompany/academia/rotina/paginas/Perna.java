@@ -31,7 +31,8 @@ public class Perna extends javax.swing.JPanel {
             "Elevação de Panturrilha no Leg Press",
             "Levantamento Terra"
     );
-    private RotinaEsquerda parent;
+    private final RotinaEsquerda parent;
+    private final RotinaDireita rotina_direita;
 
     /**
      * Creates new form Imagens
@@ -41,6 +42,7 @@ public class Perna extends javax.swing.JPanel {
      */
     public Perna(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
         parent = parent_window;
+        rotina_direita = rotinaDireita;
 
         initComponents();
         botaoVoltar.addActionListener((e) -> {
@@ -50,7 +52,8 @@ public class Perna extends javax.swing.JPanel {
         for (String exercicio : exerciciosPerna) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
-                rotinaDireita.data.addElement(exercicio);
+                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
             });
             jPanel1.add(add_novo);
         }

@@ -28,7 +28,8 @@ public class Ombro extends javax.swing.JPanel {
             "Elevação Lateral no Pulley Baixo",
             "Elevação Frontal no Pulley"
     );
-    private RotinaEsquerda parent;
+    private final RotinaEsquerda parent;
+    private final RotinaDireita rotina_direita;
 
     /**
      * Creates new form Imagens
@@ -38,6 +39,7 @@ public class Ombro extends javax.swing.JPanel {
      */
     public Ombro(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
         parent = parent_window;
+        rotina_direita = rotinaDireita;
 
         initComponents();
         botaoVoltar.addActionListener((e) -> {
@@ -47,7 +49,8 @@ public class Ombro extends javax.swing.JPanel {
         for (String exercicio : exerciciosOmbro) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
-                rotinaDireita.data.addElement(exercicio);
+                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
             });
             jPanel1.add(add_novo);
         }

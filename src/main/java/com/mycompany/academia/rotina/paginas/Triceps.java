@@ -26,7 +26,8 @@ public class Triceps extends javax.swing.JPanel {
             "Tríceps no Banco",
             "Extensão de Tríceps com Corda"
     );
-    private RotinaEsquerda parent;
+    private final RotinaEsquerda parent;
+    private final RotinaDireita rotina_direita;
 
     /**
      * Creates new form Imagens
@@ -36,6 +37,7 @@ public class Triceps extends javax.swing.JPanel {
      */
     public Triceps(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
         parent = parent_window;
+        rotina_direita = rotinaDireita;
 
         initComponents();
         botaoVoltar.addActionListener((e) -> {
@@ -45,7 +47,8 @@ public class Triceps extends javax.swing.JPanel {
         for (String exercicio : exerciciosTriceps) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
-                rotinaDireita.data.addElement(exercicio);
+                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
             });
             jPanel1.add(add_novo);
         }
