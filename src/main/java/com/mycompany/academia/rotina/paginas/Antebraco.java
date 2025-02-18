@@ -24,7 +24,8 @@ public class Antebraco extends javax.swing.JPanel {
             "Rosca de Punho com Halteres",
             "Rosca de Punho Reversa com Halteres"
     );
-    private RotinaEsquerda parent;
+    private final RotinaEsquerda parent;
+    private final RotinaDireita rotina_direita;
 
     /**
      * Creates new form Imagens
@@ -34,6 +35,7 @@ public class Antebraco extends javax.swing.JPanel {
      */
     public Antebraco(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
         parent = parent_window;
+        rotina_direita = rotinaDireita;
 
         initComponents();
         botaoVoltar.addActionListener((e) -> {
@@ -43,7 +45,8 @@ public class Antebraco extends javax.swing.JPanel {
         for (String exercicio : exerciciosAntebraco) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
-                rotinaDireita.data.addElement(exercicio);
+                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
             });
             jPanel1.add(add_novo);
         }
