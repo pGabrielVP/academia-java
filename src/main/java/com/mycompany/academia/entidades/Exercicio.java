@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,63 +26,76 @@ import javax.persistence.Table;
 @Table(name = "exercicio")
 @NamedQueries({
     @NamedQuery(name = "Exercicio.findAll", query = "SELECT e FROM Exercicio e"),
-    @NamedQuery(name = "Exercicio.findById", query = "SELECT e FROM Exercicio e WHERE e.id = :id"),
-    @NamedQuery(name = "Exercicio.findByNome", query = "SELECT e FROM Exercicio e WHERE e.nome = :nome")})
+    @NamedQuery(name = "Exercicio.findByExercicioId", query = "SELECT e FROM Exercicio e WHERE e.exercicioId = :exercicioId"),
+    @NamedQuery(name = "Exercicio.findByNomeExercicio", query = "SELECT e FROM Exercicio e WHERE e.nomeExercicio = :nomeExercicio")})
 public class Exercicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "exercicio_id")
+    private Integer exercicioId;
     @Basic(optional = false)
-    @Column(name = "nome")
-    private String nome;
-    @JoinColumn(name = "movimento", referencedColumnName = "id")
+    @Column(name = "nome_exercicio")
+    private String nomeExercicio;
+    @Basic(optional = false)
+    @Lob
+    @Column(name = "imagem")
+    private String imagem;
+    @JoinColumn(name = "musculo_alvo", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Movimento movimento;
+    private MusculoAlvo musculoAlvo;
 
     public Exercicio() {
     }
 
-    public Exercicio(Integer id) {
-        this.id = id;
+    public Exercicio(Integer exercicioId) {
+        this.exercicioId = exercicioId;
     }
 
-    public Exercicio(Integer id, String nome) {
-        this.id = id;
-        this.nome = nome;
+    public Exercicio(Integer exercicioId, String nomeExercicio, String imagem) {
+        this.exercicioId = exercicioId;
+        this.nomeExercicio = nomeExercicio;
+        this.imagem = imagem;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getExercicioId() {
+        return exercicioId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setExercicioId(Integer exercicioId) {
+        this.exercicioId = exercicioId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeExercicio() {
+        return nomeExercicio;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeExercicio(String nomeExercicio) {
+        this.nomeExercicio = nomeExercicio;
     }
 
-    public Movimento getMovimento() {
-        return movimento;
+    public String getImagem() {
+        return imagem;
     }
 
-    public void setMovimento(Movimento movimento) {
-        this.movimento = movimento;
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public MusculoAlvo getMusculoAlvo() {
+        return musculoAlvo;
+    }
+
+    public void setMusculoAlvo(MusculoAlvo musculoAlvo) {
+        this.musculoAlvo = musculoAlvo;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (exercicioId != null ? exercicioId.hashCode() : 0);
         return hash;
     }
 
@@ -92,7 +106,7 @@ public class Exercicio implements Serializable {
             return false;
         }
         Exercicio other = (Exercicio) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.exercicioId == null && other.exercicioId != null) || (this.exercicioId != null && !this.exercicioId.equals(other.exercicioId))) {
             return false;
         }
         return true;
@@ -100,7 +114,7 @@ public class Exercicio implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.academia.entidades.Exercicio[ id=" + id + " ]";
+        return exercicioId.toString();
     }
-    
+
 }

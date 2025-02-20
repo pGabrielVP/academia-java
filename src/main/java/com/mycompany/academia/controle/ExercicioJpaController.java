@@ -11,7 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.mycompany.academia.entidades.Movimento;
+import com.mycompany.academia.entidades.MusculoAlvo;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,15 +36,15 @@ public class ExercicioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Movimento movimento = exercicio.getMovimento();
-            if (movimento != null) {
-                movimento = em.getReference(movimento.getClass(), movimento.getId());
-                exercicio.setMovimento(movimento);
+            MusculoAlvo musculoAlvo = exercicio.getMusculoAlvo();
+            if (musculoAlvo != null) {
+                musculoAlvo = em.getReference(musculoAlvo.getClass(), musculoAlvo.getId());
+                exercicio.setMusculoAlvo(musculoAlvo);
             }
             em.persist(exercicio);
-            if (movimento != null) {
-                movimento.getExercicioList().add(exercicio);
-                movimento = em.merge(movimento);
+            if (musculoAlvo != null) {
+                musculoAlvo.getExercicioList().add(exercicio);
+                musculoAlvo = em.merge(musculoAlvo);
             }
             em.getTransaction().commit();
         } finally {
@@ -59,27 +59,27 @@ public class ExercicioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Exercicio persistentExercicio = em.find(Exercicio.class, exercicio.getId());
-            Movimento movimentoOld = persistentExercicio.getMovimento();
-            Movimento movimentoNew = exercicio.getMovimento();
-            if (movimentoNew != null) {
-                movimentoNew = em.getReference(movimentoNew.getClass(), movimentoNew.getId());
-                exercicio.setMovimento(movimentoNew);
+            Exercicio persistentExercicio = em.find(Exercicio.class, exercicio.getExercicioId());
+            MusculoAlvo musculoAlvoOld = persistentExercicio.getMusculoAlvo();
+            MusculoAlvo musculoAlvoNew = exercicio.getMusculoAlvo();
+            if (musculoAlvoNew != null) {
+                musculoAlvoNew = em.getReference(musculoAlvoNew.getClass(), musculoAlvoNew.getId());
+                exercicio.setMusculoAlvo(musculoAlvoNew);
             }
             exercicio = em.merge(exercicio);
-            if (movimentoOld != null && !movimentoOld.equals(movimentoNew)) {
-                movimentoOld.getExercicioList().remove(exercicio);
-                movimentoOld = em.merge(movimentoOld);
+            if (musculoAlvoOld != null && !musculoAlvoOld.equals(musculoAlvoNew)) {
+                musculoAlvoOld.getExercicioList().remove(exercicio);
+                musculoAlvoOld = em.merge(musculoAlvoOld);
             }
-            if (movimentoNew != null && !movimentoNew.equals(movimentoOld)) {
-                movimentoNew.getExercicioList().add(exercicio);
-                movimentoNew = em.merge(movimentoNew);
+            if (musculoAlvoNew != null && !musculoAlvoNew.equals(musculoAlvoOld)) {
+                musculoAlvoNew.getExercicioList().add(exercicio);
+                musculoAlvoNew = em.merge(musculoAlvoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = exercicio.getId();
+                Integer id = exercicio.getExercicioId();
                 if (findExercicio(id) == null) {
                     throw new NonexistentEntityException("The exercicio with id " + id + " no longer exists.");
                 }
@@ -100,14 +100,14 @@ public class ExercicioJpaController implements Serializable {
             Exercicio exercicio;
             try {
                 exercicio = em.getReference(Exercicio.class, id);
-                exercicio.getId();
+                exercicio.getExercicioId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The exercicio with id " + id + " no longer exists.", enfe);
             }
-            Movimento movimento = exercicio.getMovimento();
-            if (movimento != null) {
-                movimento.getExercicioList().remove(exercicio);
-                movimento = em.merge(movimento);
+            MusculoAlvo musculoAlvo = exercicio.getMusculoAlvo();
+            if (musculoAlvo != null) {
+                musculoAlvo.getExercicioList().remove(exercicio);
+                musculoAlvo = em.merge(musculoAlvo);
             }
             em.remove(exercicio);
             em.getTransaction().commit();
@@ -163,5 +163,5 @@ public class ExercicioJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

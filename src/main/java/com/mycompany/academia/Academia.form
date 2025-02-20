@@ -32,36 +32,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExercicioMenuActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="ImagemMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="musculo_alvo_menu">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Imagem"/>
+                <Property name="text" type="java.lang.String" value="Musculo Alvo"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImagemMenuActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="ImagemKeywordMenu">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="ImagemKeyword"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ImagemKeywordMenuActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="KeywordsMenu">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Keywords"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KeywordsMenuActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="MovimentoMenu">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Movimento"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MovimentoMenuActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="musculo_alvo_menuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
