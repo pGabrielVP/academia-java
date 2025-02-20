@@ -1,21 +1,22 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.null    return null;
-}llva to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package com.mycompany.academia.edita;
 
 import com.mycompany.academia.controle.ExercicioJpaController;
-import com.mycompany.academia.controle.MovimentoJpaController;
-import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
+import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.entidades.Exercicio;
-import com.mycompany.academia.entidades.Movimento;
-import com.mycompany.academia.renderer.RendererMovimento;
+import com.mycompany.academia.entidades.MusculoAlvo;
+import com.mycompany.academia.lista.ExercicioModel;
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Persistence;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
-import javax.swing.ListCellRenderer;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,29 +24,73 @@ import javax.swing.ListCellRenderer;
  */
 public class ExercicioEdita extends javax.swing.JPanel {
 
-    // conexão com o banco de dados 
-    private final MovimentoJpaController movimentoJpaController = new MovimentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    private final ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-
-    // renderer e dados para o combobox
-    private final Movimento[] listaMovimento = movimentoJpaController.findMovimentoEntities().toArray(Movimento[]::new);
-    private final ListCellRenderer<? super Object> rendererMovimento = new RendererMovimento();
-
-    // objeto sendo criado ou editado
-    // janela para ser fechada quando a transação com o banco de dados for concluida
+    private final ExercicioJpaController controller;
+    private final MusculoAlvoJpaController alvoJpaController;
+    private final Object[] lista_musculo_alvo;
     private final Exercicio exercicio;
-    private final JDialog owner;
+    private final JDialog dialog;
+    private final ExercicioModel exercicioLista_modal;
+    private File imagem;
 
     /**
-     * Creates new form edita
+     * Creates new form ExercicioEdita
      *
      * @param ex
-     * @param parent
+     * @param jDialog
+     * @param model
      */
-    public ExercicioEdita(Exercicio ex, JDialog parent) {
+    public ExercicioEdita(Exercicio ex, JDialog jDialog, ExercicioModel model) {
+        controller = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+        alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+        lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities().toArray();
         exercicio = ex;
-        owner = parent;
+        dialog = jDialog;
+        exercicioLista_modal = model;
         initComponents();
+
+        musculo_alvo.setModel(new DefaultComboBoxModel(lista_musculo_alvo));
+        musculo_alvo.setRenderer(new MusculoAlvoRenderer());
+        musculo_alvo.setSelectedItem(exercicio.getMusculoAlvo());
+
+        selecionar_imagem.addActionListener((e) -> {
+            JFileChooser fc = new JFileChooser();
+
+            if (e.getSource() == selecionar_imagem) {
+                int valor_retorno = fc.showOpenDialog(this);
+                if (valor_retorno == JFileChooser.APPROVE_OPTION) {
+                    imagem = fc.getSelectedFile();
+                    nome_arquivo.setText(imagem.getName());
+                    nome_arquivo.setToolTipText(imagem.getPath());
+                }
+            }
+        });
+
+        salvar.addActionListener((e) -> {
+            if (musculo_alvo.getSelectedItem() == null
+                    || "".equals(nome_arquivo.getText())
+                    || "".equals(nome_exercicio.getText())) {
+                JOptionPane.showMessageDialog(this, "Selecione um musculo_alvo e preencha todos os campos!");
+                return;
+            }
+            int alvo_id = ((MusculoAlvo) musculo_alvo.getSelectedItem()).getId();
+            MusculoAlvo alvo = alvoJpaController.findMusculoAlvo(alvo_id);
+            exercicio.setMusculoAlvo(alvo);
+            exercicio.setImagem(nome_arquivo.getToolTipText());
+            exercicio.setNomeExercicio(nome_exercicio.getText());
+
+            if (exercicio.getExercicioId() == null) {
+                controller.create(exercicio);
+                exercicioLista_modal.adicionarNovo(exercicio);
+            } else {
+                try {
+                    controller.edit(exercicio);
+                    exercicioLista_modal.atualizar(exercicio);
+                } catch (Exception ex1) {
+                    Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+            dialog.dispose();
+        });
     }
 
     /**
@@ -57,129 +102,115 @@ public class ExercicioEdita extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labelId = new javax.swing.JLabel();
-        labelMovimento = new javax.swing.JLabel();
-        labelNome = new javax.swing.JLabel();
-        entradaId = new javax.swing.JTextField();
-        botaoSalvar = new javax.swing.JButton();
-        EntradaNome = new javax.swing.JTextField();
-        EntradaMovimento = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        exercicio_id = new javax.swing.JTextField();
+        nome_exercicio = new javax.swing.JTextField();
+        nome_arquivo = new javax.swing.JTextField();
+        salvar = new javax.swing.JButton();
+        musculo_alvo = new javax.swing.JComboBox<>();
+        selecionar_imagem = new javax.swing.JButton();
 
-        setMinimumSize(new java.awt.Dimension(280, 212));
+        setPreferredSize(new java.awt.Dimension(280, 244));
 
-        labelId.setText("Id");
+        jLabel1.setText("ID");
 
-        labelMovimento.setText("Movimento");
+        jLabel2.setText("Nome do Exercicio");
 
-        labelNome.setText("Nome");
+        jLabel3.setText("Imagem");
 
-        entradaId.setEditable(false);
-        entradaId.setColumns(8);
-        entradaId.setToolTipText("Id do exercicio");
-        entradaId.setFocusable(false);
-        if (exercicio.getId() != null) {
-            entradaId.setText(exercicio.getId().toString());
+        jLabel4.setText("Musculo Alvo");
+
+        exercicio_id.setEditable(false);
+        exercicio_id.setColumns(8);
+        if (exercicio.getExercicioId() != null) {
+            exercicio_id.setText(exercicio.getExercicioId().toString());
         }
 
-        botaoSalvar.setText("Salvar");
-        botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botaoSalvarActionPerformed(evt);
-            }
-        });
-
-        EntradaNome.setColumns(8);
-        EntradaNome.setToolTipText("Nome do Exercicio");
-        if (exercicio.getNome() != null) {
-            EntradaNome.setText(exercicio.getNome());
+        nome_exercicio.setColumns(8);
+        if (exercicio.getNomeExercicio()!= null) {
+            nome_exercicio.setText(exercicio.getNomeExercicio());
         }
 
-        EntradaMovimento.setModel(new javax.swing.DefaultComboBoxModel<>(listaMovimento));
-        EntradaMovimento.setRenderer(rendererMovimento);
-        EntradaMovimento.setToolTipText("exemplo de movimento do exercicio");
-        EntradaMovimento.setMinimumSize(new java.awt.Dimension(76, 50));
-        if (exercicio.getMovimento() != null) {
-            EntradaMovimento.setSelectedItem(exercicio.getMovimento());
+        nome_arquivo.setEditable(false);
+        nome_arquivo.setColumns(8);
+        nome_arquivo.setToolTipText("caminho até a imagem selecionada");
+        if (exercicio.getImagem()!= null) {
+            nome_arquivo.setText(exercicio.getImagem());
+            nome_arquivo.setToolTipText(exercicio.getImagem());
         }
+
+        salvar.setText("Salvar");
+
+        musculo_alvo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        selecionar_imagem.setText("...");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelId)
-                            .addComponent(labelMovimento)
-                            .addComponent(labelNome))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EntradaMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(entradaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EntradaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(botaoSalvar))
-                .addContainerGap(64, Short.MAX_VALUE))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nome_arquivo)
+                            .addComponent(nome_exercicio)
+                            .addComponent(exercicio_id)
+                            .addComponent(musculo_alvo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(selecionar_imagem))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(salvar)
+                        .addGap(32, 32, 32)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(exercicio_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelId)
-                    .addComponent(entradaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addComponent(nome_exercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EntradaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelNome))
+                    .addComponent(jLabel3)
+                    .addComponent(nome_arquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selecionar_imagem))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelMovimento)
-                    .addComponent(EntradaMovimento, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(musculo_alvo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(botaoSalvar)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addComponent(salvar)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
-        // se o objeto sendo editado nao tiver id, id for null, cria um objeto novo no banco de dados
-        // se o objeto sendo editado ja tiver um id atuliza o objeto e salvo no banco de dados.
-        if (exercicio.getId() == null) {
-            // define nome e movimento do objeto
-            exercicio.setNome(EntradaNome.getText());
-            exercicio.setMovimento((Movimento) EntradaMovimento.getSelectedItem());
-
-            // cria o novo objeto no banco de dados e fecha JDialog
-            exercicioJpaController.create(exercicio);
-            owner.dispose();
-        } else {
-            // define o nome e o movimento do objeto e salva no banco de dados
-            exercicio.setNome(EntradaNome.getText());
-            exercicio.setMovimento((Movimento) EntradaMovimento.getSelectedItem()); // TODO: Arruma isso aqui
-
-            // atualiza o objeto no banco de dados
-            try {
-                exercicioJpaController.edit(exercicio);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            // fecha o JDialog
-            owner.dispose();
-        }
-
-    }//GEN-LAST:event_botaoSalvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<Object> EntradaMovimento;
-    private javax.swing.JTextField EntradaNome;
-    private javax.swing.JButton botaoSalvar;
-    private javax.swing.JTextField entradaId;
-    private javax.swing.JLabel labelId;
-    private javax.swing.JLabel labelMovimento;
-    private javax.swing.JLabel labelNome;
+    private javax.swing.JTextField exercicio_id;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox<String> musculo_alvo;
+    private javax.swing.JTextField nome_arquivo;
+    private javax.swing.JTextField nome_exercicio;
+    private javax.swing.JButton salvar;
+    private javax.swing.JButton selecionar_imagem;
     // End of variables declaration//GEN-END:variables
 }

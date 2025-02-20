@@ -4,12 +4,9 @@
  */
 package com.mycompany.academia;
 
+import com.mycompany.academia.lista.ExercicioLista;
+import com.mycompany.academia.lista.MusculoAlvoLista;
 import com.mycompany.academia.rotina.Rotina;
-import com.mycompany.academia.lista.ListaExercicio;
-import com.mycompany.academia.lista.ListaImagem;
-import com.mycompany.academia.lista.ListaImagemKeyword;
-import com.mycompany.academia.lista.ListaKeyword;
-import com.mycompany.academia.lista.ListaMovimento;
 import javax.swing.JInternalFrame;
 
 /**
@@ -40,10 +37,7 @@ public class Academia extends javax.swing.JFrame {
         novaRotinaMenu = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ExercicioMenu = new javax.swing.JMenuItem();
-        ImagemMenu = new javax.swing.JMenuItem();
-        ImagemKeywordMenu = new javax.swing.JMenuItem();
-        KeywordsMenu = new javax.swing.JMenuItem();
-        MovimentoMenu = new javax.swing.JMenuItem();
+        musculo_alvo_menu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,37 +76,13 @@ public class Academia extends javax.swing.JFrame {
         });
         jMenu1.add(ExercicioMenu);
 
-        ImagemMenu.setText("Imagem");
-        ImagemMenu.addActionListener(new java.awt.event.ActionListener() {
+        musculo_alvo_menu.setText("Musculo Alvo");
+        musculo_alvo_menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ImagemMenuActionPerformed(evt);
+                musculo_alvo_menuActionPerformed(evt);
             }
         });
-        jMenu1.add(ImagemMenu);
-
-        ImagemKeywordMenu.setText("ImagemKeyword");
-        ImagemKeywordMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ImagemKeywordMenuActionPerformed(evt);
-            }
-        });
-        jMenu1.add(ImagemKeywordMenu);
-
-        KeywordsMenu.setText("Keywords");
-        KeywordsMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                KeywordsMenuActionPerformed(evt);
-            }
-        });
-        jMenu1.add(KeywordsMenu);
-
-        MovimentoMenu.setText("Movimento");
-        MovimentoMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MovimentoMenuActionPerformed(evt);
-            }
-        });
-        jMenu1.add(MovimentoMenu);
+        jMenu1.add(musculo_alvo_menu);
 
         jMenuBar1.add(jMenu1);
 
@@ -131,14 +101,6 @@ public class Academia extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    // TODO: Não deixar abrir multiplas janelas iguais 
-    private void ImagemMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagemMenuActionPerformed
-        JInternalFrame listaImagem = new ListaImagem();
-        listaImagem.setVisible(true);
-
-        jDesktopPane1.add(listaImagem);
-        jDesktopPane1.validate();
-    }//GEN-LAST:event_ImagemMenuActionPerformed
 
     private void novaRotinaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaRotinaMenuActionPerformed
         JInternalFrame rotina = new Rotina();
@@ -148,36 +110,20 @@ public class Academia extends javax.swing.JFrame {
     }//GEN-LAST:event_novaRotinaMenuActionPerformed
 
     private void ExercicioMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExercicioMenuActionPerformed
-        JInternalFrame listaExercicio = new ListaExercicio();
+        JInternalFrame listaExercicio = new ExercicioLista();
         listaExercicio.setVisible(true);
 
         jDesktopPane1.add(listaExercicio);
         jDesktopPane1.validate();
     }//GEN-LAST:event_ExercicioMenuActionPerformed
 
-    private void ImagemKeywordMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImagemKeywordMenuActionPerformed
-        JInternalFrame listaImagemKeyword = new ListaImagemKeyword();
-        listaImagemKeyword.setVisible(true);
-
-        jDesktopPane1.add(listaImagemKeyword);
+    private void musculo_alvo_menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_musculo_alvo_menuActionPerformed
+        JInternalFrame lista_musculo_alvo = new MusculoAlvoLista();
+        lista_musculo_alvo.setVisible(true);
+        
+        jDesktopPane1.add(lista_musculo_alvo);
         jDesktopPane1.validate();
-    }//GEN-LAST:event_ImagemKeywordMenuActionPerformed
-
-    private void KeywordsMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KeywordsMenuActionPerformed
-        JInternalFrame listaKeyword = new ListaKeyword();
-        listaKeyword.setVisible(true);
-
-        jDesktopPane1.add(listaKeyword);
-        jDesktopPane1.validate();
-    }//GEN-LAST:event_KeywordsMenuActionPerformed
-
-    private void MovimentoMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MovimentoMenuActionPerformed
-        JInternalFrame listaMovimento = new ListaMovimento();
-        listaMovimento.setVisible(true);
-
-        jDesktopPane1.add(listaMovimento);
-        jDesktopPane1.validate();
-    }//GEN-LAST:event_MovimentoMenuActionPerformed
+    }//GEN-LAST:event_musculo_alvo_menuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,14 +162,11 @@ public class Academia extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ExercicioMenu;
-    private javax.swing.JMenuItem ImagemKeywordMenu;
-    private javax.swing.JMenuItem ImagemMenu;
-    private javax.swing.JMenuItem KeywordsMenu;
-    private javax.swing.JMenuItem MovimentoMenu;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem musculo_alvo_menu;
     private javax.swing.JMenuItem novaRotinaMenu;
     // End of variables declaration//GEN-END:variables
 }
