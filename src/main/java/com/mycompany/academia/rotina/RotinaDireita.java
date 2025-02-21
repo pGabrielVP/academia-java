@@ -19,6 +19,9 @@ import javax.swing.JTabbedPane;
 public class RotinaDireita extends javax.swing.JPanel {
 
     private final List<DefaultListModel<String>> model_lista = new ArrayList<>();
+    // painelLista.getTabCount() fazia paineis terem nomes repetidos quando algum era removido
+    // essa variavel resolve isso
+    private int contagem_paineis = 0;
 
     /**
      * Creates new form RotinaDireita
@@ -26,17 +29,15 @@ public class RotinaDireita extends javax.swing.JPanel {
     public RotinaDireita() {
         initComponents();
         adicionar_nova_lista.addActionListener((e) -> {
-            // cria novas instancias
-            JScrollPane painel_barra_rolagem = new JScrollPane();
-            JList<String> lista_nova_janela = new JList<>();
-            // model para armazenar os exercicios
+            JScrollPane painel = new JScrollPane();
+            JList<String> lista = new JList<>();
+            painel.setViewportView(lista);
             model_lista.add(new DefaultListModel<>());
-            // adiciona o model na lista
-            lista_nova_janela.setModel(model_lista.get(painel_lista.getTabCount()));
-            // coloca a lista dentro do painel com a barra de rolagem
-            painel_barra_rolagem.setViewportView(lista_nova_janela);
-            // cria uma nova guia e adiciona o painel criado
-            painel_lista.addTab("lista " + (painel_lista.getTabCount() + 1), painel_barra_rolagem);
+            lista.setModel(model_lista.get(painel_lista.getTabCount()));
+
+//            painel_lista.addTab("lista " + (contagem_paineis + 1), painel);
+            painel_lista.addTab(Character.toString(65 + contagem_paineis), painel);
+            contagem_paineis += 1;
         });
         deletar_selecao.addActionListener((e) -> {
             int guia = painel_lista.getSelectedIndex();
@@ -45,6 +46,12 @@ public class RotinaDireita extends javax.swing.JPanel {
             int indice_item_selecionado = ((JList) lista).getSelectedIndex();
 
             model_lista.get(guia).remove(indice_item_selecionado);
+        });
+        deletar_lista.addActionListener((e) -> {
+            int guia = painel_lista.getSelectedIndex();
+            // deleta a guia e o model
+            painel_lista.remove(guia);
+            model_lista.remove(guia);
         });
     }
 
@@ -61,33 +68,31 @@ public class RotinaDireita extends javax.swing.JPanel {
         adicionar_nova_lista = new javax.swing.JButton();
         deletar_selecao = new javax.swing.JButton();
         imprimir = new javax.swing.JButton();
+        deletar_lista = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(819, 551));
 
         adicionar_nova_lista.setText("Nova Lista");
 
-        deletar_selecao.setText("Remover Selecionado");
+        deletar_selecao.setText("Remover Exercicio Selecionado");
 
         imprimir.setText("Imprimir");
+
+        deletar_lista.setText("Deletar Lista");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(painel_lista, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(painel_lista, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(deletar_selecao)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(adicionar_nova_lista)
-                                .addGap(30, 30, 30)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(imprimir)
-                        .addGap(42, 42, 42))))
+                    .addComponent(adicionar_nova_lista, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(deletar_selecao, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(imprimir, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(deletar_lista, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,16 +101,19 @@ public class RotinaDireita extends javax.swing.JPanel {
                 .addGap(47, 47, 47)
                 .addComponent(adicionar_nova_lista)
                 .addGap(18, 18, 18)
+                .addComponent(deletar_lista)
+                .addGap(18, 18, 18)
                 .addComponent(deletar_selecao)
                 .addGap(18, 18, 18)
                 .addComponent(imprimir)
-                .addContainerGap(387, Short.MAX_VALUE))
+                .addContainerGap(342, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionar_nova_lista;
+    private javax.swing.JButton deletar_lista;
     private javax.swing.JButton deletar_selecao;
     private javax.swing.JButton imprimir;
     private javax.swing.JTabbedPane painel_lista;
