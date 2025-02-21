@@ -28,7 +28,6 @@
                   <Component id="adicionar_nova_lista" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="deletar_selecao" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="imprimir" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="deletar_lista" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -41,12 +40,10 @@
               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Component id="adicionar_nova_lista" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="deletar_lista" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="deletar_selecao" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="imprimir" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="342" max="32767" attributes="0"/>
+              <EmptySpace pref="387" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -69,11 +66,6 @@
     <Component class="javax.swing.JButton" name="imprimir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Imprimir"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="deletar_lista">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Deletar Lista"/>
       </Properties>
     </Component>
   </SubComponents>
