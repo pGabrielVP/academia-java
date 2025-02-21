@@ -17,6 +17,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -54,6 +56,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
 
         selecionar_imagem.addActionListener((e) -> {
             JFileChooser fc = new JFileChooser();
+            fc.setFileFilter(new FileNameExtensionFilter("Permite somente imagens", "png"));
 
             if (e.getSource() == selecionar_imagem) {
                 int valor_retorno = fc.showOpenDialog(this);
