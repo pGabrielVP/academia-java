@@ -4,7 +4,9 @@
  */
 package com.mycompany.academia.rotina;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,12 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -37,20 +43,28 @@ public class RotinaDireita extends javax.swing.JPanel {
     public RotinaDireita() {
         initComponents();
         adicionar_nova_lista.addActionListener((e) -> {
+            JPanel container = new JPanel(new BorderLayout());
+
             JScrollPane painel = new JScrollPane();
             JList<String> lista = new JList<>();
             painel.setViewportView(lista);
             model_lista.add(new DefaultListModel<>());
             lista.setModel(model_lista.get(painel_lista.getTabCount()));
 
+            // Alterar essa ordem quebra o actionListener em deletar_seleção
+            // Linha 66; ((JPanel) painel).getComponent(0);
+            container.add(painel, BorderLayout.CENTER);
+            container.add(detalhes(), BorderLayout.SOUTH);
+
 //            painel_lista.addTab("lista " + (contagem_paineis + 1), painel);
-            painel_lista.addTab(Character.toString(65 + contagem_paineis), painel);
+            painel_lista.addTab(Character.toString(65 + contagem_paineis), container);
             contagem_paineis += 1;
         });
         deletar_selecao.addActionListener((e) -> {
             int guia = painel_lista.getSelectedIndex();
             Component painel = painel_lista.getComponentAt(guia);
-            Component lista = ((JScrollPane) painel).getViewport().getView();
+            Component container = ((JPanel) painel).getComponent(0);
+            Component lista = ((JScrollPane) container).getViewport().getView();
             int indice_item_selecionado = ((JList) lista).getSelectedIndex();
 
             model_lista.get(guia).remove(indice_item_selecionado);
@@ -143,6 +157,27 @@ public class RotinaDireita extends javax.swing.JPanel {
     private javax.swing.JButton imprimir;
     private javax.swing.JTabbedPane painel_lista;
     // End of variables declaration//GEN-END:variables
+
+    // pensar em um nome melhor
+    private JPanel detalhes() {
+        JPanel detalhes = new JPanel(new GridLayout(3, 2));
+        JLabel reps_label = new JLabel("Repetições: ");
+        JLabel sets_label = new JLabel("Sets: ");
+        JLabel descanco_label = new JLabel("Descanço: ");
+        JSpinner sets = new JSpinner(new SpinnerNumberModel(3, 1, 100, 1));
+        JSpinner reps = new JSpinner(new SpinnerNumberModel(12, 1, 1000, 2));
+        JSpinner descanco = new JSpinner(new SpinnerNumberModel(30, 0, 300, 5));
+        descanco.setToolTipText("Tempo de descanço em segundos");
+
+        detalhes.add(reps_label);
+        detalhes.add(reps);
+        detalhes.add(sets_label);
+        detalhes.add(sets);
+        detalhes.add(descanco_label);
+        detalhes.add(descanco);
+
+        return detalhes;
+    }
 
     public JTabbedPane getPainel_lista() {
         return painel_lista;

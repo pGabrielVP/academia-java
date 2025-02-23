@@ -80,7 +80,10 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela_lista_exercicios = new javax.swing.JTable();
 
-        setPreferredSize(new java.awt.Dimension(919, 565));
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setPreferredSize(new java.awt.Dimension(800, 480));
 
         adicionar_novo_exercicio.setText("Criar");
 
