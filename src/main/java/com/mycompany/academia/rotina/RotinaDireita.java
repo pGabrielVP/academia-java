@@ -72,7 +72,7 @@ public class RotinaDireita extends javax.swing.JPanel {
         painel_lista.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (SwingUtilities.isRightMouseButton(e)) {
+                if (SwingUtilities.isRightMouseButton(e) && e.getY() < 100) {
                     JPopupMenu menu = new JPopupMenu();
                     JMenuItem deletar = new JMenuItem(new AbstractAction("deletar") {
                         @Override
