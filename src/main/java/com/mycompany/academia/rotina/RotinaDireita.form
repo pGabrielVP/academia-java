@@ -23,11 +23,21 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="painel_lista" pref="604" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="adicionar_nova_lista" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="deletar_selecao" alignment="1" min="-2" max="-2" attributes="0"/>
-                  <Component id="imprimir" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="adicionar_nova_lista" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="deletar_selecao" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="adicionar_super_set" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="imprimir" alignment="1" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -42,8 +52,10 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="deletar_selecao" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="adicionar_super_set" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="imprimir" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="387" max="32767" attributes="0"/>
+              <EmptySpace pref="345" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -66,6 +78,11 @@
     <Component class="javax.swing.JButton" name="imprimir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Imprimir"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="adicionar_super_set">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Adicionar sele&#xe7;&#xe3;o ao superset"/>
       </Properties>
     </Component>
   </SubComponents>
