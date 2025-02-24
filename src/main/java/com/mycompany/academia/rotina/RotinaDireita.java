@@ -225,7 +225,7 @@ public class RotinaDireita extends javax.swing.JPanel {
                 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Exercicios");
                 JScrollPane painel_rolagem = new JScrollPane();
                 nodos(raiz);
-                JTree arvore_super_sets = new JTree(raiz);
+                JTree arvore_super_sets = new JTree(raiz); 
 
                 painel_rolagem.setViewportView(arvore_super_sets);
                 JOptionPane.showConfirmDialog(painel_rolagem,
