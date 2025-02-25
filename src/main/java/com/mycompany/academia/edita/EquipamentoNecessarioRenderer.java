@@ -4,7 +4,7 @@
  */
 package com.mycompany.academia.edita;
 
-import com.mycompany.academia.entidades.MusculoAlvo;
+import com.mycompany.academia.entidades.Equipamento;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -14,9 +14,9 @@ import javax.swing.ListCellRenderer;
  *
  * @author paulo
  */
-public class MusculoAlvoRenderer extends JLabel implements ListCellRenderer<Object> {
+public class EquipamentoNecessarioRenderer extends JLabel implements ListCellRenderer<Object> {
 
-    public MusculoAlvoRenderer() {
+    public EquipamentoNecessarioRenderer() {
         setOpaque(true);
         setHorizontalAlignment(CENTER);
         setVerticalAlignment(CENTER);
@@ -25,15 +25,13 @@ public class MusculoAlvoRenderer extends JLabel implements ListCellRenderer<Obje
     @Override
     public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         String nome;
-
         if (value != null) {
-            nome = ((MusculoAlvo) value).getNomeAlvo();
+            nome = ((Equipamento) value).getNomeEquipamento();
         } else {
             nome = "";
         }
 
         setText(nome);
-
         return this;
     }
 

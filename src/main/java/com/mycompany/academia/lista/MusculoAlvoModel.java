@@ -35,9 +35,9 @@ public class MusculoAlvoModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return lista_musculo_alvo.get(rowIndex).getId();
+                return lista_musculo_alvo.get(rowIndex).getIdAlvo();
             case 1:
-                return lista_musculo_alvo.get(rowIndex).getAlvo();
+                return lista_musculo_alvo.get(rowIndex).getNomeAlvo();
             default:
                 throw new AssertionError();
         }

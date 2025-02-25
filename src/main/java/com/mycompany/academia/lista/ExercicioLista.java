@@ -47,7 +47,7 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
             JDialog dialog = new JDialog();
             ExercicioEdita formulario_edita = new ExercicioEdita(new Exercicio(), dialog, model);
             dialog.add(formulario_edita);
-            dialog.setSize(new Dimension(340, 280));
+            dialog.setSize(new Dimension(380, 320));
 
             dialog.setVisible(true);
         });
@@ -59,7 +59,7 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
             Exercicio exercicio = controller.findExercicio(id_entidade);
             ExercicioEdita formulario_edita = new ExercicioEdita(exercicio, dialog, model);
             dialog.add(formulario_edita);
-            dialog.setSize(new Dimension(340, 280));
+            dialog.setSize(new Dimension(350, 280));
 
             dialog.setVisible(true);
         });
