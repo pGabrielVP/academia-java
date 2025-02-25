@@ -16,7 +16,9 @@ import javax.swing.JInternalFrame;
  */
 public class Academia extends javax.swing.JFrame {
 
-    JInternalFrame equipamentoLista = new EquipamentoLista();
+    private final EquipamentoLista equipamentoLista = new EquipamentoLista();
+    private final ExercicioLista exercicioLista = new ExercicioLista();
+    private final MusculoAlvoLista musculoalvoLista = new MusculoAlvoLista();
 
     /**
      * Creates new form Academia
@@ -24,10 +26,24 @@ public class Academia extends javax.swing.JFrame {
     public Academia() {
         initComponents();
         jDesktopPane1.add(equipamentoLista);
+        jDesktopPane1.add(exercicioLista);
+        jDesktopPane1.add(musculoalvoLista);
         jDesktopPane1.validate();
 
         equipamento_menu.addActionListener((e) -> {
             equipamentoLista.setVisible(!equipamentoLista.isVisible());
+        });
+        exercicio_menu.addActionListener((e) -> {
+            exercicioLista.setVisible(!exercicioLista.isVisible());
+        });
+        musculo_alvo_menu.addActionListener((e) -> {
+            musculoalvoLista.setVisible(!musculoalvoLista.isVisible());
+        });
+        rotina_novo.addActionListener((e) -> {
+            JInternalFrame rotina = new Rotina();
+            jDesktopPane1.add(rotina);
+            rotina.setVisible(true);
+            jDesktopPane1.validate();
         });
     }
 
@@ -44,7 +60,7 @@ public class Academia extends javax.swing.JFrame {
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        novaRotinaMenu = new javax.swing.JMenuItem();
+        rotina_novo = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         exercicio_menu = new javax.swing.JMenuItem();
         musculo_alvo_menu = new javax.swing.JMenuItem();
@@ -69,32 +85,17 @@ public class Academia extends javax.swing.JFrame {
 
         jMenu2.setText("Rotinas");
 
-        novaRotinaMenu.setText("Novo");
-        novaRotinaMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                novaRotinaMenuActionPerformed(evt);
-            }
-        });
-        jMenu2.add(novaRotinaMenu);
+        rotina_novo.setText("Novo");
+        jMenu2.add(rotina_novo);
 
         jMenuBar1.add(jMenu2);
 
         jMenu1.setText("Entidades");
 
         exercicio_menu.setText("Exercicio");
-        exercicio_menu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exercicio_menuActionPerformed(evt);
-            }
-        });
         jMenu1.add(exercicio_menu);
 
         musculo_alvo_menu.setText("Musculo Alvo");
-        musculo_alvo_menu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                musculo_alvo_menuActionPerformed(evt);
-            }
-        });
         jMenu1.add(musculo_alvo_menu);
 
         equipamento_menu.setText("Equipamentos");
@@ -117,29 +118,6 @@ public class Academia extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void novaRotinaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novaRotinaMenuActionPerformed
-        JInternalFrame rotina = new Rotina();
-        rotina.setVisible(true);
-        jDesktopPane1.add(rotina);
-        jDesktopPane1.validate();
-    }//GEN-LAST:event_novaRotinaMenuActionPerformed
-
-    private void exercicio_menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exercicio_menuActionPerformed
-        JInternalFrame listaExercicio = new ExercicioLista();
-        listaExercicio.setVisible(true);
-
-        jDesktopPane1.add(listaExercicio);
-        jDesktopPane1.validate();
-    }//GEN-LAST:event_exercicio_menuActionPerformed
-
-    private void musculo_alvo_menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_musculo_alvo_menuActionPerformed
-        JInternalFrame lista_musculo_alvo = new MusculoAlvoLista();
-        lista_musculo_alvo.setVisible(true);
-
-        jDesktopPane1.add(lista_musculo_alvo);
-        jDesktopPane1.validate();
-    }//GEN-LAST:event_musculo_alvo_menuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,6 +163,6 @@ public class Academia extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem musculo_alvo_menu;
-    private javax.swing.JMenuItem novaRotinaMenu;
+    private javax.swing.JMenuItem rotina_novo;
     // End of variables declaration//GEN-END:variables
 }
