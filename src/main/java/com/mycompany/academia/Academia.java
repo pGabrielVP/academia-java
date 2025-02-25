@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia;
 
+import com.mycompany.academia.lista.EquipamentoLista;
 import com.mycompany.academia.lista.ExercicioLista;
 import com.mycompany.academia.lista.MusculoAlvoLista;
 import com.mycompany.academia.rotina.Rotina;
@@ -15,11 +16,19 @@ import javax.swing.JInternalFrame;
  */
 public class Academia extends javax.swing.JFrame {
 
+    JInternalFrame equipamentoLista = new EquipamentoLista();
+
     /**
      * Creates new form Academia
      */
     public Academia() {
         initComponents();
+        jDesktopPane1.add(equipamentoLista);
+        jDesktopPane1.validate();
+
+        equipamento_menu.addActionListener((e) -> {
+            equipamentoLista.setVisible(!equipamentoLista.isVisible());
+        });
     }
 
     /**
@@ -31,13 +40,17 @@ public class Academia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         novaRotinaMenu = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        ExercicioMenu = new javax.swing.JMenuItem();
+        exercicio_menu = new javax.swing.JMenuItem();
         musculo_alvo_menu = new javax.swing.JMenuItem();
+        equipamento_menu = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,13 +81,13 @@ public class Academia extends javax.swing.JFrame {
 
         jMenu1.setText("Entidades");
 
-        ExercicioMenu.setText("Exercicio");
-        ExercicioMenu.addActionListener(new java.awt.event.ActionListener() {
+        exercicio_menu.setText("Exercicio");
+        exercicio_menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExercicioMenuActionPerformed(evt);
+                exercicio_menuActionPerformed(evt);
             }
         });
-        jMenu1.add(ExercicioMenu);
+        jMenu1.add(exercicio_menu);
 
         musculo_alvo_menu.setText("Musculo Alvo");
         musculo_alvo_menu.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +96,9 @@ public class Academia extends javax.swing.JFrame {
             }
         });
         jMenu1.add(musculo_alvo_menu);
+
+        equipamento_menu.setText("Equipamentos");
+        jMenu1.add(equipamento_menu);
 
         jMenuBar1.add(jMenu1);
 
@@ -109,18 +125,18 @@ public class Academia extends javax.swing.JFrame {
         jDesktopPane1.validate();
     }//GEN-LAST:event_novaRotinaMenuActionPerformed
 
-    private void ExercicioMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExercicioMenuActionPerformed
+    private void exercicio_menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exercicio_menuActionPerformed
         JInternalFrame listaExercicio = new ExercicioLista();
         listaExercicio.setVisible(true);
 
         jDesktopPane1.add(listaExercicio);
         jDesktopPane1.validate();
-    }//GEN-LAST:event_ExercicioMenuActionPerformed
+    }//GEN-LAST:event_exercicio_menuActionPerformed
 
     private void musculo_alvo_menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_musculo_alvo_menuActionPerformed
         JInternalFrame lista_musculo_alvo = new MusculoAlvoLista();
         lista_musculo_alvo.setVisible(true);
-        
+
         jDesktopPane1.add(lista_musculo_alvo);
         jDesktopPane1.validate();
     }//GEN-LAST:event_musculo_alvo_menuActionPerformed
@@ -161,11 +177,13 @@ public class Academia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem ExercicioMenu;
+    private javax.swing.JMenuItem equipamento_menu;
+    private javax.swing.JMenuItem exercicio_menu;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem musculo_alvo_menu;
     private javax.swing.JMenuItem novaRotinaMenu;
     // End of variables declaration//GEN-END:variables
