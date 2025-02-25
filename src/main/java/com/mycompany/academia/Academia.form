@@ -14,13 +14,10 @@
             <Property name="text" type="java.lang.String" value="Rotinas"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="novaRotinaMenu">
+            <MenuItem class="javax.swing.JMenuItem" name="rotina_novo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Novo"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="novaRotinaMenuActionPerformed"/>
-              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -33,17 +30,11 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Exercicio"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exercicio_menuActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="musculo_alvo_menu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Musculo Alvo"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="musculo_alvo_menuActionPerformed"/>
-              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="equipamento_menu">
               <Properties>
