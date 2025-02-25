@@ -27,7 +27,7 @@ public class MusculoAlvoRenderer extends JLabel implements ListCellRenderer<Obje
         String nome;
 
         if (value != null) {
-            nome = ((MusculoAlvo) value).getAlvo();
+            nome = ((MusculoAlvo) value).getNomeAlvo();
         } else {
             nome = "";
         }

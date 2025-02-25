@@ -26,48 +26,48 @@ import javax.persistence.Table;
 @Table(name = "musculo_alvo")
 @NamedQueries({
     @NamedQuery(name = "MusculoAlvo.findAll", query = "SELECT m FROM MusculoAlvo m"),
-    @NamedQuery(name = "MusculoAlvo.findById", query = "SELECT m FROM MusculoAlvo m WHERE m.id = :id"),
-    @NamedQuery(name = "MusculoAlvo.findByAlvo", query = "SELECT m FROM MusculoAlvo m WHERE m.alvo = :alvo")})
+    @NamedQuery(name = "MusculoAlvo.findByIdAlvo", query = "SELECT m FROM MusculoAlvo m WHERE m.idAlvo = :idAlvo"),
+    @NamedQuery(name = "MusculoAlvo.findByNomeAlvo", query = "SELECT m FROM MusculoAlvo m WHERE m.nomeAlvo = :nomeAlvo")})
 public class MusculoAlvo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @Column(name = "id_alvo")
+    private Integer idAlvo;
     @Basic(optional = false)
-    @Column(name = "alvo")
-    private String alvo;
+    @Column(name = "nome_alvo")
+    private String nomeAlvo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "musculoAlvo")
     private List<Exercicio> exercicioList;
 
     public MusculoAlvo() {
     }
 
-    public MusculoAlvo(Integer id) {
-        this.id = id;
+    public MusculoAlvo(Integer idAlvo) {
+        this.idAlvo = idAlvo;
     }
 
-    public MusculoAlvo(Integer id, String alvo) {
-        this.id = id;
-        this.alvo = alvo;
+    public MusculoAlvo(Integer idAlvo, String nomeAlvo) {
+        this.idAlvo = idAlvo;
+        this.nomeAlvo = nomeAlvo;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdAlvo() {
+        return idAlvo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdAlvo(Integer idAlvo) {
+        this.idAlvo = idAlvo;
     }
 
-    public String getAlvo() {
-        return alvo;
+    public String getNomeAlvo() {
+        return nomeAlvo;
     }
 
-    public void setAlvo(String alvo) {
-        this.alvo = alvo;
+    public void setNomeAlvo(String nomeAlvo) {
+        this.nomeAlvo = nomeAlvo;
     }
 
     public List<Exercicio> getExercicioList() {
@@ -81,7 +81,7 @@ public class MusculoAlvo implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idAlvo != null ? idAlvo.hashCode() : 0);
         return hash;
     }
 
@@ -92,7 +92,7 @@ public class MusculoAlvo implements Serializable {
             return false;
         }
         MusculoAlvo other = (MusculoAlvo) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idAlvo == null && other.idAlvo != null) || (this.idAlvo != null && !this.idAlvo.equals(other.idAlvo))) {
             return false;
         }
         return true;
@@ -100,7 +100,7 @@ public class MusculoAlvo implements Serializable {
 
     @Override
     public String toString() {
-        return id.toString();
+        return idAlvo.toString();
     }
 
 }

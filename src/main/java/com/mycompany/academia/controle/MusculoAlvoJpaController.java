@@ -70,7 +70,7 @@ public class MusculoAlvoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            MusculoAlvo persistentMusculoAlvo = em.find(MusculoAlvo.class, musculoAlvo.getId());
+            MusculoAlvo persistentMusculoAlvo = em.find(MusculoAlvo.class, musculoAlvo.getIdAlvo());
             List<Exercicio> exercicioListOld = persistentMusculoAlvo.getExercicioList();
             List<Exercicio> exercicioListNew = musculoAlvo.getExercicioList();
             List<String> illegalOrphanMessages = null;
@@ -108,7 +108,7 @@ public class MusculoAlvoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = musculoAlvo.getId();
+                Integer id = musculoAlvo.getIdAlvo();
                 if (findMusculoAlvo(id) == null) {
                     throw new NonexistentEntityException("The musculoAlvo with id " + id + " no longer exists.");
                 }
@@ -129,7 +129,7 @@ public class MusculoAlvoJpaController implements Serializable {
             MusculoAlvo musculoAlvo;
             try {
                 musculoAlvo = em.getReference(MusculoAlvo.class, id);
-                musculoAlvo.getId();
+                musculoAlvo.getIdAlvo();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The musculoAlvo with id " + id + " no longer exists.", enfe);
             }
@@ -198,5 +198,5 @@ public class MusculoAlvoJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

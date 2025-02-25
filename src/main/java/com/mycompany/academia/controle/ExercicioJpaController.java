@@ -5,12 +5,13 @@
 package com.mycompany.academia.controle;
 
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
-import com.mycompany.academia.entidades.Exercicio;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.mycompany.academia.entidades.Equipamento;
+import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.MusculoAlvo;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -36,12 +37,21 @@ public class ExercicioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Equipamento equipamentoNecessario = exercicio.getEquipamentoNecessario();
+            if (equipamentoNecessario != null) {
+                equipamentoNecessario = em.getReference(equipamentoNecessario.getClass(), equipamentoNecessario.getIdEquipamento());
+                exercicio.setEquipamentoNecessario(equipamentoNecessario);
+            }
             MusculoAlvo musculoAlvo = exercicio.getMusculoAlvo();
             if (musculoAlvo != null) {
-                musculoAlvo = em.getReference(musculoAlvo.getClass(), musculoAlvo.getId());
+                musculoAlvo = em.getReference(musculoAlvo.getClass(), musculoAlvo.getIdAlvo());
                 exercicio.setMusculoAlvo(musculoAlvo);
             }
             em.persist(exercicio);
+            if (equipamentoNecessario != null) {
+                equipamentoNecessario.getExercicioList().add(exercicio);
+                equipamentoNecessario = em.merge(equipamentoNecessario);
+            }
             if (musculoAlvo != null) {
                 musculoAlvo.getExercicioList().add(exercicio);
                 musculoAlvo = em.merge(musculoAlvo);
@@ -60,13 +70,27 @@ public class ExercicioJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Exercicio persistentExercicio = em.find(Exercicio.class, exercicio.getExercicioId());
+            Equipamento equipamentoNecessarioOld = persistentExercicio.getEquipamentoNecessario();
+            Equipamento equipamentoNecessarioNew = exercicio.getEquipamentoNecessario();
             MusculoAlvo musculoAlvoOld = persistentExercicio.getMusculoAlvo();
             MusculoAlvo musculoAlvoNew = exercicio.getMusculoAlvo();
+            if (equipamentoNecessarioNew != null) {
+                equipamentoNecessarioNew = em.getReference(equipamentoNecessarioNew.getClass(), equipamentoNecessarioNew.getIdEquipamento());
+                exercicio.setEquipamentoNecessario(equipamentoNecessarioNew);
+            }
             if (musculoAlvoNew != null) {
-                musculoAlvoNew = em.getReference(musculoAlvoNew.getClass(), musculoAlvoNew.getId());
+                musculoAlvoNew = em.getReference(musculoAlvoNew.getClass(), musculoAlvoNew.getIdAlvo());
                 exercicio.setMusculoAlvo(musculoAlvoNew);
             }
             exercicio = em.merge(exercicio);
+            if (equipamentoNecessarioOld != null && !equipamentoNecessarioOld.equals(equipamentoNecessarioNew)) {
+                equipamentoNecessarioOld.getExercicioList().remove(exercicio);
+                equipamentoNecessarioOld = em.merge(equipamentoNecessarioOld);
+            }
+            if (equipamentoNecessarioNew != null && !equipamentoNecessarioNew.equals(equipamentoNecessarioOld)) {
+                equipamentoNecessarioNew.getExercicioList().add(exercicio);
+                equipamentoNecessarioNew = em.merge(equipamentoNecessarioNew);
+            }
             if (musculoAlvoOld != null && !musculoAlvoOld.equals(musculoAlvoNew)) {
                 musculoAlvoOld.getExercicioList().remove(exercicio);
                 musculoAlvoOld = em.merge(musculoAlvoOld);
@@ -103,6 +127,11 @@ public class ExercicioJpaController implements Serializable {
                 exercicio.getExercicioId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The exercicio with id " + id + " no longer exists.", enfe);
+            }
+            Equipamento equipamentoNecessario = exercicio.getEquipamentoNecessario();
+            if (equipamentoNecessario != null) {
+                equipamentoNecessario.getExercicioList().remove(exercicio);
+                equipamentoNecessario = em.merge(equipamentoNecessario);
             }
             MusculoAlvo musculoAlvo = exercicio.getMusculoAlvo();
             if (musculoAlvo != null) {
@@ -163,5 +192,5 @@ public class ExercicioJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

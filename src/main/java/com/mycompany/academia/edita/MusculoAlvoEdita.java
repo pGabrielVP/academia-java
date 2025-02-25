@@ -63,13 +63,13 @@ public class MusculoAlvoEdita extends javax.swing.JPanel {
 
         musculo_alvo_id.setEditable(false);
         musculo_alvo_id.setColumns(8);
-        if (musculoAlvo.getId() != null) {
-            musculo_alvo_id.setText(musculoAlvo.getId().toString());
+        if (musculoAlvo.getIdAlvo()!= null) {
+            musculo_alvo_id.setText(musculoAlvo.getIdAlvo().toString());
         }
 
         alvo_entrada.setColumns(8);
-        if (musculoAlvo.getAlvo() != null) {
-            alvo_entrada.setText(musculoAlvo.getAlvo());
+        if (musculoAlvo.getNomeAlvo()!= null) {
+            alvo_entrada.setText(musculoAlvo.getNomeAlvo());
         }
 
         salvar.setText("Salvar");

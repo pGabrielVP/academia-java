@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,7 +26,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Exercicio.findAll", query = "SELECT e FROM Exercicio e"),
     @NamedQuery(name = "Exercicio.findByExercicioId", query = "SELECT e FROM Exercicio e WHERE e.exercicioId = :exercicioId"),
-    @NamedQuery(name = "Exercicio.findByNomeExercicio", query = "SELECT e FROM Exercicio e WHERE e.nomeExercicio = :nomeExercicio")})
+    @NamedQuery(name = "Exercicio.findByNomeExercicio", query = "SELECT e FROM Exercicio e WHERE e.nomeExercicio = :nomeExercicio"),
+    @NamedQuery(name = "Exercicio.findByImagem", query = "SELECT e FROM Exercicio e WHERE e.imagem = :imagem")})
 public class Exercicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,10 +40,12 @@ public class Exercicio implements Serializable {
     @Column(name = "nome_exercicio")
     private String nomeExercicio;
     @Basic(optional = false)
-    @Lob
     @Column(name = "imagem")
     private String imagem;
-    @JoinColumn(name = "musculo_alvo", referencedColumnName = "id")
+    @JoinColumn(name = "equipamento_necessario", referencedColumnName = "id_equipamento")
+    @ManyToOne(optional = false)
+    private Equipamento equipamentoNecessario;
+    @JoinColumn(name = "musculo_alvo", referencedColumnName = "id_alvo")
     @ManyToOne(optional = false)
     private MusculoAlvo musculoAlvo;
 
@@ -82,6 +84,14 @@ public class Exercicio implements Serializable {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
+    }
+
+    public Equipamento getEquipamentoNecessario() {
+        return equipamentoNecessario;
+    }
+
+    public void setEquipamentoNecessario(Equipamento equipamentoNecessario) {
+        this.equipamentoNecessario = equipamentoNecessario;
     }
 
     public MusculoAlvo getMusculoAlvo() {

@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ExercicioModel extends AbstractTableModel {
 
-    private final String[] nome_colunas = {"exercicio_id", "nome_exercicio", "imagem", "musculo_alvo"};
+    private final String[] nome_colunas = {"exercicio_id", "nome_exercicio", "imagem", "equipamento_necessario", "musculo_alvo"};
     private final List<Exercicio> lista_exercicios;
 
     public ExercicioModel(List<Exercicio> dados) {
@@ -41,7 +41,9 @@ public class ExercicioModel extends AbstractTableModel {
             case 2:
                 return lista_exercicios.get(rowIndex).getImagem();
             case 3:
-                return lista_exercicios.get(rowIndex).getMusculoAlvo().getAlvo();
+                return lista_exercicios.get(rowIndex).getEquipamentoNecessario().getNomeEquipamento();
+            case 4:
+                return lista_exercicios.get(rowIndex).getMusculoAlvo().getNomeAlvo();
             default:
                 throw new Error("columnIndex value not in range");
         }
