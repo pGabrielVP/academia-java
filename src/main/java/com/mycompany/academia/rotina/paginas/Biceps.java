@@ -6,6 +6,8 @@ package com.mycompany.academia.rotina.paginas;
 
 import com.mycompany.academia.rotina.RotinaEsquerda;
 import com.mycompany.academia.rotina.RotinaDireita;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
@@ -44,14 +46,25 @@ public class Biceps extends javax.swing.JPanel {
             parent.showHomePage();
         });
 
-        for (String exercicio : exerciciosBiceps) {
-            JButton add_novo = new JButton(exercicio);
-            add_novo.addActionListener((e) -> {
-                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
-                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
-            });
-            jPanel1.add(add_novo);
-        }
+//        for (String exercicio : exerciciosBiceps) {
+//            JButton add_novo = new JButton(exercicio);
+//            add_novo.addActionListener((e) -> {
+//                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+//                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
+//            });
+//            jPanel1.add(add_novo);
+//        }
+        adicionarBotoes(exerciciosBiceps);
+
+        filtro_pesquisa.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                filtrarLista(filtro_pesquisa.getText());
+            }
+        });
+        botaoPesquisar.addActionListener((e) -> {
+
+        });
     }
 
     /**
@@ -63,7 +76,7 @@ public class Biceps extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pesquisarEntrada = new javax.swing.JTextField();
+        filtro_pesquisa = new javax.swing.JTextField();
         botaoVoltar = new javax.swing.JButton();
         botaoPesquisar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -71,7 +84,7 @@ public class Biceps extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(370, 551));
 
-        pesquisarEntrada.setColumns(12);
+        filtro_pesquisa.setColumns(12);
 
         botaoVoltar.setText("Voltar");
 
@@ -88,7 +101,7 @@ public class Biceps extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(botaoVoltar)
                 .addGap(74, 74, 74)
-                .addComponent(pesquisarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(filtro_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addComponent(botaoPesquisar)
                 .addContainerGap())
@@ -98,7 +111,7 @@ public class Biceps extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pesquisarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filtro_pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botaoVoltar)
                     .addComponent(botaoPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -110,8 +123,43 @@ public class Biceps extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoPesquisar;
     private javax.swing.JButton botaoVoltar;
+    private javax.swing.JTextField filtro_pesquisa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField pesquisarEntrada;
     // End of variables declaration//GEN-END:variables
+
+    private void adicionarBotoes(List<String> exercicios) {
+        for (String exercicio : exercicios) {
+            JButton add_novo = new JButton(exercicio);
+            add_novo.addActionListener((e) -> {
+                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
+            });
+            jPanel1.add(add_novo);
+            jPanel1.revalidate();
+            jPanel1.repaint();
+        }
+    }
+
+    private void filtrarLista(String filtro) {
+        jPanel1.removeAll();
+
+        if (!filtro.isBlank()) {
+            for (String exercicio : exerciciosBiceps) {
+                if (exercicio.toLowerCase().contains(filtro.toLowerCase())) {
+                    JButton add_novo = new JButton(exercicio);
+                    add_novo.addActionListener((e) -> {
+                        int guia = rotina_direita.getPainel_lista().getSelectedIndex();
+                        rotina_direita.getModel_lista().get(guia).addElement(exercicio);
+                    });
+                    jPanel1.add(add_novo);
+                    jPanel1.revalidate();
+                    jPanel1.repaint();
+                }
+            }
+        } else {
+            adicionarBotoes(exerciciosBiceps);
+        }
+    }
+
 }
