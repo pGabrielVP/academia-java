@@ -18,7 +18,7 @@ import javax.swing.JButton;
  * @author paulo
  */
 public class Biceps extends javax.swing.JPanel {
-
+    
     private final List<String> exerciciosBiceps = Arrays.asList(
             "Rosca Direta",
             "Rosca Alternada",
@@ -41,10 +41,12 @@ public class Biceps extends javax.swing.JPanel {
     public Biceps(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
         parent = parent_window;
         rotina_direita = rotinaDireita;
-
+        
         initComponents();
         botaoVoltar.addActionListener((e) -> {
             parent.showHomePage();
+            filtro_pesquisa.setText("");
+            adicionarBotoes(exerciciosBiceps);
         });
 
 //        for (String exercicio : exerciciosBiceps) {
@@ -56,7 +58,7 @@ public class Biceps extends javax.swing.JPanel {
 //            jPanel1.add(add_novo);
 //        }
         adicionarBotoes(exerciciosBiceps);
-
+        
         filtro_pesquisa.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -127,6 +129,8 @@ public class Biceps extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void adicionarBotoes(List<String> exercicios) {
+        jPanel1.removeAll();
+        
         for (String exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
@@ -138,10 +142,8 @@ public class Biceps extends javax.swing.JPanel {
             jPanel1.repaint();
         }
     }
-
+    
     private void filtrarLista(String filtro) {
-        jPanel1.removeAll();
-
         if (!filtro.isBlank()) {
             List<String> lista_filtrada = new ArrayList<>();
             for (String exercicio : exerciciosBiceps) {
@@ -154,5 +156,5 @@ public class Biceps extends javax.swing.JPanel {
             adicionarBotoes(exerciciosBiceps);
         }
     }
-
+    
 }
