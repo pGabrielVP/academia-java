@@ -49,6 +49,8 @@ public class Cardio extends javax.swing.JPanel {
         initComponents();
         botaoVoltar.addActionListener((e) -> {
             parent.showHomePage();
+            filtro_pesquisa.setText("");
+            adicionarBotoes(exerciciosCardio);
         });
 
         adicionarBotoes(exerciciosCardio);
@@ -124,6 +126,8 @@ public class Cardio extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void adicionarBotoes(List<String> exercicios) {
+        jPanel1.removeAll();
+
         for (String exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
@@ -137,8 +141,6 @@ public class Cardio extends javax.swing.JPanel {
     }
 
     private void filtrarLista(String filtro) {
-        jPanel1.removeAll();
-
         if (!filtro.isBlank()) {
             List<String> lista_filtrada = new ArrayList<>();
             for (String exercicio : exerciciosCardio) {

@@ -18,7 +18,7 @@ import javax.swing.JButton;
  * @author paulo
  */
 public class Peito extends javax.swing.JPanel {
-    
+
     private final List<String> exerciciosPeito = Arrays.asList(
             "Supino Reto com Barra",
             "Supino Inclinado com Barra",
@@ -43,14 +43,16 @@ public class Peito extends javax.swing.JPanel {
     public Peito(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
         parent = parent_window;
         rotina_direita = rotinaDireita;
-        
+
         initComponents();
         botaoVoltar.addActionListener((e) -> {
             parent.showHomePage();
+            filtro_pesquisa.setText("");
+            adicionarBotoes(exerciciosPeito);
         });
-        
+
         adicionarBotoes(exerciciosPeito);
-        
+
         filtro_pesquisa.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -121,6 +123,8 @@ public class Peito extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void adicionarBotoes(List<String> exercicios) {
+        jPanel1.removeAll();
+
         for (String exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio);
             add_novo.addActionListener((e) -> {
@@ -132,10 +136,8 @@ public class Peito extends javax.swing.JPanel {
             jPanel1.repaint();
         }
     }
-    
+
     private void filtrarLista(String filtro) {
-        jPanel1.removeAll();
-        
         if (!filtro.isBlank()) {
             List<String> lista_filtrada = new ArrayList<>();
             for (String exercicio : exerciciosPeito) {
