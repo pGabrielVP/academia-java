@@ -8,6 +8,7 @@ import com.mycompany.academia.rotina.RotinaEsquerda;
 import com.mycompany.academia.rotina.RotinaDireita;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JButton;
@@ -61,9 +62,6 @@ public class Biceps extends javax.swing.JPanel {
             public void keyReleased(KeyEvent e) {
                 filtrarLista(filtro_pesquisa.getText());
             }
-        });
-        botaoPesquisar.addActionListener((e) -> {
-
         });
     }
 
@@ -145,18 +143,13 @@ public class Biceps extends javax.swing.JPanel {
         jPanel1.removeAll();
 
         if (!filtro.isBlank()) {
+            List<String> lista_filtrada = new ArrayList<>();
             for (String exercicio : exerciciosBiceps) {
                 if (exercicio.toLowerCase().contains(filtro.toLowerCase())) {
-                    JButton add_novo = new JButton(exercicio);
-                    add_novo.addActionListener((e) -> {
-                        int guia = rotina_direita.getPainel_lista().getSelectedIndex();
-                        rotina_direita.getModel_lista().get(guia).addElement(exercicio);
-                    });
-                    jPanel1.add(add_novo);
-                    jPanel1.revalidate();
-                    jPanel1.repaint();
+                    lista_filtrada.add(exercicio);
                 }
             }
+            adicionarBotoes(lista_filtrada);
         } else {
             adicionarBotoes(exerciciosBiceps);
         }
