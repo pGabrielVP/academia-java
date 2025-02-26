@@ -25,7 +25,7 @@
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="botaoVoltar" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-              <Component id="pesquisarEntrada" min="-2" pref="104" max="-2" attributes="0"/>
+              <Component id="filtro_pesquisa" min="-2" pref="104" max="-2" attributes="0"/>
               <EmptySpace pref="91" max="32767" attributes="0"/>
               <Component id="botaoPesquisar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -37,7 +37,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="pesquisarEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="filtro_pesquisa" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botaoVoltar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botaoPesquisar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -48,7 +48,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="pesquisarEntrada">
+    <Component class="javax.swing.JTextField" name="filtro_pesquisa">
       <Properties>
         <Property name="columns" type="int" value="12"/>
       </Properties>
