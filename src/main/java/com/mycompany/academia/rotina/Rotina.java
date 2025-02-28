@@ -18,6 +18,8 @@ public class Rotina extends javax.swing.JInternalFrame {
      */
     public Rotina() {
         initComponents();
+        jSplitPane2.setLeftComponent(menu_lateral);
+        jSplitPane2.setRightComponent(rotinaDireita);
     }
 
     /**
@@ -37,9 +39,6 @@ public class Rotina extends javax.swing.JInternalFrame {
         setPreferredSize(new java.awt.Dimension(1024, 500));
 
         jSplitPane2.setDividerLocation(500);
-
-        jSplitPane2.setLeftComponent(menu_lateral);
-        jSplitPane2.setRightComponent(rotinaDireita);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
