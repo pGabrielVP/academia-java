@@ -69,7 +69,7 @@ public class ExercicioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Exercicio persistentExercicio = em.find(Exercicio.class, exercicio.getExercicioId());
+            Exercicio persistentExercicio = em.find(Exercicio.class, exercicio.getIdExercicio());
             Equipamento equipamentoNecessarioOld = persistentExercicio.getEquipamentoNecessario();
             Equipamento equipamentoNecessarioNew = exercicio.getEquipamentoNecessario();
             MusculoAlvo musculoAlvoOld = persistentExercicio.getMusculoAlvo();
@@ -103,7 +103,7 @@ public class ExercicioJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = exercicio.getExercicioId();
+                Integer id = exercicio.getIdExercicio();
                 if (findExercicio(id) == null) {
                     throw new NonexistentEntityException("The exercicio with id " + id + " no longer exists.");
                 }
@@ -124,7 +124,7 @@ public class ExercicioJpaController implements Serializable {
             Exercicio exercicio;
             try {
                 exercicio = em.getReference(Exercicio.class, id);
-                exercicio.getExercicioId();
+                exercicio.getIdExercicio();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The exercicio with id " + id + " no longer exists.", enfe);
             }

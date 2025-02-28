@@ -35,7 +35,7 @@ public class ExercicioModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return lista_exercicios.get(rowIndex).getExercicioId();
+                return lista_exercicios.get(rowIndex).getIdExercicio();
             case 1:
                 return lista_exercicios.get(rowIndex).getNomeExercicio();
             case 2:
