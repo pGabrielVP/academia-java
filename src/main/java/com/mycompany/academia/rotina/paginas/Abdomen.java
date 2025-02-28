@@ -4,13 +4,17 @@
  */
 package com.mycompany.academia.rotina.paginas;
 
+import com.mycompany.academia.controle.ExercicioJpaController;
+import com.mycompany.academia.controle.MusculoAlvoJpaController;
+import com.mycompany.academia.entidades.Exercicio;
+import com.mycompany.academia.entidades.MusculoAlvo;
 import com.mycompany.academia.rotina.RotinaEsquerda;
 import com.mycompany.academia.rotina.RotinaDireita;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import javax.persistence.Persistence;
 import javax.swing.JButton;
 
 /**
@@ -19,18 +23,12 @@ import javax.swing.JButton;
  */
 public class Abdomen extends javax.swing.JPanel {
 
-    private final List<String> exerciciosAbdomen = Arrays.asList(
-            "Abdominal Tradicional",
-            "Abdominal Oblíquo",
-            "Abdominal Infra",
-            "Abdominal Bicicleta",
-            "Abdominal Canivete",
-            "Prancha Frontal",
-            "Prancha Lateral",
-            "Elevação de Pernas",
-            "Elevação de Quadril",
-            "Mountain Climbers"
-    );
+    ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    MusculoAlvoJpaController alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+
+    private final MusculoAlvo ma = alvoJpaController.findMusculoAlvo(3);
+    private final List<Exercicio> lista_exercicios = exercicioJpaController.find_exercicios_where_musculo(ma);
+
     private final RotinaEsquerda parent;
     private final RotinaDireita rotina_direita;
 
@@ -49,10 +47,10 @@ public class Abdomen extends javax.swing.JPanel {
             parent.showHomePage();
             // QoL: Reseta o filtro quando voltar pra pagina inicial
             filtro_pesquisa.setText("");
-            adicionarBotoes(exerciciosAbdomen);
+            adicionarBotoes(lista_exercicios);
         });
 
-        adicionarBotoes(exerciciosAbdomen);
+        adicionarBotoes(lista_exercicios);
 
         filtro_pesquisa.addKeyListener(new KeyAdapter() {
             @Override
@@ -124,14 +122,14 @@ public class Abdomen extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    private void adicionarBotoes(List<String> exercicios) {
+    private void adicionarBotoes(List<Exercicio> exercicios) {
         jPanel1.removeAll();
 
-        for (String exercicio : exercicios) {
-            JButton add_novo = new JButton(exercicio);
+        for (Exercicio exercicio : exercicios) {
+            JButton add_novo = new JButton(exercicio.getNomeExercicio());
             add_novo.addActionListener((e) -> {
                 int guia = rotina_direita.getPainel_lista().getSelectedIndex();
-                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
+                rotina_direita.getModel_lista().get(guia).addElement(exercicio.getNomeExercicio());
             });
             jPanel1.add(add_novo);
             jPanel1.revalidate();
@@ -141,15 +139,15 @@ public class Abdomen extends javax.swing.JPanel {
 
     private void filtrarLista(String filtro) {
         if (!filtro.isBlank()) {
-            List<String> lista_filtrada = new ArrayList<>();
-            for (String exercicio : exerciciosAbdomen) {
-                if (exercicio.toLowerCase().contains(filtro.toLowerCase())) {
+            List<Exercicio> lista_filtrada = new ArrayList<>();
+            for (Exercicio exercicio : lista_exercicios) {
+                if (exercicio.getNomeExercicio().toLowerCase().contains(filtro.toLowerCase())) {
                     lista_filtrada.add(exercicio);
                 }
             }
             adicionarBotoes(lista_filtrada);
         } else {
-            adicionarBotoes(exerciciosAbdomen);
+            adicionarBotoes(lista_exercicios);
         }
     }
 
