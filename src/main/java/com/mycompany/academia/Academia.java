@@ -4,7 +4,6 @@
  */
 package com.mycompany.academia;
 
-import com.mycompany.academia.lista.EquipamentoLista;
 import com.mycompany.academia.lista.ExercicioLista;
 import com.mycompany.academia.lista.MusculoAlvoLista;
 import com.mycompany.academia.rotina.Rotina;
@@ -16,7 +15,6 @@ import javax.swing.JInternalFrame;
  */
 public class Academia extends javax.swing.JFrame {
 
-    private final EquipamentoLista equipamentoLista = new EquipamentoLista();
     private final ExercicioLista exercicioLista = new ExercicioLista();
     private final MusculoAlvoLista musculoalvoLista = new MusculoAlvoLista();
 
@@ -25,14 +23,10 @@ public class Academia extends javax.swing.JFrame {
      */
     public Academia() {
         initComponents();
-        jDesktopPane1.add(equipamentoLista);
         jDesktopPane1.add(exercicioLista);
         jDesktopPane1.add(musculoalvoLista);
         jDesktopPane1.validate();
 
-        equipamento_menu.addActionListener((e) -> {
-            equipamentoLista.setVisible(!equipamentoLista.isVisible());
-        });
         exercicio_menu.addActionListener((e) -> {
             exercicioLista.setVisible(!exercicioLista.isVisible());
         });

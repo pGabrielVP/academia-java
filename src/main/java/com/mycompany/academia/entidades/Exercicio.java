@@ -42,9 +42,6 @@ public class Exercicio implements Serializable {
     @Basic(optional = false)
     @Column(name = "imagem")
     private String imagem;
-    @JoinColumn(name = "equipamento_necessario", referencedColumnName = "id_equipamento")
-    @ManyToOne(optional = false)
-    private Equipamento equipamentoNecessario;
     @JoinColumn(name = "musculo_alvo", referencedColumnName = "id_alvo")
     @ManyToOne(optional = false)
     private MusculoAlvo musculoAlvo;
@@ -84,14 +81,6 @@ public class Exercicio implements Serializable {
 
     public void setImagem(String imagem) {
         this.imagem = imagem;
-    }
-
-    public Equipamento getEquipamentoNecessario() {
-        return equipamentoNecessario;
-    }
-
-    public void setEquipamentoNecessario(Equipamento equipamentoNecessario) {
-        this.equipamentoNecessario = equipamentoNecessario;
     }
 
     public MusculoAlvo getMusculoAlvo() {
