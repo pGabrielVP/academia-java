@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.rotina.paginas;
 
+import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.rotina.RotinaEsquerda;
 import com.mycompany.academia.rotina.RotinaDireita;
 import java.awt.event.KeyAdapter;
@@ -11,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.Persistence;
 import javax.swing.JButton;
 
 /**
@@ -18,6 +20,8 @@ import javax.swing.JButton;
  * @author paulo
  */
 public class Perna extends javax.swing.JPanel {
+
+    private final ExercicioJpaController controller = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     private final List<String> exerciciosPerna = Arrays.asList(
             "Leg Press 45°",

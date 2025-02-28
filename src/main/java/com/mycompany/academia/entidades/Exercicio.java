@@ -27,7 +27,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Exercicio.findAll", query = "SELECT e FROM Exercicio e"),
     @NamedQuery(name = "Exercicio.findByIdExercicio", query = "SELECT e FROM Exercicio e WHERE e.idExercicio = :idExercicio"),
     @NamedQuery(name = "Exercicio.findByNomeExercicio", query = "SELECT e FROM Exercicio e WHERE e.nomeExercicio = :nomeExercicio"),
-    @NamedQuery(name = "Exercicio.findByImagem", query = "SELECT e FROM Exercicio e WHERE e.imagem = :imagem")})
+    @NamedQuery(name = "Exercicio.findByImagem", query = "SELECT e FROM Exercicio e WHERE e.imagem = :imagem"),
+    @NamedQuery(name = "Exercicio.findByMusculoAlvo", query = "SELECT e FROM Exercicio e WHERE e.musculoAlvo = :musculoAlvo")})
 public class Exercicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
