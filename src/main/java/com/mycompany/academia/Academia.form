@@ -36,11 +36,6 @@
                 <Property name="text" type="java.lang.String" value="Musculo Alvo"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="equipamento_menu">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Equipamentos"/>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>
