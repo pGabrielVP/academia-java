@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Table(name = "exercicio")
 @NamedQueries({
     @NamedQuery(name = "Exercicio.findAll", query = "SELECT e FROM Exercicio e"),
-    @NamedQuery(name = "Exercicio.findByExercicioId", query = "SELECT e FROM Exercicio e WHERE e.exercicioId = :exercicioId"),
+    @NamedQuery(name = "Exercicio.findByIdExercicio", query = "SELECT e FROM Exercicio e WHERE e.idExercicio = :idExercicio"),
     @NamedQuery(name = "Exercicio.findByNomeExercicio", query = "SELECT e FROM Exercicio e WHERE e.nomeExercicio = :nomeExercicio"),
     @NamedQuery(name = "Exercicio.findByImagem", query = "SELECT e FROM Exercicio e WHERE e.imagem = :imagem")})
 public class Exercicio implements Serializable {
@@ -34,8 +34,8 @@ public class Exercicio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "exercicio_id")
-    private Integer exercicioId;
+    @Column(name = "id_exercicio")
+    private Integer idExercicio;
     @Basic(optional = false)
     @Column(name = "nome_exercicio")
     private String nomeExercicio;
@@ -53,21 +53,21 @@ public class Exercicio implements Serializable {
     }
 
     public Exercicio(Integer exercicioId) {
-        this.exercicioId = exercicioId;
+        this.idExercicio = exercicioId;
     }
 
     public Exercicio(Integer exercicioId, String nomeExercicio, String imagem) {
-        this.exercicioId = exercicioId;
+        this.idExercicio = exercicioId;
         this.nomeExercicio = nomeExercicio;
         this.imagem = imagem;
     }
 
-    public Integer getExercicioId() {
-        return exercicioId;
+    public Integer getIdExercicio() {
+        return idExercicio;
     }
 
-    public void setExercicioId(Integer exercicioId) {
-        this.exercicioId = exercicioId;
+    public void setIdExercicio(Integer idExercicio) {
+        this.idExercicio = idExercicio;
     }
 
     public String getNomeExercicio() {
@@ -105,7 +105,7 @@ public class Exercicio implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (exercicioId != null ? exercicioId.hashCode() : 0);
+        hash += (idExercicio != null ? idExercicio.hashCode() : 0);
         return hash;
     }
 
@@ -116,7 +116,7 @@ public class Exercicio implements Serializable {
             return false;
         }
         Exercicio other = (Exercicio) object;
-        if ((this.exercicioId == null && other.exercicioId != null) || (this.exercicioId != null && !this.exercicioId.equals(other.exercicioId))) {
+        if ((this.idExercicio == null && other.idExercicio != null) || (this.idExercicio != null && !this.idExercicio.equals(other.idExercicio))) {
             return false;
         }
         return true;
@@ -124,7 +124,7 @@ public class Exercicio implements Serializable {
 
     @Override
     public String toString() {
-        return exercicioId.toString();
+        return idExercicio.toString();
     }
 
 }

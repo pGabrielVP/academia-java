@@ -94,7 +94,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
             exercicio.setImagem(nome_arquivo.getToolTipText());
             exercicio.setNomeExercicio(nome_exercicio.getText());
 
-            if (exercicio.getExercicioId() == null) {
+            if (exercicio.getIdExercicio() == null) {
                 controller.create(exercicio);
                 exercicioLista_modal.adicionarNovo(exercicio);
             } else {
@@ -122,7 +122,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        exercicio_id = new javax.swing.JTextField();
+        id_exercicio = new javax.swing.JTextField();
         nome_exercicio = new javax.swing.JTextField();
         nome_arquivo = new javax.swing.JTextField();
         salvar = new javax.swing.JButton();
@@ -142,10 +142,10 @@ public class ExercicioEdita extends javax.swing.JPanel {
 
         jLabel4.setText("Musculo Alvo");
 
-        exercicio_id.setEditable(false);
-        exercicio_id.setColumns(8);
-        if (exercicio.getExercicioId() != null) {
-            exercicio_id.setText(exercicio.getExercicioId().toString());
+        id_exercicio.setEditable(false);
+        id_exercicio.setColumns(8);
+        if (exercicio.getIdExercicio()!= null) {
+            id_exercicio.setText(exercicio.getIdExercicio().toString());
         }
 
         nome_exercicio.setColumns(8);
@@ -190,7 +190,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(nome_arquivo)
                             .addComponent(nome_exercicio)
-                            .addComponent(exercicio_id)
+                            .addComponent(id_exercicio)
                             .addComponent(musculo_alvo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(equipamento_necessario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -203,7 +203,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(exercicio_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(id_exercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -230,7 +230,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> equipamento_necessario;
-    private javax.swing.JTextField exercicio_id;
+    private javax.swing.JTextField id_exercicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

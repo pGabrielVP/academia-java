@@ -43,7 +43,7 @@ public class EquipamentoJpaController implements Serializable {
             em.getTransaction().begin();
             List<Exercicio> attachedExercicioList = new ArrayList<Exercicio>();
             for (Exercicio exercicioListExercicioToAttach : equipamento.getExercicioList()) {
-                exercicioListExercicioToAttach = em.getReference(exercicioListExercicioToAttach.getClass(), exercicioListExercicioToAttach.getExercicioId());
+                exercicioListExercicioToAttach = em.getReference(exercicioListExercicioToAttach.getClass(), exercicioListExercicioToAttach.getIdExercicio());
                 attachedExercicioList.add(exercicioListExercicioToAttach);
             }
             equipamento.setExercicioList(attachedExercicioList);
@@ -87,7 +87,7 @@ public class EquipamentoJpaController implements Serializable {
             }
             List<Exercicio> attachedExercicioListNew = new ArrayList<Exercicio>();
             for (Exercicio exercicioListNewExercicioToAttach : exercicioListNew) {
-                exercicioListNewExercicioToAttach = em.getReference(exercicioListNewExercicioToAttach.getClass(), exercicioListNewExercicioToAttach.getExercicioId());
+                exercicioListNewExercicioToAttach = em.getReference(exercicioListNewExercicioToAttach.getClass(), exercicioListNewExercicioToAttach.getIdExercicio());
                 attachedExercicioListNew.add(exercicioListNewExercicioToAttach);
             }
             exercicioListNew = attachedExercicioListNew;
