@@ -58,7 +58,6 @@ public class Academia extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         exercicio_menu = new javax.swing.JMenuItem();
         musculo_alvo_menu = new javax.swing.JMenuItem();
-        equipamento_menu = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -91,9 +90,6 @@ public class Academia extends javax.swing.JFrame {
 
         musculo_alvo_menu.setText("Musculo Alvo");
         jMenu1.add(musculo_alvo_menu);
-
-        equipamento_menu.setText("Equipamentos");
-        jMenu1.add(equipamento_menu);
 
         jMenuBar1.add(jMenu1);
 
@@ -149,7 +145,6 @@ public class Academia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem equipamento_menu;
     private javax.swing.JMenuItem exercicio_menu;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
