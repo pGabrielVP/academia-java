@@ -4,11 +4,12 @@
  */
 package com.mycompany.academia.edita;
 
+import com.mycompany.academia.renderer.MusculoAlvoRenderer;
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.MusculoAlvo;
-import com.mycompany.academia.lista.ExercicioModel;
+import com.mycompany.academia.model.ExercicioModel;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;

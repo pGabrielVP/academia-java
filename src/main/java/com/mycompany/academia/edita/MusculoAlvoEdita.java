@@ -6,7 +6,7 @@ package com.mycompany.academia.edita;
 
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.entidades.MusculoAlvo;
-import com.mycompany.academia.lista.MusculoAlvoModel;
+import com.mycompany.academia.model.MusculoAlvoModel;
 import javax.persistence.Persistence;
 import javax.swing.JDialog;
 
