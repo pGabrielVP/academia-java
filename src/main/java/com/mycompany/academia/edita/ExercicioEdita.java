@@ -4,10 +4,8 @@
  */
 package com.mycompany.academia.edita;
 
-import com.mycompany.academia.controle.EquipamentoJpaController;
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
-import com.mycompany.academia.entidades.Equipamento;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.MusculoAlvo;
 import com.mycompany.academia.lista.ExercicioModel;
@@ -29,9 +27,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
 
     private final ExercicioJpaController controller;
     private final MusculoAlvoJpaController alvoJpaController;
-    private final EquipamentoJpaController equipamentoJpaController;
     private final Object[] lista_musculo_alvo;
-    private final Object[] lista_equipamento_necessario;
     private final Exercicio exercicio;
     private final JDialog dialog;
     private final ExercicioModel exercicioLista_modal;
@@ -47,9 +43,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
     public ExercicioEdita(Exercicio ex, JDialog jDialog, ExercicioModel model) {
         controller = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
         alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-        equipamentoJpaController = new EquipamentoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
         lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities().toArray();
-        lista_equipamento_necessario = equipamentoJpaController.findEquipamentoEntities().toArray();
         exercicio = ex;
         dialog = jDialog;
         exercicioLista_modal = model;
@@ -58,10 +52,6 @@ public class ExercicioEdita extends javax.swing.JPanel {
         musculo_alvo.setModel(new DefaultComboBoxModel(lista_musculo_alvo));
         musculo_alvo.setRenderer(new MusculoAlvoRenderer());
         musculo_alvo.setSelectedItem(exercicio.getMusculoAlvo());
-
-        equipamento_necessario.setModel(new DefaultComboBoxModel(lista_equipamento_necessario));
-        equipamento_necessario.setRenderer(new EquipamentoNecessarioRenderer());
-        equipamento_necessario.setSelectedItem(exercicio.getEquipamentoNecessario());
 
         selecionar_imagem.addActionListener((e) -> {
             JFileChooser fc = new JFileChooser();
@@ -79,7 +69,6 @@ public class ExercicioEdita extends javax.swing.JPanel {
 
         salvar.addActionListener((e) -> {
             if (musculo_alvo.getSelectedItem() == null
-                    || equipamento_necessario.getSelectedItem() == null
                     || "".equals(nome_arquivo.getText())
                     || "".equals(nome_exercicio.getText())) {
                 JOptionPane.showMessageDialog(this, "Preencha todos os campos");
@@ -87,10 +76,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
             }
             int alvo_id = ((MusculoAlvo) musculo_alvo.getSelectedItem()).getIdAlvo();
             MusculoAlvo alvo = alvoJpaController.findMusculoAlvo(alvo_id);
-            int equipamento_id = ((Equipamento) equipamento_necessario.getSelectedItem()).getIdEquipamento();
-            Equipamento equipamento = equipamentoJpaController.findEquipamento(equipamento_id);
             exercicio.setMusculoAlvo(alvo);
-            exercicio.setEquipamentoNecessario(equipamento);
             exercicio.setImagem(nome_arquivo.getToolTipText());
             exercicio.setNomeExercicio(nome_exercicio.getText());
 
@@ -128,8 +114,6 @@ public class ExercicioEdita extends javax.swing.JPanel {
         salvar = new javax.swing.JButton();
         musculo_alvo = new javax.swing.JComboBox<>();
         selecionar_imagem = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        equipamento_necessario = new javax.swing.JComboBox<>();
 
         setMinimumSize(new java.awt.Dimension(300, 280));
         setPreferredSize(new java.awt.Dimension(340, 280));
@@ -167,10 +151,6 @@ public class ExercicioEdita extends javax.swing.JPanel {
 
         selecionar_imagem.setText("...");
 
-        jLabel5.setText("Equipamento necessario");
-
-        equipamento_necessario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,15 +164,13 @@ public class ExercicioEdita extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(51, 51, 51)
+                            .addComponent(jLabel4))
+                        .addGap(81, 81, 81)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(nome_arquivo)
                             .addComponent(nome_exercicio)
                             .addComponent(id_exercicio)
-                            .addComponent(musculo_alvo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(equipamento_necessario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(musculo_alvo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(selecionar_imagem)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -217,25 +195,19 @@ public class ExercicioEdita extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(musculo_alvo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(equipamento_necessario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(52, 52, 52)
                 .addComponent(salvar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> equipamento_necessario;
     private javax.swing.JTextField id_exercicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox<String> musculo_alvo;
     private javax.swing.JTextField nome_arquivo;
     private javax.swing.JTextField nome_exercicio;
