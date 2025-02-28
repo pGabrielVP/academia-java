@@ -44,9 +44,6 @@
       <Properties>
         <Property name="dividerLocation" type="int" value="500"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="jSplitPane2.setLeftComponent(menu_lateral);&#xa;jSplitPane2.setRightComponent(rotinaDireita);"/>
-      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
     </Container>
