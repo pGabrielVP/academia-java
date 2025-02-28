@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.lista;
 
+import com.mycompany.academia.model.ExercicioModel;
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
 import com.mycompany.academia.edita.ExercicioEdita;

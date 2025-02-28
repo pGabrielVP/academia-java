@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.lista;
 
+import com.mycompany.academia.model.MusculoAlvoModel;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
