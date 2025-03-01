@@ -4,6 +4,9 @@
  */
 package com.mycompany.academia.rotina;
 
+import com.mycompany.academia.controle.ExercicioJpaController;
+import com.mycompany.academia.entidades.Exercicio;
+import com.mycompany.academia.relatorio.Sublista;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -11,10 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.Persistence;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -37,6 +42,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * @author paulo
  */
 public class RotinaDireita extends javax.swing.JPanel {
+
+    ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
 
     private final List<DefaultListModel<String>> model_lista = new ArrayList<>();
     private final List<Map> super_set_map = new ArrayList<>();
@@ -61,7 +68,7 @@ public class RotinaDireita extends javax.swing.JPanel {
             lista.setModel(model_lista.get(painel_lista.getTabCount()));
 
             // Alterar essa ordem quebra o actionListener em deletar_seleção
-            // Linha 75; ((JPanel) painel).getComponent(0);
+            // Linha 80; ((JPanel) painel).getComponent(0);
             container.add(painel, BorderLayout.CENTER);
             container.add(detalhes(), BorderLayout.SOUTH);
 
@@ -135,6 +142,32 @@ public class RotinaDireita extends javax.swing.JPanel {
                 }
             }
         });
+        imprimir.addActionListener((e) -> {
+            int numero_de_abas = painel_lista.getTabCount();
+            Collection<Sublista> relatorio_collection = new ArrayList<>();
+
+            for (int aba_atual = 0; aba_atual < numero_de_abas; aba_atual++) {
+                String titulo_aba = painel_lista.getTitleAt(aba_atual);
+                List<Exercicio> lista_exercicios = new ArrayList<>();
+                Map<Exercicio, Exercicio> map_super_set = new HashMap<>();
+
+                for (int i = 0; i < model_lista.get(aba_atual).getSize(); i++) {
+                    String busca = model_lista.get(aba_atual).get(i);
+                    Exercicio exercicio_atual = exercicioJpaController.find_exercicios_where_nome_exercicio(busca);
+                    lista_exercicios.add(exercicio_atual);
+                }
+
+                Object[] keys = super_set_map.get(aba_atual).keySet().toArray();
+                Object[] values = super_set_map.get(aba_atual).values().toArray();
+                for (int i = 0; i < super_set_map.get(aba_atual).size(); i++) {
+                    Object key = exercicioJpaController.find_exercicios_where_nome_exercicio((String) keys[i]);
+                    Object value = exercicioJpaController.find_exercicios_where_nome_exercicio((String) values[i]);
+                    map_super_set.put((Exercicio) key, (Exercicio) value);
+                }
+                relatorio_collection.add(new Sublista(titulo_aba, lista_exercicios, map_super_set));
+            }
+        }
+        );
     }
 
     /**
@@ -225,7 +258,7 @@ public class RotinaDireita extends javax.swing.JPanel {
                 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Exercicios");
                 JScrollPane painel_rolagem = new JScrollPane();
                 nodos(raiz);
-                JTree arvore_super_sets = new JTree(raiz); 
+                JTree arvore_super_sets = new JTree(raiz);
 
                 painel_rolagem.setViewportView(arvore_super_sets);
                 JOptionPane.showConfirmDialog(painel_rolagem,
