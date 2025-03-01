@@ -83,7 +83,7 @@ public class Cardio extends javax.swing.JPanel {
 
         botaoPesquisar.setText("Pesquisar");
 
-        jPanel1.setLayout(new java.awt.GridLayout(5, 2));
+        jPanel1.setLayout(new java.awt.GridLayout());
         jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

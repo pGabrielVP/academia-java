@@ -8,6 +8,7 @@ import com.mycompany.academia.lista.ExercicioLista;
 import com.mycompany.academia.lista.MusculoAlvoLista;
 import com.mycompany.academia.rotina.Rotina;
 import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
 
 /**
  *
