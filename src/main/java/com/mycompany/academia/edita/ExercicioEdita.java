@@ -10,9 +10,13 @@ import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.MusculoAlvo;
 import com.mycompany.academia.model.ExercicioModel;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.persistence.Persistence;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
@@ -32,7 +36,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
     private final Exercicio exercicio;
     private final JDialog dialog;
     private final ExercicioModel exercicioLista_modal;
-    private File imagem;
+    private File arquivo_selecionado;
 
     /**
      * Creates new form ExercicioEdita
@@ -48,12 +52,17 @@ public class ExercicioEdita extends javax.swing.JPanel {
         exercicio = ex;
         dialog = jDialog;
         exercicioLista_modal = model;
+
         initComponents();
 
         musculo_alvo.setModel(new DefaultComboBoxModel(lista_musculo_alvo));
         musculo_alvo.setRenderer(new MusculoAlvoRenderer());
         musculo_alvo.setSelectedItem(exercicio.getMusculoAlvo());
 
+        if (exercicio.getImagem() != null){
+            nome_arquivo.setText("Imagem já selecionada");
+        }
+        
         selecionar_imagem.addActionListener((e) -> {
             JFileChooser fc = new JFileChooser();
             fc.setFileFilter(new FileNameExtensionFilter("Permite somente imagens", "png"));
@@ -61,9 +70,9 @@ public class ExercicioEdita extends javax.swing.JPanel {
             if (e.getSource() == selecionar_imagem) {
                 int valor_retorno = fc.showOpenDialog(this);
                 if (valor_retorno == JFileChooser.APPROVE_OPTION) {
-                    imagem = fc.getSelectedFile();
-                    nome_arquivo.setText(imagem.getName());
-                    nome_arquivo.setToolTipText(imagem.getPath());
+                    arquivo_selecionado = fc.getSelectedFile();
+                    nome_arquivo.setText(arquivo_selecionado.getName());
+                    nome_arquivo.setToolTipText(arquivo_selecionado.getPath());
                 }
             }
         });
@@ -78,8 +87,20 @@ public class ExercicioEdita extends javax.swing.JPanel {
             int alvo_id = ((MusculoAlvo) musculo_alvo.getSelectedItem()).getIdAlvo();
             MusculoAlvo alvo = alvoJpaController.findMusculoAlvo(alvo_id);
             exercicio.setMusculoAlvo(alvo);
-            exercicio.setImagem(nome_arquivo.getToolTipText());
             exercicio.setNomeExercicio(nome_exercicio.getText());
+
+//            definirImagem 
+            if (exercicio.getIdExercicio() == null || arquivo_selecionado != null) {
+                try {
+                    BufferedImage imagem = ImageIO.read(arquivo_selecionado);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageIO.write(imagem, "png", baos);
+                    byte[] imgBytes = baos.toByteArray();
+                    exercicio.setImagem(imgBytes);
+                } catch (IOException ex1) {
+                    Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
 
             if (exercicio.getIdExercicio() == null) {
                 controller.create(exercicio);
@@ -141,10 +162,6 @@ public class ExercicioEdita extends javax.swing.JPanel {
         nome_arquivo.setEditable(false);
         nome_arquivo.setColumns(8);
         nome_arquivo.setToolTipText("caminho até a imagem selecionada");
-        if (exercicio.getImagem()!= null) {
-            nome_arquivo.setText(exercicio.getImagem());
-            nome_arquivo.setToolTipText(exercicio.getImagem());
-        }
 
         salvar.setText("Salvar");
 

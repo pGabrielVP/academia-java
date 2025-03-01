@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -41,8 +42,9 @@ public class Exercicio implements Serializable {
     @Column(name = "nome_exercicio")
     private String nomeExercicio;
     @Basic(optional = false)
+    @Lob
     @Column(name = "imagem")
-    private String imagem;
+    private byte[] imagem;
     @JoinColumn(name = "musculo_alvo", referencedColumnName = "id_alvo")
     @ManyToOne(optional = false)
     private MusculoAlvo musculoAlvo;
@@ -50,12 +52,12 @@ public class Exercicio implements Serializable {
     public Exercicio() {
     }
 
-    public Exercicio(Integer exercicioId) {
-        this.idExercicio = exercicioId;
+    public Exercicio(Integer idExercicio) {
+        this.idExercicio = idExercicio;
     }
 
-    public Exercicio(Integer exercicioId, String nomeExercicio, String imagem) {
-        this.idExercicio = exercicioId;
+    public Exercicio(Integer idExercicio, String nomeExercicio, byte[] imagem) {
+        this.idExercicio = idExercicio;
         this.nomeExercicio = nomeExercicio;
         this.imagem = imagem;
     }
@@ -76,11 +78,11 @@ public class Exercicio implements Serializable {
         this.nomeExercicio = nomeExercicio;
     }
 
-    public String getImagem() {
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
 
