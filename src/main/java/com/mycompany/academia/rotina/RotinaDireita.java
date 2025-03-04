@@ -6,6 +6,7 @@ package com.mycompany.academia.rotina;
 
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.entidades.Exercicio;
+import com.mycompany.academia.relatorio.Relatorio;
 import com.mycompany.academia.relatorio.Sublista;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -13,12 +14,15 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Persistence;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
@@ -36,6 +40,7 @@ import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -68,7 +73,7 @@ public class RotinaDireita extends javax.swing.JPanel {
             lista.setModel(model_lista.get(painel_lista.getTabCount()));
 
             // Alterar essa ordem quebra o actionListener em deletar_seleção
-            // Linha 80; ((JPanel) painel).getComponent(0);
+            // Linha 87; ((JPanel) painel).getComponent(0);
             container.add(painel, BorderLayout.CENTER);
             container.add(detalhes(), BorderLayout.SOUTH);
 
@@ -149,23 +154,34 @@ public class RotinaDireita extends javax.swing.JPanel {
             for (int aba_atual = 0; aba_atual < numero_de_abas; aba_atual++) {
                 String titulo_aba = painel_lista.getTitleAt(aba_atual);
                 List<Exercicio> lista_exercicios = new ArrayList<>();
-                Map<Exercicio, Exercicio> map_super_set = new HashMap<>();
+                List<Exercicio> lista_superset = new ArrayList<>();
 
                 for (int i = 0; i < model_lista.get(aba_atual).getSize(); i++) {
                     String busca = model_lista.get(aba_atual).get(i);
-                    Exercicio exercicio_atual = exercicioJpaController.find_exercicios_where_nome_exercicio(busca);
-                    lista_exercicios.add(exercicio_atual);
+                    // Adiciona na lista somente se o exercicio não for parte de um superset
+                    if (!super_set_map.get(aba_atual).containsKey(busca) && !super_set_map.get(aba_atual).containsValue(busca)) {
+                        Exercicio exercicio_atual = exercicioJpaController.find_exercicios_where_nome_exercicio(busca);
+                        lista_exercicios.add(exercicio_atual);
+                    }
                 }
-
                 Object[] keys = super_set_map.get(aba_atual).keySet().toArray();
                 Object[] values = super_set_map.get(aba_atual).values().toArray();
                 for (int i = 0; i < super_set_map.get(aba_atual).size(); i++) {
                     Object key = exercicioJpaController.find_exercicios_where_nome_exercicio((String) keys[i]);
                     Object value = exercicioJpaController.find_exercicios_where_nome_exercicio((String) values[i]);
-                    map_super_set.put((Exercicio) key, (Exercicio) value);
+
+                    lista_superset.add((Exercicio) key);
+                    lista_superset.add((Exercicio) value);
                 }
-                relatorio_collection.add(new Sublista(titulo_aba, lista_exercicios, map_super_set));
+                relatorio_collection.add(new Sublista(titulo_aba, lista_exercicios, lista_superset));
             }
+
+            try {
+                Relatorio.imprimirRelatorio(relatorio_collection);
+            } catch (JRException | IOException ex) {
+                Logger.getLogger(RotinaDireita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         );
     }
