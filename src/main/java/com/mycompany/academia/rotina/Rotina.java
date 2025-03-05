@@ -33,7 +33,7 @@ public class Rotina extends javax.swing.JInternalFrame {
 
         jSplitPane2 = new javax.swing.JSplitPane();
 
-        setIconifiable(true);
+        setClosable(true);
         setMaximizable(true);
         setResizable(true);
         setPreferredSize(new java.awt.Dimension(1024, 500));
