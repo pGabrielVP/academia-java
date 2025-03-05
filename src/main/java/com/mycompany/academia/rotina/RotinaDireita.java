@@ -6,6 +6,7 @@ package com.mycompany.academia.rotina;
 
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.entidades.Exercicio;
+import com.mycompany.academia.relatorio.ExercicioWrapper;
 import com.mycompany.academia.relatorio.Relatorio;
 import com.mycompany.academia.relatorio.Sublista;
 import java.awt.BorderLayout;
@@ -72,8 +73,8 @@ public class RotinaDireita extends javax.swing.JPanel {
             super_set_map.add(new HashMap<>());
             lista.setModel(model_lista.get(painel_lista.getTabCount()));
 
-            // Alterar essa ordem quebra o actionListener em deletar_seleção
-            // Linha 87; ((JPanel) painel).getComponent(0);
+            // Alterar essa ordem quebra o actionListener em deletar_seleção 
+            // Linha 88 & 110 & 157; ((JPanel) painel).getComponent(0);
             container.add(painel, BorderLayout.CENTER);
             container.add(detalhes(), BorderLayout.SOUTH);
 
@@ -152,16 +153,25 @@ public class RotinaDireita extends javax.swing.JPanel {
             Collection<Sublista> relatorio_collection = new ArrayList<>();
 
             for (int aba_atual = 0; aba_atual < numero_de_abas; aba_atual++) {
+                Component painel = painel_lista.getComponentAt(aba_atual);
+                Component container_detalhes = ((JPanel) painel).getComponent(1);
+                Component spinner_reps = ((JPanel) container_detalhes).getComponent(1);
+                Component spinner_sets = ((JPanel) container_detalhes).getComponent(3);
+                Component spinner_descanco = ((JPanel) container_detalhes).getComponent(5);
+                int numero_reps = Integer.parseInt(((JSpinner) spinner_reps).getValue().toString());
+                int numero_sets = Integer.parseInt(((JSpinner) spinner_sets).getValue().toString());
+                int tempo_descanco = Integer.parseInt(((JSpinner) spinner_descanco).getValue().toString());
+
                 String titulo_aba = painel_lista.getTitleAt(aba_atual);
-                List<Exercicio> lista_exercicios = new ArrayList<>();
-                List<Exercicio> lista_superset = new ArrayList<>();
+                List<ExercicioWrapper> lista_exercicios = new ArrayList<>();
+                List<ExercicioWrapper> lista_superset = new ArrayList<>();
 
                 for (int i = 0; i < model_lista.get(aba_atual).getSize(); i++) {
                     String busca = model_lista.get(aba_atual).get(i);
                     // Adiciona na lista somente se o exercicio não for parte de um superset
                     if (!super_set_map.get(aba_atual).containsKey(busca) && !super_set_map.get(aba_atual).containsValue(busca)) {
                         Exercicio exercicio_atual = exercicioJpaController.find_exercicios_where_nome_exercicio(busca);
-                        lista_exercicios.add(exercicio_atual);
+                        lista_exercicios.add(new ExercicioWrapper(exercicio_atual, numero_reps, numero_sets, tempo_descanco));
                     }
                 }
                 Object[] keys = super_set_map.get(aba_atual).keySet().toArray();
@@ -170,8 +180,8 @@ public class RotinaDireita extends javax.swing.JPanel {
                     Object key = exercicioJpaController.find_exercicios_where_nome_exercicio((String) keys[i]);
                     Object value = exercicioJpaController.find_exercicios_where_nome_exercicio((String) values[i]);
 
-                    lista_superset.add((Exercicio) key);
-                    lista_superset.add((Exercicio) value);
+                    lista_superset.add(new ExercicioWrapper((Exercicio) key, numero_reps, numero_sets, tempo_descanco));
+                    lista_superset.add(new ExercicioWrapper((Exercicio) value, numero_reps, numero_sets, tempo_descanco));
                 }
                 relatorio_collection.add(new Sublista(titulo_aba, lista_exercicios, lista_superset));
             }
