@@ -4,7 +4,6 @@
  */
 package com.mycompany.academia.relatorio;
 
-import com.mycompany.academia.entidades.Exercicio;
 import java.util.List;
 
 /**
@@ -14,13 +13,13 @@ import java.util.List;
 public class Sublista {
 
     private String nome;
-    private List<Exercicio> lista_exercicio;
-    private List<Exercicio> superset;
+    private List<ExercicioWrapper> lista_exercicio;
+    private List<ExercicioWrapper> superset;
 
     public Sublista() {
     }
 
-    public Sublista(String nome, List<Exercicio> lista_exercicio, List<Exercicio> superset) {
+    public Sublista(String nome, List<ExercicioWrapper> lista_exercicio, List<ExercicioWrapper> superset) {
         this.nome = nome;
         this.lista_exercicio = lista_exercicio;
         this.superset = superset;
@@ -34,19 +33,19 @@ public class Sublista {
         this.nome = nome;
     }
 
-    public List<Exercicio> getLista_exercicio() {
+    public List<ExercicioWrapper> getLista_exercicio() {
         return lista_exercicio;
     }
 
-    public void setLista_exercicio(List<Exercicio> lista_exercicio) {
+    public void setLista_exercicio(List<ExercicioWrapper> lista_exercicio) {
         this.lista_exercicio = lista_exercicio;
     }
 
-    public List<Exercicio> getSuperset() {
+    public List<ExercicioWrapper> getSuperset() {
         return superset;
     }
 
-    public void setSuperset(List<Exercicio> superset) {
+    public void setSuperset(List<ExercicioWrapper> superset) {
         this.superset = superset;
     }
 
