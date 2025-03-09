@@ -56,13 +56,17 @@ public class RotinaDireita extends javax.swing.JPanel {
     // painelLista.getTabCount() fazia paineis terem nomes repetidos quando algum era removido
     // essa variavel resolve isso
     private int contagem_paineis = 0;
+    // superset_quantidade tem um int que serve de id para os superset criados para a aba
+    private List<Integer> superset_quantidade = new ArrayList<>();
+    // supserset_id2key key = id, value = super_set_map.key
+    // supserset_id2key é usado para deletar um superset usando o botão remover exercicio
+    private List<Map> supserset_id2key = new ArrayList<>();
 
     /**
      * Creates new form RotinaDireita
      */
     public RotinaDireita() {
         initComponents();
-        // TODO: Trocar lista por um JTree.
         adicionar_nova_lista.addActionListener((e) -> {
             JPanel container = new JPanel(new BorderLayout());
 
@@ -71,10 +75,12 @@ public class RotinaDireita extends javax.swing.JPanel {
             painel.setViewportView(lista);
             model_lista.add(new DefaultListModel<>());
             super_set_map.add(new HashMap<>());
+            superset_quantidade.add(0);
+            supserset_id2key.add(new HashMap<>());
             lista.setModel(model_lista.get(painel_lista.getTabCount()));
 
             // Alterar essa ordem quebra o actionListener em deletar_seleção 
-            // Linha 88 & 110 & 157; ((JPanel) painel).getComponent(0);
+            // Linha 94 & 120 & 174; ((JPanel) painel).getComponent(int);
             container.add(painel, BorderLayout.CENTER);
             container.add(detalhes(), BorderLayout.SOUTH);
 
@@ -90,6 +96,14 @@ public class RotinaDireita extends javax.swing.JPanel {
             int indice_item_selecionado = ((JList) lista).getSelectedIndex();
             String valor_item_selecionado = ((JList) lista).getSelectedValue().toString();
 
+            // "superset_INT" 
+            // "superset_" é removido
+            // int numero = INT
+            if (valor_item_selecionado.contains("superset_")) {
+                int numero = Integer.parseInt(model_lista.get(guia).get(indice_item_selecionado).substring(9));
+                String key = (String) supserset_id2key.get(guia).get(numero);
+                super_set_map.get(guia).remove(key);
+            }
             model_lista.get(guia).remove(indice_item_selecionado);
             super_set_map.get(guia).remove(valor_item_selecionado);
             // Tem um jeito de melhor de fazer isso?
@@ -103,16 +117,25 @@ public class RotinaDireita extends javax.swing.JPanel {
                 }
             }
         });
-        // Deletar depois de trocar o JList por um JTree?
         adicionar_super_set.addActionListener((e) -> {
             int guia = painel_lista.getSelectedIndex();
             Component painel = painel_lista.getComponentAt(guia);
             Component container = ((JPanel) painel).getComponent(0);
             Component lista = ((JScrollPane) container).getViewport().getView();
-            List indice_itens_selecionados = ((JList) lista).getSelectedValuesList();
+            List valor_itens_selecionados = ((JList) lista).getSelectedValuesList();
+            int[] indice_itens_selecionados = ((JList) lista).getSelectedIndices();
 
-            if (indice_itens_selecionados.size() == 2) {
-                super_set_map.get(guia).put(indice_itens_selecionados.get(0), indice_itens_selecionados.get(1));
+            if (valor_itens_selecionados.size() == 2) {
+                int quantidade_atual = superset_quantidade.get(guia);
+                // adiciona os exercicios na lista de superset e remove da lista de exercicios 
+                super_set_map.get(guia).put(valor_itens_selecionados.get(0), valor_itens_selecionados.get(1));
+                model_lista.get(guia).remove(indice_itens_selecionados[1]);
+                model_lista.get(guia).remove(indice_itens_selecionados[0]);
+                model_lista.get(guia).addElement("superset_" + quantidade_atual);
+                // guarda o key:value id:superset.key
+                // aumenta a quantidade de superset criado na guia +1
+                supserset_id2key.get(guia).put(quantidade_atual, valor_itens_selecionados.get(0));
+                superset_quantidade.set(guia, quantidade_atual + 1);
             } else {
                 JOptionPane.showMessageDialog(container, "Selecione somente 2 exercicios");
             }
@@ -169,7 +192,7 @@ public class RotinaDireita extends javax.swing.JPanel {
                 for (int i = 0; i < model_lista.get(aba_atual).getSize(); i++) {
                     String busca = model_lista.get(aba_atual).get(i);
                     // Adiciona na lista somente se o exercicio não for parte de um superset
-                    if (!super_set_map.get(aba_atual).containsKey(busca) && !super_set_map.get(aba_atual).containsValue(busca)) {
+                    if (!busca.contains("superset_")) {
                         Exercicio exercicio_atual = exercicioJpaController.find_exercicios_where_nome_exercicio(busca);
                         lista_exercicios.add(new ExercicioWrapper(exercicio_atual, numero_reps, numero_sets, tempo_descanco));
                     }
@@ -266,7 +289,6 @@ public class RotinaDireita extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     // pensar em um nome melhor
-    // TODO: Remover esse superset e superset_label daqui depois de refatorar o codigo pra usar um JTree ao inves do JList
     private JPanel detalhes() {
         JPanel detalhes = new JPanel(new GridLayout(4, 2));
         JLabel reps_label = new JLabel("Repetições: ");
@@ -315,15 +337,25 @@ public class RotinaDireita extends javax.swing.JPanel {
 
         for (int i = 0; i < model_lista.get(guia).getSize(); i++) {
             String nome_exercicio = model_lista.get(guia).get(i);
-            // sem esse if exercicios que foram adicionados como superset aparecem duas vezes na lista
-            if (!super_set_map.get(guia).containsValue(nome_exercicio)) {
+            // Adiciona somente nome de exercicios, ignora superset
+            if (!nome_exercicio.contains("superset_")) {
                 exercicio = new DefaultMutableTreeNode(nome_exercicio);
                 tn.add(exercicio);
-                if (super_set_map.get(guia).keySet().contains(nome_exercicio)) {
-                    exercicio_super_set = new DefaultMutableTreeNode(super_set_map.get(guia).get(nome_exercicio));
-                    exercicio.add(exercicio_super_set);
-                }
             }
+        }
+
+        // superset são adicionados aqui
+        Object[] keys = super_set_map.get(guia).keySet().toArray();
+        Object[] values = super_set_map.get(guia).values().toArray();
+        for (int i = 0; i < super_set_map.get(guia).size(); i++) {
+            Object key = (String) keys[i];
+            Object value = (String) values[i];
+
+            exercicio_super_set = new DefaultMutableTreeNode("superset_" + i);
+            exercicio_super_set.add(new DefaultMutableTreeNode(key));
+            exercicio_super_set.add(new DefaultMutableTreeNode(value));
+
+            tn.add(exercicio_super_set);
         }
     }
 
