@@ -107,11 +107,17 @@ public class RotinaDireita__JTree extends JPanel {
             return;
         }
 
+        Object exercicio_1 = selected_nodes[0].getLastPathComponent();
+        Object exercicio_2 = selected_nodes[1].getLastPathComponent();
+        if (exercicio_1.toString().contains("superset_") || exercicio_2.toString().contains("superset_")) {
+            return;
+        }
+
         DefaultMutableTreeNode superset = new DefaultMutableTreeNode("superset_" + 1);
-        superset.add(new DefaultMutableTreeNode(selected_nodes[0].getLastPathComponent()));
-        superset.add(new DefaultMutableTreeNode(selected_nodes[1].getLastPathComponent()));
-        model.removeNodeFromParent((DefaultMutableTreeNode) selected_nodes[0].getLastPathComponent());
-        model.removeNodeFromParent((DefaultMutableTreeNode) selected_nodes[1].getLastPathComponent());
+        superset.add(new DefaultMutableTreeNode(exercicio_1));
+        superset.add(new DefaultMutableTreeNode(exercicio_2));
+        model.removeNodeFromParent((DefaultMutableTreeNode) exercicio_1);
+        model.removeNodeFromParent((DefaultMutableTreeNode) exercicio_2);
 
         adicionar_repSetDesc(superset);
         model.insertNodeInto(superset, nodo, nodo.getChildCount());
