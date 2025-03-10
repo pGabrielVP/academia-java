@@ -60,7 +60,7 @@ public class RotinaDireita__JTree extends JPanel {
     // extras
     private final Dimension tamanho_botao = new Dimension(142, 26);
     private int numero_total_abas = 0;
-    private final List<DefaultTreeModel> tree_model_lista = new ArrayList<>();
+    private final List<JTree> tree_model_lista = new ArrayList<>();
 
     private void adicionar_action_listener() {
         adicionar_nova_aba.addActionListener((e) -> {
@@ -93,7 +93,8 @@ public class RotinaDireita__JTree extends JPanel {
 
     private void inserir_superset() {
         int guia_atual = painel_view_jTree.getSelectedIndex();
-        DefaultTreeModel model = tree_model_lista.get(guia_atual);
+        JTree arvore = tree_model_lista.get(guia_atual);
+        DefaultTreeModel model = (DefaultTreeModel) arvore.getModel();
         DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) model.getRoot();
         // get selected_nodes
         JScrollPane painel_rolagem = (JScrollPane) painel_view_jTree.getComponentAt(guia_atual);
@@ -125,7 +126,8 @@ public class RotinaDireita__JTree extends JPanel {
 
     private void inserir_exercicio(String exercicio) {
         int guia_atual = painel_view_jTree.getSelectedIndex();
-        DefaultTreeModel model = tree_model_lista.get(guia_atual);
+        JTree arvore = tree_model_lista.get(guia_atual);
+        DefaultTreeModel model = (DefaultTreeModel) arvore.getModel();
         DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) model.getRoot();
         String nome_exercicio_adicionar = exercicio + " " + (int) (Math.random() * 100); // Isso aqui não é necessario; Apagar depois
 
@@ -162,7 +164,7 @@ public class RotinaDireita__JTree extends JPanel {
     private JScrollPane novo_JTree(String nome_aba) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(nome_aba);
         JTree arvore = new JTree(root);
-        tree_model_lista.add((DefaultTreeModel) arvore.getModel());
+        tree_model_lista.add(arvore);
 
         JScrollPane painel_rolagem = new JScrollPane();
         painel_rolagem.setViewportView(arvore);
