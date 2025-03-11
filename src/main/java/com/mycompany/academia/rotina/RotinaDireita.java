@@ -48,9 +48,9 @@ import net.sf.jasperreports.engine.JRException;
  * @author paulo
  */
 public class RotinaDireita extends javax.swing.JPanel {
-
+    
     ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-
+    
     private final List<DefaultListModel<String>> model_lista = new ArrayList<>();
     private final List<Map> super_set_map = new ArrayList<>();
     // painelLista.getTabCount() fazia paineis terem nomes repetidos quando algum era removido
@@ -69,7 +69,7 @@ public class RotinaDireita extends javax.swing.JPanel {
         initComponents();
         adicionar_nova_lista.addActionListener((e) -> {
             JPanel container = new JPanel(new BorderLayout());
-
+            
             JScrollPane painel = new JScrollPane();
             JList<String> lista = new JList<>();
             painel.setViewportView(lista);
@@ -124,7 +124,7 @@ public class RotinaDireita extends javax.swing.JPanel {
             Component lista = ((JScrollPane) container).getViewport().getView();
             List valor_itens_selecionados = ((JList) lista).getSelectedValuesList();
             int[] indice_itens_selecionados = ((JList) lista).getSelectedIndices();
-
+            
             if (valor_itens_selecionados.size() == 2) {
                 int quantidade_atual = superset_quantidade.get(guia);
                 // adiciona os exercicios na lista de superset e remove da lista de exercicios 
@@ -174,7 +174,7 @@ public class RotinaDireita extends javax.swing.JPanel {
         imprimir.addActionListener((e) -> {
             int numero_de_abas = painel_lista.getTabCount();
             Collection<Sublista> relatorio_collection = new ArrayList<>();
-
+            
             for (int aba_atual = 0; aba_atual < numero_de_abas; aba_atual++) {
                 Component painel = painel_lista.getComponentAt(aba_atual);
                 Component container_detalhes = ((JPanel) painel).getComponent(1);
@@ -184,11 +184,11 @@ public class RotinaDireita extends javax.swing.JPanel {
                 int numero_reps = Integer.parseInt(((JSpinner) spinner_reps).getValue().toString());
                 int numero_sets = Integer.parseInt(((JSpinner) spinner_sets).getValue().toString());
                 int tempo_descanco = Integer.parseInt(((JSpinner) spinner_descanco).getValue().toString());
-
+                
                 String titulo_aba = painel_lista.getTitleAt(aba_atual);
                 List<ExercicioWrapper> lista_exercicios = new ArrayList<>();
                 List<ExercicioWrapper> lista_superset = new ArrayList<>();
-
+                
                 for (int i = 0; i < model_lista.get(aba_atual).getSize(); i++) {
                     String busca = model_lista.get(aba_atual).get(i);
                     // Adiciona na lista somente se o exercicio não for parte de um superset
@@ -202,19 +202,19 @@ public class RotinaDireita extends javax.swing.JPanel {
                 for (int i = 0; i < super_set_map.get(aba_atual).size(); i++) {
                     Object key = exercicioJpaController.find_exercicios_where_nome_exercicio((String) keys[i]);
                     Object value = exercicioJpaController.find_exercicios_where_nome_exercicio((String) values[i]);
-
+                    
                     lista_superset.add(new ExercicioWrapper((Exercicio) key, numero_reps, numero_sets, tempo_descanco));
                     lista_superset.add(new ExercicioWrapper((Exercicio) value, numero_reps, numero_sets, tempo_descanco));
                 }
                 relatorio_collection.add(new Sublista(titulo_aba, lista_exercicios, lista_superset));
             }
-
+            
             try {
                 Relatorio.imprimirRelatorio(relatorio_collection);
             } catch (JRException | IOException ex) {
                 Logger.getLogger(RotinaDireita.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
         }
         );
     }
@@ -302,12 +302,12 @@ public class RotinaDireita extends javax.swing.JPanel {
         JButton superset = new JButton(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                
                 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Exercicios");
                 JScrollPane painel_rolagem = new JScrollPane();
                 nodos(raiz);
                 JTree arvore_super_sets = new JTree(raiz);
-
+                
                 painel_rolagem.setViewportView(arvore_super_sets);
                 JOptionPane.showConfirmDialog(painel_rolagem,
                         painel_rolagem,
@@ -317,7 +317,7 @@ public class RotinaDireita extends javax.swing.JPanel {
             }
         });
         superset.setText("Visualizar");
-
+        
         detalhes.add(reps_label);
         detalhes.add(reps);
         detalhes.add(sets_label);
@@ -326,15 +326,15 @@ public class RotinaDireita extends javax.swing.JPanel {
         detalhes.add(descanco);
         detalhes.add(superset_label);
         detalhes.add(superset);
-
+        
         return detalhes;
     }
-
+    
     public void nodos(DefaultMutableTreeNode tn) {
         int guia = painel_lista.getSelectedIndex();
         DefaultMutableTreeNode exercicio = null;
         DefaultMutableTreeNode exercicio_super_set = null;
-
+        
         for (int i = 0; i < model_lista.get(guia).getSize(); i++) {
             String nome_exercicio = model_lista.get(guia).get(i);
             // Adiciona somente nome de exercicios, ignora superset
@@ -350,25 +350,18 @@ public class RotinaDireita extends javax.swing.JPanel {
         for (int i = 0; i < super_set_map.get(guia).size(); i++) {
             Object key = (String) keys[i];
             Object value = (String) values[i];
-
+            
             exercicio_super_set = new DefaultMutableTreeNode("superset_" + i);
             exercicio_super_set.add(new DefaultMutableTreeNode(key));
             exercicio_super_set.add(new DefaultMutableTreeNode(value));
-
+            
             tn.add(exercicio_super_set);
         }
     }
-
-    public JTabbedPane getPainel_lista() {
-        return painel_lista;
+    
+    public void adicionar_exercicio(String exr) {
+        int guia = painel_lista.getSelectedIndex();
+        model_lista.get(guia).addElement(exr);
     }
-
-    public List<DefaultListModel<String>> getModel_lista() {
-        return model_lista;
-    }
-
-    public List<Map> getSuper_set_map() {
-        return super_set_map;
-    }
-
+    
 }
