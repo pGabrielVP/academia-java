@@ -70,7 +70,7 @@ public class RotinaDireita__JTree extends JPanel {
             numero_total_abas++;
         });
         TESTE_ADICIONAR_EXERCICIO.addActionListener((e) -> {
-            inserir_exercicio("Exercicio");
+            adicionar_exercicio("Exercicio");
         });
         criar_superset.addActionListener((e) -> {
             inserir_superset();
@@ -124,7 +124,7 @@ public class RotinaDireita__JTree extends JPanel {
         model.insertNodeInto(superset, nodo, nodo.getChildCount());
     }
 
-    private void inserir_exercicio(String exercicio) {
+    private void adicionar_exercicio(String exercicio) {
         int guia_atual = painel_view_jTree.getSelectedIndex();
         JTree arvore = tree_model_lista.get(guia_atual);
         DefaultTreeModel model = (DefaultTreeModel) arvore.getModel();
