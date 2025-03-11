@@ -144,8 +144,7 @@ public class Biceps extends javax.swing.JPanel {
         for (Exercicio exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio.getNomeExercicio());
             add_novo.addActionListener((e) -> {
-                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
-                rotina_direita.getModel_lista().get(guia).addElement(exercicio.getNomeExercicio());
+                rotina_direita.adicionar_exercicio(exercicio.getNomeExercicio());
             });
             jPanel1.add(add_novo);
             jPanel1.revalidate();
