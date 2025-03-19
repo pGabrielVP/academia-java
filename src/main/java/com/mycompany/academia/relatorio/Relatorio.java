@@ -6,6 +6,8 @@ package com.mycompany.academia.relatorio;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +28,13 @@ public class Relatorio {
 
     public static void imprimirRelatorio(Collection<Sublista> lista) throws JRException, FileNotFoundException, IOException {
         JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
-        JasperReport jasperReport = JasperCompileManager.compileReport("Report_Principal.jrxml");
-        JasperReport subreportSuperset = JasperCompileManager.compileReport("Listar_Superset.jrxml");
-        JasperReport subreportExercicios = JasperCompileManager.compileReport("Listar_Exercicios.jrxml");
+        InputStream report_principal_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Report_Principal.jrxml");
+        InputStream listar_superset_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Superset.jrxml");
+        InputStream listar_exercicios_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Exercicios.jrxml");
+
+        JasperReport jasperReport = JasperCompileManager.compileReport(report_principal_input_stream);
+        JasperReport subreportSuperset = JasperCompileManager.compileReport(listar_superset_input_stream);
+        JasperReport subreportExercicios = JasperCompileManager.compileReport(listar_exercicios_input_stream);
 
         Map parametros = new HashMap<String, Object>();
         parametros.put("subreportSuperset", subreportSuperset);
