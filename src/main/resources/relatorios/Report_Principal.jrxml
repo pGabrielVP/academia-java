@@ -29,8 +29,8 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<parameter name="subreportSuperset" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
-	<parameter name="subreportExercicios" class="net.sf.jasperreports.engine.JasperReport" isForPrompting="false"/>
+	<parameter name="subreportSuperset" class="java.lang.Object" isForPrompting="false"/>
+	<parameter name="subreportExercicios" class="java.lang.Object" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
