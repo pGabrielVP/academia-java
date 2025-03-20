@@ -18,6 +18,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -28,19 +29,18 @@ public class Relatorio {
 
     public static void imprimirRelatorio(Collection<Sublista> lista) throws JRException, FileNotFoundException, IOException {
         JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
-        InputStream report_principal_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Report_Principal.jrxml");
-        InputStream listar_superset_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Superset.jrxml");
-        InputStream listar_exercicios_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Exercicios.jrxml");
+        InputStream report_principal_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Report_Principal.jasper");
+        InputStream listar_superset_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Superset.jasper");
+        InputStream listar_exercicios_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Exercicios.jasper");
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(report_principal_input_stream);
-        JasperReport subreportSuperset = JasperCompileManager.compileReport(listar_superset_input_stream);
-        JasperReport subreportExercicios = JasperCompileManager.compileReport(listar_exercicios_input_stream);
+        JasperReport subreportSuperset = (JasperReport)JRLoader.loadObject(listar_superset_input_stream);
+        JasperReport subreportExercicios = (JasperReport)JRLoader.loadObject(listar_exercicios_input_stream);
 
         Map parametros = new HashMap<String, Object>();
         parametros.put("subreportSuperset", subreportSuperset);
         parametros.put("subreportExercicios", subreportExercicios);
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, datasource);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(report_principal_input_stream, parametros, datasource);
 //        JasperExportManager.exportReportToPdf(jasperPrint);
         JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
         jasperViewer.setTitle("ROTINA");
