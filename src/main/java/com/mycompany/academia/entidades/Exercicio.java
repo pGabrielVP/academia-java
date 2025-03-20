@@ -118,5 +118,5 @@ public class Exercicio implements Serializable {
     public String toString() {
         return idExercicio.toString();
     }
-
+    
 }
