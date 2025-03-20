@@ -8,7 +8,6 @@ import com.mycompany.academia.lista.ExercicioLista;
 import com.mycompany.academia.lista.MusculoAlvoLista;
 import com.mycompany.academia.rotina.Rotina;
 import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
 
 /**
  *
@@ -24,6 +23,7 @@ public class Academia extends javax.swing.JFrame {
      */
     public Academia() {
         initComponents();
+        setLocationRelativeTo(null);
         jDesktopPane1.add(exercicioLista);
         jDesktopPane1.add(musculoalvoLista);
         jDesktopPane1.validate();
