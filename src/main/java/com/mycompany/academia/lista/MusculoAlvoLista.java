@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public class MusculoAlvoLista extends javax.swing.JInternalFrame {
 
     private final MusculoAlvoJpaController controller;
-    private final MusculoAlvoModel model;
+    private MusculoAlvoModel model;
 
     /**
      * Creates new form MusculoAlvoLista
@@ -110,4 +110,10 @@ public class MusculoAlvoLista extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabela_lista_musculo_alvo;
     // End of variables declaration//GEN-END:variables
+
+    public void sincronizar() {
+        model = new MusculoAlvoModel(controller.findMusculoAlvoEntities());
+        tabela_lista_musculo_alvo.setModel(model);
+    }
+
 }

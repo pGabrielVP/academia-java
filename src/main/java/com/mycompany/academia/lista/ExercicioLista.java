@@ -22,7 +22,7 @@ import javax.swing.JDialog;
 public class ExercicioLista extends javax.swing.JInternalFrame {
 
     private final ExercicioJpaController controller;
-    private final ExercicioModel model;
+    private ExercicioModel model;
 
     /**
      * Creates new form ExercicioLista
@@ -137,8 +137,9 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
     private javax.swing.JTable tabela_lista_exercicios;
     // End of variables declaration//GEN-END:variables
 
-    public ExercicioModel getModel() {
-        return model;
+    public void sincronizar() {
+        model = new ExercicioModel(controller.findExercicioEntities());
+        tabela_lista_exercicios.setModel(model);
     }
 
 }
