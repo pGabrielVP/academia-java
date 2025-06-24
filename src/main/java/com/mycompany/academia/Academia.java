@@ -29,9 +29,15 @@ public class Academia extends javax.swing.JFrame {
         jDesktopPane1.validate();
 
         exercicio_menu.addActionListener((e) -> {
+            // Sincroniza a lista com o banco de dados
+            exercicioLista.sincronizar();
+            // Alterna visibilidade da janela
             exercicioLista.setVisible(!exercicioLista.isVisible());
         });
         musculo_alvo_menu.addActionListener((e) -> {
+            // Sincroniza a lista com o banco de dados
+            musculoalvoLista.sincronizar();
+            // Alterna visibilidade da janela
             musculoalvoLista.setVisible(!musculoalvoLista.isVisible());
         });
         rotina_novo.addActionListener((e) -> {
