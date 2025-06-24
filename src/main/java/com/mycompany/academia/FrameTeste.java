@@ -15,7 +15,7 @@ public class FrameTeste extends JFrame {
 
     public FrameTeste() throws HeadlessException {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        add(new RotinaDireita__JTree());
+        add(new RotinaDireitaTable());
         pack();
     }
 
