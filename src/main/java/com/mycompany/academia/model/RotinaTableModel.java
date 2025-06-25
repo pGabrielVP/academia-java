@@ -40,7 +40,7 @@ public class RotinaTableModel extends AbstractTableModel {
         ExercicioWrapper exercicio_wrapper = getExercicioWrapper(rowIndex);
         
         switch (columnIndex){
-            case 0: return exercicio_wrapper.getExercicio().getNomeExercicio();
+            case 0: return exercicio_wrapper.getExercicio();
             case 1: return exercicio_wrapper.getReps();
             case 2: return exercicio_wrapper.getSets();
             case 3: return exercicio_wrapper.getDescanco();
@@ -60,7 +60,7 @@ public class RotinaTableModel extends AbstractTableModel {
             case 3: exercicioWrapper.setDescanco((int)aValue); break;
             case 4: superset.put(exercicioWrapper.getExercicio(), (Exercicio)aValue); break;
         }
-        
+
         fireTableCellUpdated(rowIndex, columnIndex);
     }
     
@@ -85,7 +85,7 @@ public class RotinaTableModel extends AbstractTableModel {
             default: return true;
         }
     }
-
+    
     private ExercicioWrapper getExercicioWrapper(int rowIndex) {
         return exercicios.get(rowIndex);
     }
