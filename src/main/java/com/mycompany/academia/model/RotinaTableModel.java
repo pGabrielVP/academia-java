@@ -34,12 +34,12 @@ public class RotinaTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return nome_colunas.length;
     }
- 
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         ExercicioWrapper exercicio_wrapper = getExercicioWrapper(rowIndex);
-        
-        switch (columnIndex){
+
+        switch (columnIndex) {
             case 0: return exercicio_wrapper.getExercicio();
             case 1: return exercicio_wrapper.getReps();
             case 2: return exercicio_wrapper.getSets();
@@ -52,18 +52,18 @@ public class RotinaTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         ExercicioWrapper exercicioWrapper = getExercicioWrapper(rowIndex);
-        
-        switch(columnIndex) {
-            case 0: exercicioWrapper.setExercicio((Exercicio)aValue); break;
-            case 1: exercicioWrapper.setReps((int)aValue); break;
-            case 2: exercicioWrapper.setSets((int)aValue); break;
-            case 3: exercicioWrapper.setDescanco((int)aValue); break;
-            case 4: superset.put(exercicioWrapper.getExercicio(), (Exercicio)aValue); break;
+
+        switch (columnIndex) {
+            case 0: exercicioWrapper.setExercicio((Exercicio) aValue); break;
+            case 1: exercicioWrapper.setReps((int) aValue); break;
+            case 2: exercicioWrapper.setSets((int) aValue); break;
+            case 3: exercicioWrapper.setDescanco((int) aValue); break;
+            case 4: atualizar_supersets(exercicioWrapper.getExercicio(), (Exercicio) aValue); break;
         }
 
         fireTableCellUpdated(rowIndex, columnIndex);
     }
-    
+
     @Override
     public String getColumnName(int column) {
         return nome_colunas[column];
@@ -71,13 +71,13 @@ public class RotinaTableModel extends AbstractTableModel {
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        switch (columnIndex){
+        switch (columnIndex) {
             case 0: return Exercicio.class;
             case 4: return Exercicio.class;
             default: return Integer.class;
         }
     }
-    
+
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         switch (columnIndex) {
@@ -85,12 +85,54 @@ public class RotinaTableModel extends AbstractTableModel {
             default: return true;
         }
     }
-    
+
+    private void atualizar_supersets(Exercicio ex1, Exercicio ex2) {
+        if (ex2 != null && ex1 != ex2) {
+            adicionar_par(ex1, ex2);
+        }
+        if (ex2 == null) {
+            remover_par(ex1);
+        }
+        fireTableDataChanged();
+    }
+
+    /**
+     * <p>
+     * Adiciona um novo par ao HashMap e remove exercicios "sozinhos".</p>
+     * <p>
+     * eg.<br> <code>&nbsp;ex1 = ex2; ex2 = ex1; <br>&nbsp;ex3 = ex4; ex4 = ex3;
+     * </code></p>
+     * <p>
+     * Se o valor de algum mudar. ie. <code> ex3 = ex2;</code> <br> Então as
+     * keys não utilizadas (ex1=ex2 e ex4=ex3) são removidas do HashMap.</p>
+     *
+     * @param ex1
+     * @param ex2
+     */
+    private void adicionar_par(Exercicio ex1, Exercicio ex2) {
+        Exercicio _ex1 = superset.get(ex1);
+        Exercicio _ex2 = superset.get(ex2);
+
+        superset.put(ex1, ex2);
+        superset.put(ex2, ex1);
+
+        if (_ex1 != superset.get(ex1)) {
+            superset.remove(_ex1);
+            superset.remove(_ex2);
+        }
+    }
+
+    private void remover_par(Exercicio ex1) {
+        Exercicio _ex2 = superset.get(ex1);
+        superset.remove(ex1, _ex2);
+        superset.remove(_ex2, ex1);
+    }
+
     private ExercicioWrapper getExercicioWrapper(int rowIndex) {
         return exercicios.get(rowIndex);
     }
 
-    public void addExercicioWrapper(ExercicioWrapper exercicioWrapper){
+    public void addExercicioWrapper(ExercicioWrapper exercicioWrapper) {
         insertExercicioWrapper(getRowCount(), exercicioWrapper);
     }
 
@@ -98,10 +140,10 @@ public class RotinaTableModel extends AbstractTableModel {
         exercicios.add(row, exercicioWrapper);
         fireTableRowsInserted(row, row);
     }
-    
-    public void removeExercicioWrapper(int row){
+
+    public void removeExercicioWrapper(int row) {
         exercicios.remove(row);
         fireTableRowsDeleted(row, row);
     }
-    
+
 }
