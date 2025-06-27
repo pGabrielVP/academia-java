@@ -146,4 +146,12 @@ public class RotinaTableModel extends AbstractTableModel {
         fireTableRowsDeleted(row, row);
     }
 
+    public ArrayList<ExercicioWrapper> getExercicios() {
+        return exercicios;
+    }
+
+    public HashMap<Exercicio, Exercicio> getSuperset() {
+        return superset;
+    }
+
 }
