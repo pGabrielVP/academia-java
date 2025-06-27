@@ -4,12 +4,12 @@
  */
 package com.mycompany.academia.rotina.paginas;
 
+import com.mycompany.academia.rotina.RotinaTablePanel;
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.entidades.MusculoAlvo;
-import com.mycompany.academia.rotina.RotinaEsquerda;
-import com.mycompany.academia.rotina.RotinaDireita;
+import com.mycompany.academia.rotina.RotinaMenuLateral;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -39,22 +39,22 @@ public class Biceps extends javax.swing.JPanel {
 //            "Rosca 21",
 //            "Chin-up"
 //    );
-    private final RotinaEsquerda parent;
-    private final RotinaDireita rotina_direita;
+    private final RotinaMenuLateral _parent;
+    private final RotinaTablePanel _rotina_table_panel;
 
     /**
      * Creates new form Imagens
      *
      * @param parent_window
-     * @param rotinaDireita
+     * @param rotina_table_panel
      */
-    public Biceps(RotinaEsquerda parent_window, RotinaDireita rotinaDireita) {
-        parent = parent_window;
-        rotina_direita = rotinaDireita;
+    public Biceps(RotinaMenuLateral parent_window, RotinaTablePanel rotina_table_panel) {
+        _parent = parent_window;
+        _rotina_table_panel = rotina_table_panel;
 
         initComponents();
         botaoVoltar.addActionListener((e) -> {
-            parent.showHomePage();
+            _parent.showHomePage();
             filtro_pesquisa.setText("");
             adicionarBotoes(lista_exercicios);
         });
@@ -144,7 +144,7 @@ public class Biceps extends javax.swing.JPanel {
         for (Exercicio exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio.getNomeExercicio());
             add_novo.addActionListener((e) -> {
-                rotina_direita.adicionar_exercicio(exercicio.getNomeExercicio());
+                _rotina_table_panel.adicionar_exercicio(exercicio);
             });
             jPanel1.add(add_novo);
             jPanel1.revalidate();

@@ -4,7 +4,7 @@
  */
 package com.mycompany.academia.rotina.paginas;
 
-import com.mycompany.academia.rotina.RotinaEsquerda;
+import com.mycompany.academia.rotina.RotinaMenuLateral;
 
 /**
  *
@@ -12,14 +12,14 @@ import com.mycompany.academia.rotina.RotinaEsquerda;
  */
 public class HomePage extends javax.swing.JPanel {
 
-    private final RotinaEsquerda parent;
+    private final RotinaMenuLateral parent;
 
     /**
      * Creates new form HomePage
      *
      * @param parent_window
      */
-    public HomePage(RotinaEsquerda parent_window) {
+    public HomePage(RotinaMenuLateral parent_window) {
         parent = parent_window;
 
         initComponents();
