@@ -116,7 +116,7 @@ public class Exercicio implements Serializable {
 
     @Override
     public String toString() {
-        return idExercicio.toString();
+        return nomeExercicio;
     }
     
 }
