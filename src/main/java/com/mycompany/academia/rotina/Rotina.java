@@ -10,8 +10,8 @@ package com.mycompany.academia.rotina;
  */
 public class Rotina extends javax.swing.JInternalFrame {
 
-    private final RotinaDireita rotinaDireita = new RotinaDireita();
-    private final RotinaEsquerda menu_lateral = new RotinaEsquerda(rotinaDireita);
+    private final RotinaTablePanel rotina_table_panel = new RotinaTablePanel();
+    private final RotinaMenuLateral menu_lateral = new RotinaMenuLateral(rotina_table_panel);
 
     /**
      * Creates new form Rotina2
@@ -19,7 +19,7 @@ public class Rotina extends javax.swing.JInternalFrame {
     public Rotina() {
         initComponents();
         jSplitPane2.setLeftComponent(menu_lateral);
-        jSplitPane2.setRightComponent(rotinaDireita);
+        jSplitPane2.setRightComponent(rotina_table_panel);
     }
 
     /**
@@ -38,7 +38,7 @@ public class Rotina extends javax.swing.JInternalFrame {
         setResizable(true);
         setPreferredSize(new java.awt.Dimension(1024, 500));
 
-        jSplitPane2.setDividerLocation(500);
+        jSplitPane2.setDividerLocation(400);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
