@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  *
  * @author paulo
  */
-public class RotinaEsquerda extends JPanel {
+public class RotinaMenuLateral extends JPanel {
 
     // paginas do aplicativo
     public final String HOMEPAGE = "home_page";
@@ -38,24 +38,24 @@ public class RotinaEsquerda extends JPanel {
     // layout
     private final CardLayout cLayout;
 
-    private final RotinaDireita rotina_direita;
+    private final RotinaTablePanel _rotina_table_panel;
 
-    public RotinaEsquerda(RotinaDireita rotinaDireita) {
-        rotina_direita = rotinaDireita;
+    public RotinaMenuLateral(RotinaTablePanel rotina_table_panel) {
+        _rotina_table_panel = rotina_table_panel;
 
         cLayout = new CardLayout();
         setLayout(cLayout);
         setPreferredSize(new Dimension(370, 551));
         add(HOMEPAGE, new HomePage(this));
-        add(BICEPS, new Biceps(this, rotina_direita));
-        add(TRICEPS, new Triceps(this, rotina_direita));
-        add(ANTEBRACO, new Antebraco(this, rotina_direita));
-        add(OMBRO, new Ombro(this, rotina_direita));
-        add(PEITO, new Peito(this, rotina_direita));
-        add(BARRIGA, new Abdomen(this, rotina_direita));
-        add(COSTA, new Costa(this, rotina_direita));
-        add(PERNA, new Perna(this, rotina_direita));
-        add(CARDIO, new Cardio(this, rotina_direita));
+        add(BICEPS, new Biceps(this, _rotina_table_panel));
+        add(TRICEPS, new Triceps(this, _rotina_table_panel));
+        add(ANTEBRACO, new Antebraco(this, _rotina_table_panel));
+        add(OMBRO, new Ombro(this, _rotina_table_panel));
+        add(PEITO, new Peito(this, _rotina_table_panel));
+        add(BARRIGA, new Abdomen(this, _rotina_table_panel));
+        add(COSTA, new Costa(this, _rotina_table_panel));
+        add(PERNA, new Perna(this, _rotina_table_panel));
+        add(CARDIO, new Cardio(this, _rotina_table_panel));
     }
 
     public void showHomePage() {
