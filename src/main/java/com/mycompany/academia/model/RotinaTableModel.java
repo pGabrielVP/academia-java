@@ -142,8 +142,10 @@ public class RotinaTableModel extends AbstractTableModel {
     }
 
     public void removeExercicioWrapper(int row) {
+        Exercicio row_exercicio = (Exercicio) getValueAt(row, 0);
+        remover_par(row_exercicio);
         exercicios.remove(row);
-        fireTableRowsDeleted(row, row);
+        fireTableDataChanged();
     }
 
     public ArrayList<ExercicioWrapper> getExercicios() {
