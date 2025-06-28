@@ -4,8 +4,6 @@
  */
 package com.mycompany.academia.relatorio;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,45 +24,52 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Relatorio {
 
-    public static void imprimirRelatorio(Collection<Sublista> lista) throws JRException, FileNotFoundException, IOException {
+    private static final String REPORT_PRINCIPAL = "/relatorios/Report_Principal.jasper";
+    private static final String REPORT_SUPERSET = "/relatorios/Listar_Superset.jasper";
+    private static final String REPORT_EXERCICIOS = "/relatorios/Listar_Exercicios.jasper";
+
+    public static void imprimirRelatorio(Collection<Sublista> lista) throws JRException {
+        JasperPrint jasperPrint = get_filled_report(lista);
+        view_report(jasperPrint);
+    }
+
+    public static void imprimirRelatorio(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) throws JRException {
+        Collection<Sublista> lista = get_dataset(titulos, exercicios, superset);
+        JasperPrint jasperPrint = get_filled_report(lista);
+        view_report(jasperPrint);
+    }
+
+    private static JasperPrint get_filled_report(Collection<Sublista> lista) throws JRException {
         JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
-        InputStream report_principal_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Report_Principal.jasper");
-        InputStream listar_superset_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Superset.jasper");
-        InputStream listar_exercicios_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Exercicios.jasper");
+        JasperReport principal_jasper = get_report_object(REPORT_PRINCIPAL);
+        HashMap<String, Object> parametros = set_parametros();
+        JasperPrint jasperPrint = JasperFillManager.fillReport(principal_jasper, parametros, datasource);
+        return jasperPrint;
+    }
 
-        JasperReport subreportSuperset = (JasperReport) JRLoader.loadObject(listar_superset_input_stream);
-        JasperReport subreportExercicios = (JasperReport) JRLoader.loadObject(listar_exercicios_input_stream);
+    private static HashMap<String, Object> set_parametros() throws JRException {
+        HashMap<String, Object> parametros = new HashMap();
+        JasperReport superset_jasper = get_report_object(REPORT_SUPERSET);
+        JasperReport exercicios_jasper = get_report_object(REPORT_EXERCICIOS);
+        parametros.put("subreportSuperset", superset_jasper);
+        parametros.put("subreportExercicios", exercicios_jasper);
+        return parametros;
+    }
 
-        Map parametros = new HashMap<String, Object>();
-        parametros.put("subreportSuperset", subreportSuperset);
-        parametros.put("subreportExercicios", subreportExercicios);
+    private static JasperReport get_report_object(String report_location) throws JRException {
+        InputStream report_input_stream = Relatorio.class.getResourceAsStream(report_location);
+        JasperReport report_object = (JasperReport) JRLoader.loadObject(report_input_stream);
+        return report_object;
+    }
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report_principal_input_stream, parametros, datasource);
-//        JasperExportManager.exportReportToPdf(jasperPrint);
+    private static void view_report(JasperPrint jasperPrint) {
         JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
         jasperViewer.setTitle("ROTINA");
         jasperViewer.setVisible(true);
     }
 
-    public static void imprimirRelatorio(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) throws JRException, FileNotFoundException, IOException {
-        Collection<Sublista> lista = get_dataset(titulos, exercicios, superset);
-        JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
-        InputStream report_principal_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Report_Principal.jasper");
-        InputStream listar_superset_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Superset.jasper");
-        InputStream listar_exercicios_input_stream = Relatorio.class.getResourceAsStream("/relatorios/Listar_Exercicios.jasper");
-
-        JasperReport subreportSuperset = (JasperReport) JRLoader.loadObject(listar_superset_input_stream);
-        JasperReport subreportExercicios = (JasperReport) JRLoader.loadObject(listar_exercicios_input_stream);
-
-        Map parametros = new HashMap<String, Object>();
-        parametros.put("subreportSuperset", subreportSuperset);
-        parametros.put("subreportExercicios", subreportExercicios);
-
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report_principal_input_stream, parametros, datasource);
-//        JasperExportManager.exportReportToPdf(jasperPrint);
-        JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
-        jasperViewer.setTitle("ROTINA");
-        jasperViewer.setVisible(true);
+    private static void export_to_pdf(JasperPrint jasperPrint) throws JRException {
+        JasperExportManager.exportReportToPdf(jasperPrint);
     }
 
     private static Collection<Sublista> get_dataset(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
