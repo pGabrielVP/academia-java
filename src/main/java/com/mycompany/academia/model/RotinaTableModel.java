@@ -156,4 +156,29 @@ public class RotinaTableModel extends AbstractTableModel {
         return superset;
     }
 
+    public HashMap<ExercicioWrapper, ExercicioWrapper> getSuperset_as_exercicio_wrapper() {
+        HashMap<ExercicioWrapper, ExercicioWrapper> map_exercicios_wrapper_superset = new HashMap<>();
+        ArrayList<ExercicioWrapper> _exercicios = getExercicios();
+        HashMap<Exercicio, Exercicio> _superset = getSuperset();
+        for (ExercicioWrapper exwpr : _exercicios) {
+            Exercicio ex = exwpr.getExercicio();
+            if (_superset.containsKey(ex)) {
+                Exercicio value = _superset.get(ex);
+                map_exercicios_wrapper_superset.put(exwpr, get_value(_exercicios, value));
+            }
+        }
+        return map_exercicios_wrapper_superset;
+    }
+
+    private ExercicioWrapper get_value(ArrayList<ExercicioWrapper> lista_exercicios, Exercicio ex) {
+        ExercicioWrapper exwpr = new ExercicioWrapper();
+        for (ExercicioWrapper _exwpr : lista_exercicios) {
+            Exercicio _ex = _exwpr.getExercicio();
+            if (_ex.equals(ex)) {
+                return _exwpr;
+            }
+        }
+        return exwpr;
+    }
+
 }
