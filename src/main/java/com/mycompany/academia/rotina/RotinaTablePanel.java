@@ -135,7 +135,7 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset = get_superset();
         try {
             Relatorio.imprimirRelatorio(titulos, exercicios, superset);
-        } catch (JRException | IOException ex) {
+        } catch (JRException ex) {
             Logger.getLogger(RotinaTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_imprimirMouseClicked
