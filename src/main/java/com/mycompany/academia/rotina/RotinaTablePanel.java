@@ -8,7 +8,6 @@ import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.model.RotinaTableModel;
 import com.mycompany.academia.relatorio.ExercicioWrapper;
 import com.mycompany.academia.relatorio.Relatorio;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -185,29 +184,6 @@ public class RotinaTablePanel extends javax.swing.JPanel {
 
     }
 
-    private HashMap<ExercicioWrapper, ExercicioWrapper> get_as_exercicio_wrapper(ArrayList<ExercicioWrapper> lista_exercicios, HashMap<Exercicio, Exercicio> map_exercicios_superset) {
-        HashMap<ExercicioWrapper, ExercicioWrapper> map_exercicios_wrapper_superset = new HashMap<>();
-        for (ExercicioWrapper exwpr : lista_exercicios) {
-            Exercicio ex = exwpr.getExercicio();
-            if (map_exercicios_superset.containsKey(ex)) {
-                Exercicio value = map_exercicios_superset.get(ex);
-                map_exercicios_wrapper_superset.put(exwpr, get_value(lista_exercicios, value));
-            }
-        }
-        return map_exercicios_wrapper_superset;
-    }
-
-    private ExercicioWrapper get_value(ArrayList<ExercicioWrapper> lista_exercicios, Exercicio ex) {
-        ExercicioWrapper exwpr = new ExercicioWrapper();
-        for (ExercicioWrapper _exwpr : lista_exercicios) {
-            Exercicio _ex = _exwpr.getExercicio();
-            if (_ex.equals(ex)) {
-                return _exwpr;
-            }
-        }
-        return exwpr;
-    }
-
     private ArrayList<String> get_titulos() {
         ArrayList<String> titles = new ArrayList<>();
         for (int i = 0; i < janelas.getTabCount(); i++) {
@@ -233,10 +209,8 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         for (int i = 0; i < janelas.getTabCount(); i++) {
             JTable table = (JTable) ((JScrollPane) janelas.getComponentAt(i)).getViewport().getView();
             RotinaTableModel table_model = (RotinaTableModel) table.getModel();
-            HashMap<Exercicio, Exercicio> _superset = table_model.getSuperset();
-            ArrayList<ExercicioWrapper> _exercicios = table_model.getExercicios();
-
-            superset.add(get_as_exercicio_wrapper(_exercicios, _superset));
+            HashMap<ExercicioWrapper, ExercicioWrapper> superset_as_exercicio_wrapper = table_model.getSuperset_as_exercicio_wrapper();
+            superset.add(superset_as_exercicio_wrapper);
         }
         return superset;
     }
