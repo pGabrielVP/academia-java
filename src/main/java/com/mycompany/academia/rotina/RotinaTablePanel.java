@@ -209,7 +209,7 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         for (int i = 0; i < janelas.getTabCount(); i++) {
             JTable table = (JTable) ((JScrollPane) janelas.getComponentAt(i)).getViewport().getView();
             RotinaTableModel table_model = (RotinaTableModel) table.getModel();
-            HashMap<ExercicioWrapper, ExercicioWrapper> superset_as_exercicio_wrapper = table_model.getSuperset_as_exercicio_wrapper();
+            HashMap<ExercicioWrapper, ExercicioWrapper> superset_as_exercicio_wrapper = table_model.getSuperset();
             superset.add(superset_as_exercicio_wrapper);
         }
         return superset;

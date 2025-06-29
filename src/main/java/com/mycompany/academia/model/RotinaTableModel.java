@@ -8,6 +8,7 @@ import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.relatorio.ExercicioWrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -152,33 +153,29 @@ public class RotinaTableModel extends AbstractTableModel {
         return exercicios;
     }
 
-    public HashMap<Exercicio, Exercicio> getSuperset() {
-        return superset;
-    }
+    public HashMap<ExercicioWrapper, ExercicioWrapper> getSuperset() {
+        HashMap<ExercicioWrapper, ExercicioWrapper> _superset = new HashMap<>();
+        for (Map.Entry<Exercicio, Exercicio> set : superset.entrySet()) {
+            Exercicio key = set.getKey();
+            Exercicio value = set.getValue();
+            ExercicioWrapper new_key = null;
+            ExercicioWrapper new_value = null;
 
-    public HashMap<ExercicioWrapper, ExercicioWrapper> getSuperset_as_exercicio_wrapper() {
-        HashMap<ExercicioWrapper, ExercicioWrapper> map_exercicios_wrapper_superset = new HashMap<>();
-        ArrayList<ExercicioWrapper> _exercicios = getExercicios();
-        HashMap<Exercicio, Exercicio> _superset = getSuperset();
-        for (ExercicioWrapper exwpr : _exercicios) {
-            Exercicio ex = exwpr.getExercicio();
-            if (_superset.containsKey(ex)) {
-                Exercicio value = _superset.get(ex);
-                map_exercicios_wrapper_superset.put(exwpr, get_value(_exercicios, value));
+            for (ExercicioWrapper exwpr : exercicios) {
+                Exercicio cur_ex = exwpr.getExercicio();
+                if (cur_ex.equals(key)) {
+                    new_key = exwpr;
+                }
+                if (cur_ex.equals(value)) {
+                    new_value = exwpr;
+                }
+                if (new_key != null && new_value != null) {
+                    break;
+                }
             }
+            _superset.put(new_key, new_value);
         }
-        return map_exercicios_wrapper_superset;
-    }
-
-    private ExercicioWrapper get_value(ArrayList<ExercicioWrapper> lista_exercicios, Exercicio ex) {
-        ExercicioWrapper exwpr = new ExercicioWrapper();
-        for (ExercicioWrapper _exwpr : lista_exercicios) {
-            Exercicio _ex = _exwpr.getExercicio();
-            if (_ex.equals(ex)) {
-                return _exwpr;
-            }
-        }
-        return exwpr;
+        return _superset;
     }
 
 }
