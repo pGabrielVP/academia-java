@@ -15,16 +15,16 @@ public class ExercicioWrapper {
     private Exercicio exercicio;
     private int reps;
     private int sets;
-    private int descanco;
+    private int descanso;
 
     public ExercicioWrapper() {
     }
 
-    public ExercicioWrapper(Exercicio exercicio, int reps, int sets, int descanco) {
+    public ExercicioWrapper(Exercicio exercicio, int reps, int sets, int descanso) {
         this.exercicio = exercicio;
         this.reps = reps;
         this.sets = sets;
-        this.descanco = descanco;
+        this.descanso = descanso;
     }
 
     public Exercicio getExercicio() {
@@ -51,12 +51,12 @@ public class ExercicioWrapper {
         this.sets = sets;
     }
 
-    public int getDescanco() {
-        return descanco;
+    public int getDescanso() {
+        return descanso;
     }
 
-    public void setDescanco(int descanco) {
-        this.descanco = descanco;
+    public void setDescanso(int descanso) {
+        this.descanso = descanso;
     }
 
 }

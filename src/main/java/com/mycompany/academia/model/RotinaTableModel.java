@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RotinaTableModel extends AbstractTableModel {
 
-    private final String[] nome_colunas = {"Exercicio", "Reps", "Sets", "Descanço", "Superset"};
+    private final String[] nome_colunas = {"Exercicio", "Reps", "Sets", "Descanso", "Superset"};
     private final ArrayList<ExercicioWrapper> exercicios;
     private final HashMap<Exercicio, Exercicio> superset;
 
@@ -44,7 +44,7 @@ public class RotinaTableModel extends AbstractTableModel {
             case 0: return exercicio_wrapper.getExercicio();
             case 1: return exercicio_wrapper.getReps();
             case 2: return exercicio_wrapper.getSets();
-            case 3: return exercicio_wrapper.getDescanco();
+            case 3: return exercicio_wrapper.getDescanso();
             case 4: return superset.get(exercicio_wrapper.getExercicio());
             default: return null;
         }
@@ -58,7 +58,7 @@ public class RotinaTableModel extends AbstractTableModel {
             case 0: exercicioWrapper.setExercicio((Exercicio) aValue); break;
             case 1: exercicioWrapper.setReps((int) aValue); break;
             case 2: exercicioWrapper.setSets((int) aValue); break;
-            case 3: exercicioWrapper.setDescanco((int) aValue); break;
+            case 3: exercicioWrapper.setDescanso((int) aValue); break;
             case 4: atualizar_supersets(exercicioWrapper.getExercicio(), (Exercicio) aValue); break;
         }
 

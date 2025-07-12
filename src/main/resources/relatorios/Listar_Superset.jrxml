@@ -16,8 +16,8 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="descanco" class="java.lang.Integer">
-		<fieldDescription><![CDATA[descanco]]></fieldDescription>
+	<field name="descanso" class="java.lang.Integer">
+		<fieldDescription><![CDATA[descanso]]></fieldDescription>
 	</field>
 	<field name="reps" class="java.lang.Integer">
 		<fieldDescription><![CDATA[reps]]></fieldDescription>
@@ -44,16 +44,18 @@
 		<initialValueExpression><![CDATA[new String("Branco")]]></initialValueExpression>
 	</variable>
 	<detail>
-		<band height="60" splitType="Stretch">
+		<band height="138" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<rectangle>
-				<reportElement key="" style="Cor_Fundo" mode="Opaque" x="0" y="0" width="545" height="60" uuid="be118355-0b08-4887-a3ed-7a3097136fee"/>
+				<reportElement key="" style="Cor_Fundo" mode="Opaque" x="0" y="0" width="545" height="138" uuid="be118355-0b08-4887-a3ed-7a3097136fee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<graphicElement>
 					<pen lineWidth="0.0" lineStyle="Solid"/>
 				</graphicElement>
 			</rectangle>
 			<textField>
-				<reportElement x="240" y="15" width="100" height="30" uuid="5b5e3ecc-6c13-4aef-9e8c-abb73a71f973">
+				<reportElement x="300" y="54" width="70" height="30" uuid="5b5e3ecc-6c13-4aef-9e8c-abb73a71f973">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -63,7 +65,7 @@
 				<textFieldExpression><![CDATA["Sets: " + $F{sets} + "x" +$F{reps}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="350" y="15" width="194" height="30" uuid="0ee19480-ad26-44ef-83cb-778e1c3617fb">
+				<reportElement x="375" y="54" width="170" height="30" uuid="0ee19480-ad26-44ef-83cb-778e1c3617fb">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<printWhenExpression><![CDATA[ISEVEN($V{REPORT_COUNT})]]></printWhenExpression>
@@ -71,10 +73,10 @@
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Descanço: " + $F{descanco} + " Segundos"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Descanso: " + $F{descanso} + " Segundos"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="15" width="160" height="30" uuid="8e82792b-678b-4509-ade8-f47589f1c7ee">
+				<reportElement x="138" y="54" width="160" height="30" uuid="8e82792b-678b-4509-ade8-f47589f1c7ee">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
@@ -83,8 +85,10 @@
 				<textFieldExpression><![CDATA[$F{nomeExercicio}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="5" width="50" height="50" uuid="5f67246e-8587-4e13-af1e-6006d053eb39">
+				<reportElement x="0" y="5" width="128" height="128" uuid="5f67246e-8587-4e13-af1e-6006d053eb39">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<imageExpression><![CDATA[$F{imagemExercicio}]]></imageExpression>
 			</image>
