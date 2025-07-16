@@ -6,8 +6,15 @@ package com.mycompany.academia.lista;
 
 import com.mycompany.academia.model.MusculoAlvoModel;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
+import com.mycompany.academia.controle.exceptions.IllegalOrphanException;
+import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
+import com.mycompany.academia.edita.MusculoAlvoEdita;
+import com.mycompany.academia.entidades.MusculoAlvo;
+import java.awt.Dimension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Persistence;
-import javax.swing.JOptionPane;
+import javax.swing.JDialog;
 
 /**
  *
@@ -25,19 +32,6 @@ public class MusculoAlvoLista extends javax.swing.JInternalFrame {
         controller = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
         model = new MusculoAlvoModel(controller.findMusculoAlvoEntities());
         initComponents();
-
-        adicionar_novo_musculo_alvo.addActionListener((e) -> {
-            JOptionPane.showMessageDialog(this, "Ação não permitida!");
-        });
-
-        deletar_musculo_alvo.addActionListener((e) -> {
-            JOptionPane.showMessageDialog(this, "Ação não permitida!");
-        });
-
-        editar_musuculo_alvo.addActionListener((e) -> {
-            JOptionPane.showMessageDialog(this, "Ação não permitida!");
-        });
-
     }
 
     /**
@@ -64,10 +58,25 @@ public class MusculoAlvoLista extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tabela_lista_musculo_alvo);
 
         adicionar_novo_musculo_alvo.setText("Criar");
+        adicionar_novo_musculo_alvo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionar_novo_musculo_alvoActionPerformed(evt);
+            }
+        });
 
         deletar_musculo_alvo.setText("Deletar");
+        deletar_musculo_alvo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletar_musculo_alvoActionPerformed(evt);
+            }
+        });
 
         editar_musuculo_alvo.setText("Editar");
+        editar_musuculo_alvo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editar_musuculo_alvoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,6 +110,39 @@ public class MusculoAlvoLista extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void adicionar_novo_musculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionar_novo_musculo_alvoActionPerformed
+        JDialog dialog = new JDialog();
+        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(new MusculoAlvo(), dialog, model);
+        dialog.add(formulario_edita);
+        dialog.setSize(new Dimension(380, 320));
+
+        dialog.setVisible(true);
+    }//GEN-LAST:event_adicionar_novo_musculo_alvoActionPerformed
+
+    private void deletar_musculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletar_musculo_alvoActionPerformed
+        int linha_selecionada = tabela_lista_musculo_alvo.getSelectedRow();
+        Integer id_entidade = Integer.valueOf(tabela_lista_musculo_alvo.getValueAt(linha_selecionada, 0).toString());
+
+        try {
+            controller.destroy(id_entidade);
+            model.deletar(linha_selecionada);
+        } catch (IllegalOrphanException | NonexistentEntityException ex) {
+            Logger.getLogger(MusculoAlvoLista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_deletar_musculo_alvoActionPerformed
+
+    private void editar_musuculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar_musuculo_alvoActionPerformed
+        JDialog dialog = new JDialog();
+        int linha_selecionada = tabela_lista_musculo_alvo.getSelectedRow();
+        Integer id_entidade = Integer.valueOf(tabela_lista_musculo_alvo.getValueAt(linha_selecionada, 0).toString());
+        MusculoAlvo musculoAlvo = controller.findMusculoAlvo(id_entidade);
+        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(musculoAlvo, dialog, model);
+
+        dialog.add(formulario_edita);
+        dialog.setSize(new Dimension(350, 280));
+        dialog.setVisible(true);
+    }//GEN-LAST:event_editar_musuculo_alvoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

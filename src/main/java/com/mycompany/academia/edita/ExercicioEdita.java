@@ -59,10 +59,10 @@ public class ExercicioEdita extends javax.swing.JPanel {
         musculo_alvo.setRenderer(new MusculoAlvoRenderer());
         musculo_alvo.setSelectedItem(exercicio.getMusculoAlvo());
 
-        if (exercicio.getImagem() != null){
+        if (exercicio.getImagem() != null) {
             nome_arquivo.setText("Imagem já selecionada");
         }
-        
+
         selecionar_imagem.addActionListener((e) -> {
             JFileChooser fc = new JFileChooser();
             fc.setFileFilter(new FileNameExtensionFilter("Permite somente imagens", "png"));
