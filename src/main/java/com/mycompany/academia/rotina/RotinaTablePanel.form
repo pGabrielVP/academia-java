@@ -25,11 +25,12 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="janelas" pref="681" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="remover_exercicio" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="nova_aba" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="remover_aba" alignment="1" min="-2" max="-2" attributes="0"/>
                   <Component id="imprimir" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="resetar_formulario" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -39,7 +40,9 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="janelas" alignment="0" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+              <Component id="resetar_formulario" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="nova_aba" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="remover_exercicio" min="-2" max="-2" attributes="0"/>
@@ -87,6 +90,25 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="remover_exercicioActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="resetar_formulario">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="cc" type="rgb"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Resetar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Reseta o formulario"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Cursor Padr&#xe3;o"/>
+        </Property>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetar_formularioActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

@@ -49,6 +49,7 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         remover_aba = new javax.swing.JButton();
         imprimir = new javax.swing.JButton();
         remover_exercicio = new javax.swing.JButton();
+        resetar_formulario = new javax.swing.JButton();
 
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(819, 551));
@@ -81,6 +82,18 @@ public class RotinaTablePanel extends javax.swing.JPanel {
             }
         });
 
+        resetar_formulario.setBackground(new java.awt.Color(204, 0, 0));
+        resetar_formulario.setForeground(new java.awt.Color(255, 255, 255));
+        resetar_formulario.setText("Resetar");
+        resetar_formulario.setToolTipText("Reseta o formulario");
+        resetar_formulario.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        resetar_formulario.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        resetar_formulario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetar_formularioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,18 +101,21 @@ public class RotinaTablePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(janelas, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(remover_exercicio, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(nova_aba, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(remover_aba, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(imprimir, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(remover_exercicio)
+                    .addComponent(nova_aba)
+                    .addComponent(remover_aba)
+                    .addComponent(imprimir)
+                    .addComponent(resetar_formulario))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(janelas)
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
+                .addGap(39, 39, 39)
+                .addComponent(resetar_formulario)
+                .addGap(18, 18, 18)
                 .addComponent(nova_aba)
                 .addGap(18, 18, 18)
                 .addComponent(remover_exercicio)
@@ -116,6 +132,9 @@ public class RotinaTablePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_nova_abaMouseClicked
 
     private void remover_abaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remover_abaActionPerformed
+        if (janelas.getTabCount() == 1) {
+            return;
+        }
         int selected_tab = janelas.getSelectedIndex();
         janelas.remove(selected_tab);
     }//GEN-LAST:event_remover_abaActionPerformed
@@ -124,6 +143,9 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         JTable table = (JTable) ((JScrollPane) janelas.getSelectedComponent()).getViewport().getView();
         RotinaTableModel table_model = (RotinaTableModel) table.getModel();
         int selected_row = table.getSelectedRow();
+        if (selected_row < 0) {
+            return;
+        }
         table_model.removeExercicioWrapper(selected_row);
         atualizar_comboBox(table);
     }//GEN-LAST:event_remover_exercicioActionPerformed
@@ -139,6 +161,12 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_imprimirMouseClicked
 
+    private void resetar_formularioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetar_formularioActionPerformed
+        janelas.removeAll();
+        total_abas_adicionadas = 0;
+        adicionar_aba();
+    }//GEN-LAST:event_resetar_formularioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton imprimir;
@@ -146,6 +174,7 @@ public class RotinaTablePanel extends javax.swing.JPanel {
     private javax.swing.JButton nova_aba;
     private javax.swing.JButton remover_aba;
     private javax.swing.JButton remover_exercicio;
+    private javax.swing.JButton resetar_formulario;
     // End of variables declaration//GEN-END:variables
 
     private void adicionar_aba() {
