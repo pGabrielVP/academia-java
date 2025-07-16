@@ -52,4 +52,20 @@ public class MusculoAlvoModel extends AbstractTableModel {
     public Class getColumnClass(int c) {
         return getValueAt(0, c).getClass();
     }
+
+    public void deletar(int linha_selecionada) {
+        lista_musculo_alvo.remove(linha_selecionada);
+        this.fireTableDataChanged();
+    }
+
+    public void adicionarNovo(MusculoAlvo e) {
+        lista_musculo_alvo.add(e);
+        this.fireTableDataChanged();
+    }
+
+    public void atualizar(MusculoAlvo e) {
+        int linha = lista_musculo_alvo.indexOf(e);
+        lista_musculo_alvo.set(linha, e);
+        this.fireTableDataChanged();
+    }
 }

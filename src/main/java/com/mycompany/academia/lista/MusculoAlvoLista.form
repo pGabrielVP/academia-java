@@ -80,16 +80,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Criar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="adicionar_novo_musculo_alvoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="deletar_musculo_alvo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Deletar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deletar_musculo_alvoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="editar_musuculo_alvo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Editar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editar_musuculo_alvoActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
