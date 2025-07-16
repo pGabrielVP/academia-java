@@ -164,15 +164,4 @@ public class ExercicioJpaController implements Serializable {
         }
     }
 
-    public List<Exercicio> find_exercicios_where_musculo(MusculoAlvo musculo_alvo) {
-        Query q = getEntityManager().createNamedQuery("Exercicio.findByMusculoAlvo");
-        q.setParameter("musculoAlvo", musculo_alvo);
-        return q.getResultList();
-    }
-
-    public Exercicio find_exercicios_where_nome_exercicio(String nome_exercicio) {
-        Query q = getEntityManager().createNamedQuery("Exercicio.findByNomeExercicio");
-        q.setParameter("nomeExercicio", nome_exercicio);
-        return (Exercicio) q.getResultList().get(0);
-    }
 }
