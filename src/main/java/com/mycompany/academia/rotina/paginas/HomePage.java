@@ -4,7 +4,12 @@
  */
 package com.mycompany.academia.rotina.paginas;
 
+import com.mycompany.academia.controle.MusculoAlvoJpaController;
+import com.mycompany.academia.entidades.MusculoAlvo;
 import com.mycompany.academia.rotina.RotinaMenuLateral;
+import java.util.List;
+import javax.persistence.Persistence;
+import javax.swing.JButton;
 
 /**
  *
@@ -12,7 +17,8 @@ import com.mycompany.academia.rotina.RotinaMenuLateral;
  */
 public class HomePage extends javax.swing.JPanel {
 
-    private final RotinaMenuLateral parent;
+    private final MusculoAlvoJpaController alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+    private List<MusculoAlvo> lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities();
 
     /**
      * Creates new form HomePage
@@ -20,36 +26,8 @@ public class HomePage extends javax.swing.JPanel {
      * @param parent_window
      */
     public HomePage(RotinaMenuLateral parent_window) {
-        parent = parent_window;
-
         initComponents();
-        bicepsBotao.addActionListener((e) -> {
-            parent.showBiceps();
-        });
-        tricepsBotao.addActionListener((e) -> {
-            parent.showTriceps();
-        });
-        antebracoBotao.addActionListener((e) -> {
-            parent.showAntebraco();
-        });
-        ombroBotao.addActionListener((e) -> {
-            parent.showOmbro();
-        });
-        peitoBotao.addActionListener((e) -> {
-            parent.showPeito();
-        });
-        abdomenBotao.addActionListener((e) -> {
-            parent.showAbdomen();
-        });
-        costaBotao.addActionListener((e) -> {
-            parent.showCosta();
-        });
-        pernaBotao.addActionListener((e) -> {
-            parent.showPerna();
-        });
-        cardioBotao.addActionListener((e) -> {
-            parent.showCardio();
-        });
+        adicionarBotoes(parent_window);
     }
 
     /**
@@ -63,47 +41,10 @@ public class HomePage extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        bicepsBotao = new javax.swing.JButton();
-        tricepsBotao = new javax.swing.JButton();
-        antebracoBotao = new javax.swing.JButton();
-        ombroBotao = new javax.swing.JButton();
-        peitoBotao = new javax.swing.JButton();
-        abdomenBotao = new javax.swing.JButton();
-        costaBotao = new javax.swing.JButton();
-        pernaBotao = new javax.swing.JButton();
-        cardioBotao = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(370, 551));
 
-        jPanel1.setLayout(new java.awt.GridLayout(3, 3));
-
-        bicepsBotao.setText("biceps");
-        jPanel1.add(bicepsBotao);
-
-        tricepsBotao.setText("triceps");
-        jPanel1.add(tricepsBotao);
-
-        antebracoBotao.setText("antebraco");
-        jPanel1.add(antebracoBotao);
-
-        ombroBotao.setText("ombro");
-        jPanel1.add(ombroBotao);
-
-        peitoBotao.setText("peito");
-        jPanel1.add(peitoBotao);
-
-        abdomenBotao.setText("abdomen");
-        jPanel1.add(abdomenBotao);
-
-        costaBotao.setText("costa");
-        jPanel1.add(costaBotao);
-
-        pernaBotao.setText("perna");
-        jPanel1.add(pernaBotao);
-
-        cardioBotao.setText("cardio");
-        jPanel1.add(cardioBotao);
-
+        jPanel1.setLayout(new java.awt.GridLayout(0, 3));
         jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -120,16 +61,22 @@ public class HomePage extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton abdomenBotao;
-    private javax.swing.JButton antebracoBotao;
-    private javax.swing.JButton bicepsBotao;
-    private javax.swing.JButton cardioBotao;
-    private javax.swing.JButton costaBotao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton ombroBotao;
-    private javax.swing.JButton peitoBotao;
-    private javax.swing.JButton pernaBotao;
-    private javax.swing.JButton tricepsBotao;
     // End of variables declaration//GEN-END:variables
+
+    public void sincronizarLista() {
+        lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities();
+    }
+
+    private void adicionarBotoes(RotinaMenuLateral parent_window) {
+        lista_musculo_alvo.forEach((musculo_alvo) -> {
+            JButton botao = new JButton(musculo_alvo.getNomeAlvo());
+            botao.addActionListener((e) -> {
+                parent_window.showListarExercicios(musculo_alvo.getExercicioList());
+            });
+            jPanel1.add(botao);
+        });
+    }
+
 }
