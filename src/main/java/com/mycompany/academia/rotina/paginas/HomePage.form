@@ -39,55 +39,8 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
             <Property name="columns" type="int" value="3"/>
-            <Property name="rows" type="int" value="3"/>
+            <Property name="rows" type="int" value="0"/>
           </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JButton" name="bicepsBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="biceps"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="tricepsBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="triceps"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="antebracoBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="antebraco"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="ombroBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="ombro"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="peitoBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="peito"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="abdomenBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="abdomen"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="costaBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="costa"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="pernaBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="perna"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="cardioBotao">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="cardio"/>
-              </Properties>
-            </Component>
-          </SubComponents>
         </Container>
       </SubComponents>
     </Container>

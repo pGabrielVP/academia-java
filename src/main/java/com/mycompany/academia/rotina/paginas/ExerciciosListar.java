@@ -5,42 +5,21 @@
 package com.mycompany.academia.rotina.paginas;
 
 import com.mycompany.academia.rotina.RotinaTablePanel;
-import com.mycompany.academia.controle.ExercicioJpaController;
-import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.entidades.Exercicio;
-import com.mycompany.academia.entidades.MusculoAlvo;
 import com.mycompany.academia.rotina.RotinaMenuLateral;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Persistence;
 import javax.swing.JButton;
 
 /**
  *
  * @author paulo
  */
-public class Biceps extends javax.swing.JPanel {
+public class ExerciciosListar extends javax.swing.JPanel {
 
-    ExercicioJpaController exercicioJpaController = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    MusculoAlvoJpaController alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-
-    private final MusculoAlvo ma = alvoJpaController.findMusculoAlvo(1);
-    private final List<Exercicio> lista_exercicios = exercicioJpaController.find_exercicios_where_musculo(ma);
-
-//    private final List<String> exerciciosBiceps = Arrays.asList(
-//            "Rosca Direta",
-//            "Rosca Alternada",
-//            "Rosca Martelo",
-//            "Rosca Scott",
-//            "Rosca Concentrada",
-//            "Rosca Inversa",
-//            "Rosca 21",
-//            "Chin-up"
-//    );
-    private final RotinaMenuLateral _parent;
-    private final RotinaTablePanel _rotina_table_panel;
+    private final RotinaTablePanel rotina_table_panel_;
+    private final RotinaMenuLateral parent_window_;
+    private List<Exercicio> lista_exercicios;
 
     /**
      * Creates new form Imagens
@@ -48,33 +27,10 @@ public class Biceps extends javax.swing.JPanel {
      * @param parent_window
      * @param rotina_table_panel
      */
-    public Biceps(RotinaMenuLateral parent_window, RotinaTablePanel rotina_table_panel) {
-        _parent = parent_window;
-        _rotina_table_panel = rotina_table_panel;
-
+    public ExerciciosListar(RotinaMenuLateral parent_window, RotinaTablePanel rotina_table_panel) {
+        rotina_table_panel_ = rotina_table_panel;
+        parent_window_ = parent_window;
         initComponents();
-        botaoVoltar.addActionListener((e) -> {
-            _parent.showHomePage();
-            filtro_pesquisa.setText("");
-            adicionarBotoes(lista_exercicios);
-        });
-
-//        for (String exercicio : exerciciosBiceps) {
-//            JButton add_novo = new JButton(exercicio);
-//            add_novo.addActionListener((e) -> {
-//                int guia = rotina_direita.getPainel_lista().getSelectedIndex();
-//                rotina_direita.getModel_lista().get(guia).addElement(exercicio);
-//            });
-//            jPanel1.add(add_novo);
-//        }
-        adicionarBotoes(lista_exercicios);
-
-        filtro_pesquisa.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                filtrarLista(filtro_pesquisa.getText());
-            }
-        });
     }
 
     /**
@@ -95,8 +51,18 @@ public class Biceps extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(370, 551));
 
         filtro_pesquisa.setColumns(12);
+        filtro_pesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filtro_pesquisaKeyReleased(evt);
+            }
+        });
 
         botaoVoltar.setText("Voltar");
+        botaoVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoVoltarActionPerformed(evt);
+            }
+        });
 
         botaoPesquisar.setText("Pesquisar");
 
@@ -129,6 +95,15 @@ public class Biceps extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botaoVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVoltarActionPerformed
+        parent_window_.showHomePage();
+        filtro_pesquisa.setText("");
+    }//GEN-LAST:event_botaoVoltarActionPerformed
+
+    private void filtro_pesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_filtro_pesquisaKeyReleased
+        filtrarLista(filtro_pesquisa.getText());
+    }//GEN-LAST:event_filtro_pesquisaKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoPesquisar;
@@ -138,13 +113,18 @@ public class Biceps extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
+    public void setExercicios(List<Exercicio> exercicios) {
+        lista_exercicios = exercicios;
+        adicionarBotoes(exercicios);
+    }
+
     private void adicionarBotoes(List<Exercicio> exercicios) {
         jPanel1.removeAll();
 
         for (Exercicio exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio.getNomeExercicio());
             add_novo.addActionListener((e) -> {
-                _rotina_table_panel.adicionar_exercicio(exercicio);
+                rotina_table_panel_.adicionar_exercicio(exercicio);
             });
             jPanel1.add(add_novo);
             jPanel1.revalidate();
