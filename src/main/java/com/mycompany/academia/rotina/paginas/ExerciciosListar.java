@@ -7,8 +7,11 @@ package com.mycompany.academia.rotina.paginas;
 import com.mycompany.academia.rotina.RotinaTablePanel;
 import com.mycompany.academia.entidades.Exercicio;
 import com.mycompany.academia.rotina.RotinaMenuLateral;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Box;
 import javax.swing.JButton;
 
 /**
@@ -17,6 +20,7 @@ import javax.swing.JButton;
  */
 public class ExerciciosListar extends javax.swing.JPanel {
 
+    private final GridBagConstraints gridConstraints = new GridBagConstraints();
     private final RotinaTablePanel rotina_table_panel_;
     private final RotinaMenuLateral parent_window_;
     private List<Exercicio> lista_exercicios;
@@ -66,7 +70,7 @@ public class ExerciciosListar extends javax.swing.JPanel {
 
         botaoPesquisar.setText("Pesquisar");
 
-        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
         jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -120,16 +124,18 @@ public class ExerciciosListar extends javax.swing.JPanel {
 
     private void adicionarBotoes(List<Exercicio> exercicios) {
         jPanel1.removeAll();
-
+        setGridConstraint(0);
         for (Exercicio exercicio : exercicios) {
             JButton add_novo = new JButton(exercicio.getNomeExercicio());
+            add_novo.setPreferredSize(new Dimension(10, 100));
             add_novo.addActionListener((e) -> {
                 rotina_table_panel_.adicionar_exercicio(exercicio);
             });
-            jPanel1.add(add_novo);
-            jPanel1.revalidate();
-            jPanel1.repaint();
+            jPanel1.add(add_novo, gridConstraints);
         }
+        jPanel1.add(getFiller(exercicios), gridConstraints); // gridbag coloca os itens no centro da tela, esse filler fica no final da lista para puxar os itens para o topo do container
+        jPanel1.revalidate();
+        jPanel1.repaint();
     }
 
     private void filtrarLista(String filtro) {
@@ -144,6 +150,23 @@ public class ExerciciosListar extends javax.swing.JPanel {
         } else {
             adicionarBotoes(lista_exercicios);
         }
+    }
+
+    private void setGridConstraint(int weighty) {
+        gridConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.weighty = weighty;
+        gridConstraints.weightx = 1;
+        gridConstraints.gridx = 0;
+    }
+
+    private Box.Filler getFiller(List<Exercicio> exercicios) {
+        setGridConstraint(1);
+        int tamanho_tela = jPanel1.getHeight();
+        int tamanho_elementos = (exercicios.size() + 1) * 100;
+        int tamanho_filler = tamanho_tela - tamanho_elementos;
+        Box.Filler filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, tamanho_filler), new Dimension(0, 0));
+        return filler;
     }
 
 }
