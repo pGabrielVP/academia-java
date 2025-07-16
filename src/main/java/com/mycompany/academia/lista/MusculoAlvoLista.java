@@ -49,9 +49,11 @@ public class MusculoAlvoLista extends javax.swing.JInternalFrame {
         deletar_musculo_alvo = new javax.swing.JButton();
         editar_musuculo_alvo = new javax.swing.JButton();
 
-        setIconifiable(true);
+        setClosable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setMaximizable(true);
-        setResizable(true);
+        setTitle("Lista de Grupos Alvo");
+        setToolTipText("");
         setPreferredSize(new java.awt.Dimension(800, 480));
 
         tabela_lista_musculo_alvo.setModel(model);
