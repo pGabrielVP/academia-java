@@ -66,7 +66,7 @@ public class ExerciciosListar extends javax.swing.JPanel {
 
         botaoPesquisar.setText("Pesquisar");
 
-        jPanel1.setLayout(new java.awt.GridLayout(5, 2));
+        jPanel1.setLayout(new java.awt.GridLayout(0, 1));
         jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
