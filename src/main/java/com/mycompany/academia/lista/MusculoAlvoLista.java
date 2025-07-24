@@ -20,7 +20,7 @@ import javax.swing.JDialog;
  *
  * @author paulo
  */
-public class MusculoAlvoLista extends javax.swing.JInternalFrame {
+public class MusculoAlvoLista extends javax.swing.JFrame {
 
     private final MusculoAlvoJpaController controller;
     private MusculoAlvoModel model;
@@ -49,11 +49,7 @@ public class MusculoAlvoLista extends javax.swing.JInternalFrame {
         deletar_musculo_alvo = new javax.swing.JButton();
         editar_musuculo_alvo = new javax.swing.JButton();
 
-        setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-        setMaximizable(true);
         setTitle("Lista de Grupos Alvo");
-        setToolTipText("");
         setPreferredSize(new java.awt.Dimension(800, 480));
 
         tabela_lista_musculo_alvo.setModel(model);

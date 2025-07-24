@@ -7,7 +7,6 @@ package com.mycompany.academia;
 import com.mycompany.academia.lista.ExercicioLista;
 import com.mycompany.academia.lista.MusculoAlvoLista;
 import com.mycompany.academia.rotina.Rotina;
-import javax.swing.JInternalFrame;
 
 /**
  *
@@ -24,9 +23,6 @@ public class Academia extends javax.swing.JFrame {
     public Academia() {
         initComponents();
         setLocationRelativeTo(null);
-        jDesktopPane1.add(exercicioLista);
-        jDesktopPane1.add(musculoalvoLista);
-        jDesktopPane1.validate();
 
         exercicio_menu.addActionListener((e) -> {
             exercicioLista.sincronizar();
@@ -36,12 +32,7 @@ public class Academia extends javax.swing.JFrame {
             musculoalvoLista.sincronizar();
             musculoalvoLista.setVisible(!musculoalvoLista.isVisible());
         });
-        rotina_novo.addActionListener((e) -> {
-            JInternalFrame rotina = new Rotina();
-            jDesktopPane1.add(rotina);
-            rotina.setVisible(true);
-            jDesktopPane1.validate();
-        });
+
     }
 
     /**
@@ -54,10 +45,8 @@ public class Academia extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        rotina_novo = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         exercicio_menu = new javax.swing.JMenuItem();
         musculo_alvo_menu = new javax.swing.JMenuItem();
@@ -68,25 +57,18 @@ public class Academia extends javax.swing.JFrame {
         setTitle("Gerador de Rotinas");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1121, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 586, Short.MAX_VALUE)
         );
 
-        jDesktopPane1.setDragMode(jDesktopPane1.OUTLINE_DRAG_MODE);
-
-        jMenu2.setText("Rotinas");
-
-        rotina_novo.setText("Novo");
-        jMenu2.add(rotina_novo);
-
-        jMenuBar1.add(jMenu2);
+        jPanel1 = new Rotina();
 
         jMenu1.setText("Entidades");
 
@@ -104,11 +86,11 @@ public class Academia extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -151,12 +133,10 @@ public class Academia extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exercicio_menu;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JMenuItem musculo_alvo_menu;
-    private javax.swing.JMenuItem rotina_novo;
     // End of variables declaration//GEN-END:variables
 }

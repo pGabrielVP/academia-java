@@ -19,7 +19,7 @@ import javax.swing.JDialog;
  *
  * @author paulo
  */
-public class ExercicioLista extends javax.swing.JInternalFrame {
+public class ExercicioLista extends javax.swing.JFrame {
 
     private final ExercicioJpaController controller;
     private ExercicioModel model;
@@ -81,10 +81,6 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela_lista_exercicios = new javax.swing.JTable();
 
-        setClosable(true);
-        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Lista De Exercicios");
         setPreferredSize(new java.awt.Dimension(800, 480));
 
@@ -103,7 +99,7 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(adicionar_novo_exercicio, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -123,7 +119,7 @@ public class ExercicioLista extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
