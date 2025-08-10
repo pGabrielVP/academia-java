@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.academia.rotina.paginas;
+package com.mycompany.academia.view.rotina.paginas;
 
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
-import com.mycompany.academia.entidades.MusculoAlvo;
-import com.mycompany.academia.rotina.RotinaMenuLateral;
+import com.mycompany.academia.model.entidades.MusculoAlvo;
+import com.mycompany.academia.view.rotina.RotinaMenuLateral;
 import java.util.List;
 import javax.persistence.Persistence;
 import javax.swing.JButton;
