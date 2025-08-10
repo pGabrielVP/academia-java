@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.model;
+package com.mycompany.academia.view.model;
 
-import com.mycompany.academia.entidades.MusculoAlvo;
+import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 

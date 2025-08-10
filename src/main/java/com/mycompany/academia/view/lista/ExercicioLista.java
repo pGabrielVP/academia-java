@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package com.mycompany.academia.lista;
+package com.mycompany.academia.view.lista;
 
-import com.mycompany.academia.model.ExercicioModel;
+import com.mycompany.academia.view.model.ExercicioModel;
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
-import com.mycompany.academia.edita.ExercicioEdita;
-import com.mycompany.academia.entidades.Exercicio;
+import com.mycompany.academia.view.edita.ExercicioEdita;
+import com.mycompany.academia.model.entidades.Exercicio;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;

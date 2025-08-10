@@ -4,9 +4,9 @@
  */
 package com.mycompany.academia;
 
-import com.mycompany.academia.lista.ExercicioLista;
-import com.mycompany.academia.lista.MusculoAlvoLista;
-import com.mycompany.academia.rotina.Rotina;
+import com.mycompany.academia.view.lista.ExercicioLista;
+import com.mycompany.academia.view.lista.MusculoAlvoLista;
+import com.mycompany.academia.view.rotina.Rotina;
 
 /**
  *

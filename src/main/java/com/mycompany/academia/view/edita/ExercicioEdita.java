@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.academia.edita;
+package com.mycompany.academia.view.edita;
 
-import com.mycompany.academia.renderer.MusculoAlvoRenderer;
+import com.mycompany.academia.view.renderer.MusculoAlvoRenderer;
 import com.mycompany.academia.controle.ExercicioJpaController;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
-import com.mycompany.academia.entidades.Exercicio;
-import com.mycompany.academia.entidades.MusculoAlvo;
-import com.mycompany.academia.model.ExercicioModel;
+import com.mycompany.academia.model.entidades.Exercicio;
+import com.mycompany.academia.model.entidades.MusculoAlvo;
+import com.mycompany.academia.view.model.ExercicioModel;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;

@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.mycompany.academia.rotina.paginas;
+package com.mycompany.academia.view.rotina.paginas;
 
-import com.mycompany.academia.rotina.RotinaTablePanel;
-import com.mycompany.academia.entidades.Exercicio;
-import com.mycompany.academia.rotina.RotinaMenuLateral;
+import com.mycompany.academia.view.rotina.RotinaTablePanel;
+import com.mycompany.academia.model.entidades.Exercicio;
+import com.mycompany.academia.view.rotina.RotinaMenuLateral;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;

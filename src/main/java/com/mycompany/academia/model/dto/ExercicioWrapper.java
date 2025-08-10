@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.relatorio;
+package com.mycompany.academia.model.dto;
 
-import com.mycompany.academia.entidades.Exercicio;
+import com.mycompany.academia.model.entidades.Exercicio;
 
 /**
  *
