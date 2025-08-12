@@ -5,7 +5,6 @@
 package com.mycompany.academia.view.rotina;
 
 import com.mycompany.academia.model.entidades.Exercicio;
-import com.mycompany.academia.view.model.RotinaTableModel;
 import com.mycompany.academia.model.dto.ExercicioWrapper;
 import com.mycompany.academia.services.Relatorio;
 import java.util.ArrayList;
