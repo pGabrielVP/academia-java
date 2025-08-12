@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package com.mycompany.academia.view.lista;
+package com.mycompany.academia.view.musculoalvo;
 
-import com.mycompany.academia.view.model.MusculoAlvoModel;
 import com.mycompany.academia.controle.MusculoAlvoJpaController;
 import com.mycompany.academia.controle.exceptions.IllegalOrphanException;
 import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
-import com.mycompany.academia.view.edita.MusculoAlvoEdita;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.awt.Dimension;
 import java.util.logging.Level;

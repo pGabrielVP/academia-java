@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.renderer;
+package com.mycompany.academia.view.musculoalvo;
 
-import com.mycompany.academia.model.entidades.Exercicio;
+import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -14,9 +14,9 @@ import javax.swing.ListCellRenderer;
  *
  * @author paulo
  */
-public class ExercicioRenderer extends JLabel implements ListCellRenderer<Object> {
+public class MusculoAlvoRenderer extends JLabel implements ListCellRenderer<Object> {
 
-    public ExercicioRenderer() {
+    public MusculoAlvoRenderer() {
         setOpaque(true);
         setHorizontalAlignment(CENTER);
         setVerticalAlignment(CENTER);
@@ -27,7 +27,7 @@ public class ExercicioRenderer extends JLabel implements ListCellRenderer<Object
         String nome;
 
         if (value != null) {
-            nome = ((Exercicio) value).getNomeExercicio();
+            nome = ((MusculoAlvo) value).getNomeAlvo();
         } else {
             nome = "";
         }
