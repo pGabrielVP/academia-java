@@ -114,6 +114,11 @@ public class MusculoAlvoEdita extends javax.swing.JPanel {
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         musculoAlvo.setNomeAlvo(alvo_entrada.getText());
 
+        if(musculoAlvo.getIdAlvo() == null){
+            musculoAlvoModel.adicionarNovo(musculoAlvo);
+        } else {
+            musculoAlvoModel.atualizar(musculoAlvo);
+        }
         musculoAlvoControle.salvar(musculoAlvo);
 
         dialog.dispose();
