@@ -33,7 +33,6 @@ public class MusculoAlvo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_alvo")
     private Integer idAlvo;
     @Basic(optional = false)
