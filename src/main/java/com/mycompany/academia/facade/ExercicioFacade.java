@@ -14,7 +14,7 @@ import javax.persistence.Persistence;
  */
 public class ExercicioFacade extends AbstractFacade<Exercicio> {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public ExercicioFacade() {
         super(Exercicio.class);
