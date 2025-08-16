@@ -4,13 +4,9 @@
  */
 package com.mycompany.academia.view.exercicio;
 
-import com.mycompany.academia.controle.ExercicioJpaController;
-import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
+import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Persistence;
 import javax.swing.JDialog;
 
 /**
@@ -19,27 +15,24 @@ import javax.swing.JDialog;
  */
 public class ExercicioLista extends javax.swing.JFrame {
 
-    private final ExercicioJpaController controller;
+    private final ExercicioControle exercicioControle;
     private ExercicioModel model;
 
     /**
      * Creates new form ExercicioLista
      */
     public ExercicioLista() {
-        controller = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-        model = new ExercicioModel(controller.findExercicioEntities());
+        exercicioControle = new ExercicioControle();
+        model = new ExercicioModel(exercicioControle.getListaExercicio());
         initComponents();
 
         deletar_exercicio.addActionListener((e) -> {
             int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
             Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
+            Exercicio exercicio = exercicioControle.buscar(id_entidade);
 
-            try {
-                controller.destroy(id_entidade);
-                model.deletar(linha_selecionada);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(ExercicioLista.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            exercicioControle.excluir(exercicio);
+            model.deletar(linha_selecionada);
         });
 
         adicionar_novo_exercicio.addActionListener((e) -> {
@@ -55,7 +48,7 @@ public class ExercicioLista extends javax.swing.JFrame {
             JDialog dialog = new JDialog();
             int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
             Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
-            Exercicio exercicio = controller.findExercicio(id_entidade);
+            Exercicio exercicio = exercicioControle.buscar(id_entidade);
             ExercicioEdita formulario_edita = new ExercicioEdita(exercicio, dialog, model);
             dialog.add(formulario_edita);
             dialog.setSize(new Dimension(350, 280));
@@ -134,7 +127,7 @@ public class ExercicioLista extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void sincronizar() {
-        model = new ExercicioModel(controller.findExercicioEntities());
+        model = new ExercicioModel(exercicioControle.getListaExercicio());
         tabela_lista_exercicios.setModel(model);
     }
 

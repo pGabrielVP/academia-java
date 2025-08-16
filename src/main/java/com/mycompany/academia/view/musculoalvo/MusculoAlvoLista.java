@@ -4,14 +4,9 @@
  */
 package com.mycompany.academia.view.musculoalvo;
 
-import com.mycompany.academia.controle.MusculoAlvoJpaController;
-import com.mycompany.academia.controle.exceptions.IllegalOrphanException;
-import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
+import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Persistence;
 import javax.swing.JDialog;
 
 /**
@@ -20,15 +15,15 @@ import javax.swing.JDialog;
  */
 public class MusculoAlvoLista extends javax.swing.JFrame {
 
-    private final MusculoAlvoJpaController controller;
+    private final MusculoAlvoControle musculoAlvoControle;
     private MusculoAlvoModel model;
 
     /**
      * Creates new form MusculoAlvoLista
      */
     public MusculoAlvoLista() {
-        controller = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-        model = new MusculoAlvoModel(controller.findMusculoAlvoEntities());
+        musculoAlvoControle = new MusculoAlvoControle();
+        model = new MusculoAlvoModel(musculoAlvoControle.getListaMusculoAlvo());
         initComponents();
     }
 
@@ -119,20 +114,17 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
     private void deletar_musculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletar_musculo_alvoActionPerformed
         int linha_selecionada = tabela_lista_musculo_alvo.getSelectedRow();
         Integer id_entidade = Integer.valueOf(tabela_lista_musculo_alvo.getValueAt(linha_selecionada, 0).toString());
+        MusculoAlvo musculoAlvo = musculoAlvoControle.buscar(id_entidade);
 
-        try {
-            controller.destroy(id_entidade);
-            model.deletar(linha_selecionada);
-        } catch (IllegalOrphanException | NonexistentEntityException ex) {
-            Logger.getLogger(MusculoAlvoLista.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        musculoAlvoControle.excluir(musculoAlvo);
+        model.deletar(linha_selecionada);
     }//GEN-LAST:event_deletar_musculo_alvoActionPerformed
 
     private void editar_musuculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar_musuculo_alvoActionPerformed
         JDialog dialog = new JDialog();
         int linha_selecionada = tabela_lista_musculo_alvo.getSelectedRow();
         Integer id_entidade = Integer.valueOf(tabela_lista_musculo_alvo.getValueAt(linha_selecionada, 0).toString());
-        MusculoAlvo musculoAlvo = controller.findMusculoAlvo(id_entidade);
+        MusculoAlvo musculoAlvo = musculoAlvoControle.buscar(id_entidade);
         MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(musculoAlvo, dialog, model);
 
         dialog.add(formulario_edita);
@@ -150,7 +142,7 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void sincronizar() {
-        model = new MusculoAlvoModel(controller.findMusculoAlvoEntities());
+        model = new MusculoAlvoModel(musculoAlvoControle.getListaMusculoAlvo());
         tabela_lista_musculo_alvo.setModel(model);
     }
 

@@ -4,9 +4,9 @@
  */
 package com.mycompany.academia.view.exercicio;
 
+import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.view.musculoalvo.MusculoAlvoRenderer;
-import com.mycompany.academia.controle.ExercicioJpaController;
-import com.mycompany.academia.controle.MusculoAlvoJpaController;
+import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.persistence.Persistence;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -30,8 +29,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class ExercicioEdita extends javax.swing.JPanel {
 
-    private final ExercicioJpaController controller;
-    private final MusculoAlvoJpaController alvoJpaController;
+    private final ExercicioControle exercicioControle;
+    private final MusculoAlvoControle musculoAlvoControle;
     private final Object[] lista_musculo_alvo;
     private final Exercicio exercicio;
     private final JDialog dialog;
@@ -46,9 +45,9 @@ public class ExercicioEdita extends javax.swing.JPanel {
      * @param model
      */
     public ExercicioEdita(Exercicio ex, JDialog jDialog, ExercicioModel model) {
-        controller = new ExercicioJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-        alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-        lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities().toArray();
+        exercicioControle = new ExercicioControle();
+        musculoAlvoControle = new MusculoAlvoControle();
+        lista_musculo_alvo = musculoAlvoControle.getListaMusculoAlvo().toArray();
         exercicio = ex;
         dialog = jDialog;
         exercicioLista_modal = model;
@@ -85,7 +84,7 @@ public class ExercicioEdita extends javax.swing.JPanel {
                 return;
             }
             int alvo_id = ((MusculoAlvo) musculo_alvo.getSelectedItem()).getIdAlvo();
-            MusculoAlvo alvo = alvoJpaController.findMusculoAlvo(alvo_id);
+            MusculoAlvo alvo = musculoAlvoControle.buscar(alvo_id);
             exercicio.setMusculoAlvo(alvo);
             exercicio.setNomeExercicio(nome_exercicio.getText());
 
@@ -103,11 +102,11 @@ public class ExercicioEdita extends javax.swing.JPanel {
             }
 
             if (exercicio.getIdExercicio() == null) {
-                controller.create(exercicio);
+                exercicioControle.salvar(exercicio);
                 exercicioLista_modal.adicionarNovo(exercicio);
             } else {
                 try {
-                    controller.edit(exercicio);
+                    exercicioControle.salvar(exercicio);
                     exercicioLista_modal.atualizar(exercicio);
                 } catch (Exception ex1) {
                     Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex1);
