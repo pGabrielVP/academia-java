@@ -4,11 +4,10 @@
  */
 package com.mycompany.academia.view.rotina.paginas;
 
-import com.mycompany.academia.controle.MusculoAlvoJpaController;
+import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import com.mycompany.academia.view.rotina.RotinaMenuLateral;
 import java.util.List;
-import javax.persistence.Persistence;
 import javax.swing.JButton;
 
 /**
@@ -17,8 +16,8 @@ import javax.swing.JButton;
  */
 public class HomePage extends javax.swing.JPanel {
 
-    private final MusculoAlvoJpaController alvoJpaController = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
-    private List<MusculoAlvo> lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities();
+    private final MusculoAlvoControle musculoAlvoControle = new MusculoAlvoControle();
+    private List<MusculoAlvo> listaMusculoAlvo = musculoAlvoControle.getListaMusculoAlvo();
 
     /**
      * Creates new form HomePage
@@ -65,12 +64,14 @@ public class HomePage extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    public void sincronizarLista() {
-        lista_musculo_alvo = alvoJpaController.findMusculoAlvoEntities();
+    public void atualizar(RotinaMenuLateral parent_window) {
+        listaMusculoAlvo = musculoAlvoControle.getListaMusculoAlvo();
+        adicionarBotoes(parent_window);
     }
 
     private void adicionarBotoes(RotinaMenuLateral parent_window) {
-        lista_musculo_alvo.forEach((musculo_alvo) -> {
+        jPanel1.removeAll();
+        listaMusculoAlvo.forEach((musculo_alvo) -> {
             JButton botao = new JButton(musculo_alvo.getNomeAlvo());
             botao.addActionListener((e) -> {
                 parent_window.showListarExercicios(musculo_alvo.getExercicioList());

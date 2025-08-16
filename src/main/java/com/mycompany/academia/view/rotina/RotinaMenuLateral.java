@@ -36,7 +36,7 @@ public class RotinaMenuLateral extends JPanel {
     }
 
     public void showHomePage() {
-        painel_homepage.sincronizarLista();
+        painel_homepage.atualizar(this);
         cLayout.show(this, HOMEPAGE);
     }
 

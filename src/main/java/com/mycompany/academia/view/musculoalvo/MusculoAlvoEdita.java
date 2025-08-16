@@ -4,13 +4,9 @@
  */
 package com.mycompany.academia.view.musculoalvo;
 
-import com.mycompany.academia.controle.MusculoAlvoJpaController;
-import com.mycompany.academia.controle.exceptions.NonexistentEntityException;
+import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Persistence;
 import javax.swing.JDialog;
 
 /**
@@ -19,7 +15,7 @@ import javax.swing.JDialog;
  */
 public class MusculoAlvoEdita extends javax.swing.JPanel {
 
-    private final MusculoAlvoJpaController controller;
+    private final MusculoAlvoControle musculoAlvoControle;
     private final MusculoAlvo musculoAlvo;
     private final JDialog dialog;
     private final MusculoAlvoModel musculoAlvoModel;
@@ -32,7 +28,7 @@ public class MusculoAlvoEdita extends javax.swing.JPanel {
      * @param model
      */
     public MusculoAlvoEdita(MusculoAlvo ma, JDialog dg, MusculoAlvoModel model) {
-        controller = new MusculoAlvoJpaController(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU"));
+        musculoAlvoControle = new MusculoAlvoControle();
         musculoAlvo = ma;
         dialog = dg;
         musculoAlvoModel = model;
@@ -118,19 +114,7 @@ public class MusculoAlvoEdita extends javax.swing.JPanel {
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         musculoAlvo.setNomeAlvo(alvo_entrada.getText());
 
-        if (musculoAlvo.getIdAlvo() == null) {
-            controller.create(musculoAlvo);
-            musculoAlvoModel.adicionarNovo(musculoAlvo);
-        } else {
-            try {
-                controller.edit(musculoAlvo);
-                musculoAlvoModel.atualizar(musculoAlvo);
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(MusculoAlvoEdita.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(MusculoAlvoEdita.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        musculoAlvoControle.salvar(musculoAlvo);
 
         dialog.dispose();
     }//GEN-LAST:event_salvarActionPerformed
