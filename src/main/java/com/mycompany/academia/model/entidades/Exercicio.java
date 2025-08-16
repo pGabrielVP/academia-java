@@ -35,7 +35,6 @@ public class Exercicio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id_exercicio")
     private Integer idExercicio;
     @Basic(optional = false)
