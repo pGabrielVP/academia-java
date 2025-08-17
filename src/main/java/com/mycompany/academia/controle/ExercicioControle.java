@@ -6,6 +6,7 @@ package com.mycompany.academia.controle;
 
 import com.mycompany.academia.facade.ExercicioFacade;
 import com.mycompany.academia.model.entidades.Exercicio;
+import com.mycompany.academia.view.exercicio.ExercicioModel;
 import java.util.List;
 
 /**
@@ -15,9 +16,11 @@ import java.util.List;
 public class ExercicioControle {
 
     private final ExercicioFacade exercicioFacade;
+    private final ExercicioModel exercicioModel;
 
     public ExercicioControle() {
         exercicioFacade = new ExercicioFacade();
+        exercicioModel = new ExercicioModel();
     }
 
     public List<Exercicio> getListaExercicio() {
@@ -34,6 +37,14 @@ public class ExercicioControle {
 
     public void excluir(Exercicio exercicio) {
         exercicioFacade.remover(exercicio);
+    }
+
+    public void sincronizarExercicioModel() {
+        exercicioModel.sincronizar(getListaExercicio());
+    }
+
+    public ExercicioModel getExercicioModel() {
+        return exercicioModel;
     }
 
 }
