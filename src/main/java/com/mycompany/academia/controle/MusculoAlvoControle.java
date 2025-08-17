@@ -6,6 +6,7 @@ package com.mycompany.academia.controle;
 
 import com.mycompany.academia.facade.MusculoAlvoFacade;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
+import com.mycompany.academia.view.musculoalvo.MusculoAlvoModel;
 import java.util.List;
 
 /**
@@ -15,9 +16,11 @@ import java.util.List;
 public class MusculoAlvoControle {
 
     private final MusculoAlvoFacade musculoAlvoFacade;
+    private final MusculoAlvoModel musculoAlvoModel;
 
     public MusculoAlvoControle() {
-        this.musculoAlvoFacade = new MusculoAlvoFacade();
+        musculoAlvoFacade = new MusculoAlvoFacade();
+        musculoAlvoModel = new MusculoAlvoModel();
     }
 
     public List<MusculoAlvo> getListaMusculoAlvo() {
@@ -34,5 +37,13 @@ public class MusculoAlvoControle {
 
     public void excluir(MusculoAlvo musculoAlvo) {
         musculoAlvoFacade.remover(musculoAlvo);
+    }
+
+    public void sincronizarMusculoAlvoModel() {
+        musculoAlvoModel.sincronizar(getListaMusculoAlvo());
+    }
+
+    public MusculoAlvoModel getMusculoAlvoModel() {
+        return musculoAlvoModel;
     }
 }

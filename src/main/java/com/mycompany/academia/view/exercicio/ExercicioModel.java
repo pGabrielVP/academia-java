@@ -5,6 +5,8 @@
 package com.mycompany.academia.view.exercicio;
 
 import com.mycompany.academia.model.entidades.Exercicio;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -14,34 +16,38 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ExercicioModel extends AbstractTableModel {
 
-    private final String[] nome_colunas = {"exercicio_id", "nome_exercicio", "imagem", "musculo_alvo"};
-    private final List<Exercicio> lista_exercicios;
+    private final String[] nomeColunas = {"exercicio_id", "nome_exercicio", "imagem", "musculo_alvo"};
+    private final List<Exercicio> listaExercicios; // Remover final? ln:84
 
-    public ExercicioModel(List<Exercicio> dados) {
-        lista_exercicios = dados;
+    public ExercicioModel() {
+        listaExercicios = new ArrayList<>();
+    }
+
+    public ExercicioModel(List<Exercicio> listaExercicios) {
+        this.listaExercicios = listaExercicios;
     }
 
     @Override
     public int getRowCount() {
-        return lista_exercicios.size();
+        return listaExercicios.size();
     }
 
     @Override
     public int getColumnCount() {
-        return nome_colunas.length;
+        return nomeColunas.length;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return lista_exercicios.get(rowIndex).getIdExercicio();
+                return listaExercicios.get(rowIndex).getIdExercicio();
             case 1:
-                return lista_exercicios.get(rowIndex).getNomeExercicio();
+                return listaExercicios.get(rowIndex).getNomeExercicio();
             case 2:
-                return lista_exercicios.get(rowIndex).getImagem();
+                return listaExercicios.get(rowIndex).getImagem();
             case 3:
-                return lista_exercicios.get(rowIndex).getMusculoAlvo().getNomeAlvo();
+                return listaExercicios.get(rowIndex).getMusculoAlvo().getNomeAlvo();
             default:
                 throw new Error("columnIndex value not in range");
         }
@@ -49,27 +55,32 @@ public class ExercicioModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return nome_colunas[column];
+        return nomeColunas[column];
     }
 
     @Override
-    public Class getColumnClass(int c) {
-        return getValueAt(0, c).getClass();
+    public Class getColumnClass(int column) {
+        return getValueAt(0, column).getClass();
     }
 
-    public void adicionarNovo(Exercicio e) {
-        lista_exercicios.add(e);
-        this.fireTableDataChanged();
+    public void adicionarNovo(Exercicio exercicio) {
+        listaExercicios.add(exercicio);
+        fireTableDataChanged();
     }
 
-    public void deletar(int linha_selecionada) {
-        lista_exercicios.remove(linha_selecionada);
-        this.fireTableDataChanged();
+    public void deletar(int linhaSelecionada) {
+        listaExercicios.remove(linhaSelecionada);
+        fireTableDataChanged();
     }
 
-    public void atualizar(Exercicio e) {
-        int linha = lista_exercicios.indexOf(e);
-        lista_exercicios.set(linha, e);
-        this.fireTableDataChanged();
+    public void atualizar(Exercicio exercicio) {
+        int linha = listaExercicios.indexOf(exercicio);
+        listaExercicios.set(linha, exercicio);
+        fireTableDataChanged();
+    }
+
+    public void sincronizar(Collection<Exercicio> listaExercicios) {
+        this.listaExercicios.clear();
+        this.listaExercicios.addAll(listaExercicios); // Remover esse addAll()
     }
 }
