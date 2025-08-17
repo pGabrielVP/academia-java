@@ -16,45 +16,15 @@ import javax.swing.JDialog;
 public class ExercicioLista extends javax.swing.JFrame {
 
     private final ExercicioControle exercicioControle;
-    private ExercicioModel model;
+    private final ExercicioModel exercicioModel;
 
     /**
      * Creates new form ExercicioLista
      */
     public ExercicioLista() {
         exercicioControle = new ExercicioControle();
-        model = new ExercicioModel(exercicioControle.getListaExercicio());
+        exercicioModel = exercicioControle.getExercicioModel();
         initComponents();
-
-        deletar_exercicio.addActionListener((e) -> {
-            int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
-            Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
-            Exercicio exercicio = exercicioControle.buscar(id_entidade);
-
-            exercicioControle.excluir(exercicio);
-            model.deletar(linha_selecionada);
-        });
-
-        adicionar_novo_exercicio.addActionListener((e) -> {
-            JDialog dialog = new JDialog();
-            ExercicioEdita formulario_edita = new ExercicioEdita(new Exercicio(), dialog, model);
-            dialog.add(formulario_edita);
-            dialog.setSize(new Dimension(380, 320));
-
-            dialog.setVisible(true);
-        });
-
-        editar_exercicio.addActionListener((e) -> {
-            JDialog dialog = new JDialog();
-            int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
-            Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
-            Exercicio exercicio = exercicioControle.buscar(id_entidade);
-            ExercicioEdita formulario_edita = new ExercicioEdita(exercicio, dialog, model);
-            dialog.add(formulario_edita);
-            dialog.setSize(new Dimension(350, 280));
-
-            dialog.setVisible(true);
-        });
     }
 
     /**
@@ -73,15 +43,29 @@ public class ExercicioLista extends javax.swing.JFrame {
         tabela_lista_exercicios = new javax.swing.JTable();
 
         setTitle("Lista De Exercicios");
-        setPreferredSize(new java.awt.Dimension(800, 480));
 
         adicionar_novo_exercicio.setText("Criar");
+        adicionar_novo_exercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionar_novo_exercicioActionPerformed(evt);
+            }
+        });
 
         deletar_exercicio.setText("Deletar");
+        deletar_exercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletar_exercicioActionPerformed(evt);
+            }
+        });
 
         editar_exercicio.setText("Editar");
+        editar_exercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editar_exercicioActionPerformed(evt);
+            }
+        });
 
-        tabela_lista_exercicios.setModel(model);
+        tabela_lista_exercicios.setModel(exercicioModel);
         jScrollPane1.setViewportView(tabela_lista_exercicios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -117,6 +101,36 @@ public class ExercicioLista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void adicionar_novo_exercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionar_novo_exercicioActionPerformed
+        JDialog dialog = new JDialog();
+        ExercicioEdita formulario_edita = new ExercicioEdita(new Exercicio(), dialog, exercicioModel);
+        dialog.add(formulario_edita);
+        dialog.setSize(new Dimension(380, 320));
+
+        dialog.setVisible(true);
+    }//GEN-LAST:event_adicionar_novo_exercicioActionPerformed
+
+    private void deletar_exercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletar_exercicioActionPerformed
+        int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
+        Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
+        Exercicio exercicio = exercicioControle.buscar(id_entidade);
+
+        exercicioControle.excluir(exercicio);
+        exercicioModel.deletar(linha_selecionada);
+    }//GEN-LAST:event_deletar_exercicioActionPerformed
+
+    private void editar_exercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar_exercicioActionPerformed
+        JDialog dialog = new JDialog();
+        int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
+        Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
+        Exercicio exercicio = exercicioControle.buscar(id_entidade);
+        ExercicioEdita formulario_edita = new ExercicioEdita(exercicio, dialog, exercicioModel);
+        dialog.add(formulario_edita);
+        dialog.setSize(new Dimension(350, 280));
+
+        dialog.setVisible(true);
+    }//GEN-LAST:event_editar_exercicioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionar_novo_exercicio;
@@ -127,8 +141,7 @@ public class ExercicioLista extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void sincronizar() {
-        model = new ExercicioModel(exercicioControle.getListaExercicio());
-        tabela_lista_exercicios.setModel(model);
+        exercicioControle.sincronizarExercicioModel();
     }
 
 }

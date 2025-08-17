@@ -82,5 +82,6 @@ public class ExercicioModel extends AbstractTableModel {
     public void sincronizar(Collection<Exercicio> listaExercicios) {
         this.listaExercicios.clear();
         this.listaExercicios.addAll(listaExercicios); // Remover esse addAll()
+        fireTableDataChanged();
     }
 }

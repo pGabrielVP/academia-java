@@ -78,5 +78,6 @@ public class MusculoAlvoModel extends AbstractTableModel {
     public void sincronizar(Collection<MusculoAlvo> listaMusculoAlvo) {
         this.listaMusculoAlvo.clear();
         this.listaMusculoAlvo.addAll(listaMusculoAlvo); // Remover esse addAll()
+        fireTableDataChanged();
     }
 }
