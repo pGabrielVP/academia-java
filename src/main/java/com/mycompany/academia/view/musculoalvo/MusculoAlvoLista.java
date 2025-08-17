@@ -16,14 +16,14 @@ import javax.swing.JDialog;
 public class MusculoAlvoLista extends javax.swing.JFrame {
 
     private final MusculoAlvoControle musculoAlvoControle;
-    private MusculoAlvoModel model;
+    private final MusculoAlvoModel musculoAlvoModel;
 
     /**
      * Creates new form MusculoAlvoLista
      */
     public MusculoAlvoLista() {
         musculoAlvoControle = new MusculoAlvoControle();
-        model = new MusculoAlvoModel(musculoAlvoControle.getListaMusculoAlvo());
+        musculoAlvoModel = musculoAlvoControle.getMusculoAlvoModel();
         initComponents();
     }
 
@@ -43,9 +43,8 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
         editar_musuculo_alvo = new javax.swing.JButton();
 
         setTitle("Lista de Grupos Alvo");
-        setPreferredSize(new java.awt.Dimension(800, 480));
 
-        tabela_lista_musculo_alvo.setModel(model);
+        tabela_lista_musculo_alvo.setModel(musculoAlvoModel);
         jScrollPane1.setViewportView(tabela_lista_musculo_alvo);
 
         adicionar_novo_musculo_alvo.setText("Criar");
@@ -104,7 +103,7 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
 
     private void adicionar_novo_musculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionar_novo_musculo_alvoActionPerformed
         JDialog dialog = new JDialog();
-        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(new MusculoAlvo(), dialog, model);
+        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(new MusculoAlvo(), dialog, musculoAlvoModel);
         dialog.add(formulario_edita);
         dialog.setSize(new Dimension(380, 320));
 
@@ -117,7 +116,7 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
         MusculoAlvo musculoAlvo = musculoAlvoControle.buscar(id_entidade);
 
         musculoAlvoControle.excluir(musculoAlvo);
-        model.deletar(linha_selecionada);
+        musculoAlvoModel.deletar(linha_selecionada);
     }//GEN-LAST:event_deletar_musculo_alvoActionPerformed
 
     private void editar_musuculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar_musuculo_alvoActionPerformed
@@ -125,7 +124,7 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
         int linha_selecionada = tabela_lista_musculo_alvo.getSelectedRow();
         Integer id_entidade = Integer.valueOf(tabela_lista_musculo_alvo.getValueAt(linha_selecionada, 0).toString());
         MusculoAlvo musculoAlvo = musculoAlvoControle.buscar(id_entidade);
-        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(musculoAlvo, dialog, model);
+        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(musculoAlvo, dialog, musculoAlvoModel);
 
         dialog.add(formulario_edita);
         dialog.setSize(new Dimension(350, 280));
@@ -142,8 +141,7 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void sincronizar() {
-        model = new MusculoAlvoModel(musculoAlvoControle.getListaMusculoAlvo());
-        tabela_lista_musculo_alvo.setModel(model);
+        musculoAlvoControle.sincronizarMusculoAlvoModel();
     }
 
 }
