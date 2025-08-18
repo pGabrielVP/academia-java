@@ -24,6 +24,7 @@ public abstract class AbstractFacade<T> {
 
     public void salvar(T entity) {
         getEntityManager().getTransaction().begin();
+        getEntityManager().persist(entity);
         getEntityManager().merge(entity);
         getEntityManager().getTransaction().commit();
     }
