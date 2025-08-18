@@ -6,8 +6,6 @@ package com.mycompany.academia.view.musculoalvo;
 
 import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
-import java.awt.Dimension;
-import javax.swing.JDialog;
 
 /**
  *
@@ -100,12 +98,7 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adicionar_novo_musculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionar_novo_musculo_alvoActionPerformed
-        JDialog dialog = new JDialog();
-        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(new MusculoAlvo(), dialog, musculoAlvoControle);
-        dialog.add(formulario_edita);
-        dialog.setSize(new Dimension(380, 320));
- 
-        dialog.setVisible(true);
+        new MusculoAlvoEdita(this, musculoAlvoControle, new MusculoAlvo()).setVisible(true);
     }//GEN-LAST:event_adicionar_novo_musculo_alvoActionPerformed
 
     private void deletar_musculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletar_musculo_alvoActionPerformed
@@ -117,15 +110,11 @@ public class MusculoAlvoLista extends javax.swing.JFrame {
     }//GEN-LAST:event_deletar_musculo_alvoActionPerformed
 
     private void editar_musuculo_alvoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar_musuculo_alvoActionPerformed
-        JDialog dialog = new JDialog();
         int linha_selecionada = tabela_lista_musculo_alvo.getSelectedRow();
         int id_entidade = (Integer) tabela_lista_musculo_alvo.getValueAt(linha_selecionada, 0);
         MusculoAlvo musculoAlvo = musculoAlvoControle.buscar(id_entidade);
-        MusculoAlvoEdita formulario_edita = new MusculoAlvoEdita(musculoAlvo, dialog, musculoAlvoControle);
 
-        dialog.add(formulario_edita);
-        dialog.setSize(new Dimension(350, 280));
-        dialog.setVisible(true);
+        new MusculoAlvoEdita(this, musculoAlvoControle, musculoAlvo).setVisible(true);
     }//GEN-LAST:event_editar_musuculo_alvoActionPerformed
 
 
