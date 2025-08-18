@@ -33,10 +33,12 @@ public class MusculoAlvoControle {
 
     public void salvar(MusculoAlvo musculoAlvo) {
         musculoAlvoFacade.salvar(musculoAlvo);
+        musculoAlvoModel.oferecer(musculoAlvo);
     }
 
     public void excluir(MusculoAlvo musculoAlvo) {
         musculoAlvoFacade.remover(musculoAlvo);
+        musculoAlvoModel.deletar(musculoAlvo);
     }
 
     public void sincronizarMusculoAlvoModel() {

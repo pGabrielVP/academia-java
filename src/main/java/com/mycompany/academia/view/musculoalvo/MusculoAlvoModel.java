@@ -64,15 +64,31 @@ public class MusculoAlvoModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
-    public void adicionarNovo(MusculoAlvo musculoAlvo) {
+    public void deletar(MusculoAlvo musculoAlvo) {
+        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
+        if (linha != -1) {
+            deletar(linha);
+        }
+    }
+
+    private void adicionarNovo(MusculoAlvo musculoAlvo) {
         listaMusculoAlvo.add(musculoAlvo);
         fireTableDataChanged();
     }
 
-    public void atualizar(MusculoAlvo musculoAlvo) {
+    private void atualizar(MusculoAlvo musculoAlvo) {
         int linha = listaMusculoAlvo.indexOf(musculoAlvo);
         listaMusculoAlvo.set(linha, musculoAlvo);
         fireTableDataChanged();
+    }
+
+    public void oferecer(MusculoAlvo musculoAlvo) {
+        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
+        if (linha == -1) {
+            adicionarNovo(musculoAlvo);
+        } else {
+            atualizar(musculoAlvo);
+        }
     }
 
     public void sincronizar(Collection<MusculoAlvo> listaMusculoAlvo) {
