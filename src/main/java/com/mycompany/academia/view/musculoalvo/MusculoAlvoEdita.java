@@ -17,21 +17,19 @@ public class MusculoAlvoEdita extends javax.swing.JPanel {
 
     private final MusculoAlvoControle musculoAlvoControle;
     private final MusculoAlvo musculoAlvo;
-    private final JDialog dialog;
-    private final MusculoAlvoModel musculoAlvoModel;
+    private final JDialog parentWindow;
 
     /**
      * Creates new form MusculoAlvoEdita
      *
-     * @param ma
-     * @param dg
-     * @param model
+     * @param musculoAlvo
+     * @param parentWindow
+     * @param musculoAlvoControle
      */
-    public MusculoAlvoEdita(MusculoAlvo ma, JDialog dg, MusculoAlvoModel model) {
-        musculoAlvoControle = new MusculoAlvoControle();
-        musculoAlvo = ma;
-        dialog = dg;
-        musculoAlvoModel = model;
+    public MusculoAlvoEdita(MusculoAlvo musculoAlvo, JDialog parentWindow, MusculoAlvoControle musculoAlvoControle) {
+        this.musculoAlvoControle = musculoAlvoControle;
+        this.musculoAlvo = musculoAlvo;
+        this.parentWindow = parentWindow;
         initComponents();
     }
 
@@ -113,15 +111,8 @@ public class MusculoAlvoEdita extends javax.swing.JPanel {
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         musculoAlvo.setNomeAlvo(alvo_entrada.getText());
-
-        if(musculoAlvo.getIdAlvo() == null){
-            musculoAlvoModel.adicionarNovo(musculoAlvo);
-        } else {
-            musculoAlvoModel.atualizar(musculoAlvo);
-        }
         musculoAlvoControle.salvar(musculoAlvo);
-
-        dialog.dispose();
+        parentWindow.dispose();
     }//GEN-LAST:event_salvarActionPerformed
 
 
