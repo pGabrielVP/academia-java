@@ -1,15 +1,18 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.academia.view.exercicio;
 
 import com.mycompany.academia.controle.ExercicioControle;
-import com.mycompany.academia.view.musculoalvo.MusculoAlvoRenderer;
 import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
-
+import com.mycompany.academia.view.musculoalvo.MusculoAlvoRenderer;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -18,217 +21,233 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
  * @author paulo
  */
-public class ExercicioEdita extends javax.swing.JPanel {
+public class ExercicioEdita extends JDialog {
 
-    private final ExercicioControle exercicioControle;
-    private final MusculoAlvoControle musculoAlvoControle;
-    private final Object[] lista_musculo_alvo;
-    private final Exercicio exercicio;
-    private final JDialog dialog;
-    private final ExercicioModel exercicioLista_modal;
-    private File arquivo_selecionado;
+    private final ExercicioEditaPanel exercicioEditaPanel;
 
-    /**
-     * Creates new form ExercicioEdita
-     *
-     * @param ex
-     * @param jDialog
-     * @param model
-     */
-    public ExercicioEdita(Exercicio ex, JDialog jDialog, ExercicioModel model) {
-        exercicioControle = new ExercicioControle();
-        musculoAlvoControle = new MusculoAlvoControle();
-        lista_musculo_alvo = musculoAlvoControle.getListaMusculoAlvo().toArray();
-        exercicio = ex;
-        dialog = jDialog;
-        exercicioLista_modal = model;
-
-        initComponents();
-
-        musculo_alvo.setModel(new DefaultComboBoxModel(lista_musculo_alvo));
-        musculo_alvo.setRenderer(new MusculoAlvoRenderer());
-        musculo_alvo.setSelectedItem(exercicio.getMusculoAlvo());
-
-        if (exercicio.getImagem() != null) {
-            nome_arquivo.setText("Imagem já selecionada");
-        }
-
-        selecionar_imagem.addActionListener((e) -> {
-            JFileChooser fc = new JFileChooser();
-            fc.setFileFilter(new FileNameExtensionFilter("Permite somente imagens", "png"));
-
-            if (e.getSource() == selecionar_imagem) {
-                int valor_retorno = fc.showOpenDialog(this);
-                if (valor_retorno == JFileChooser.APPROVE_OPTION) {
-                    arquivo_selecionado = fc.getSelectedFile();
-                    nome_arquivo.setText(arquivo_selecionado.getName());
-                    nome_arquivo.setToolTipText(arquivo_selecionado.getPath());
-                }
-            }
-        });
-
-        salvar.addActionListener((e) -> {
-            if (musculo_alvo.getSelectedItem() == null
-                    || "".equals(nome_arquivo.getText())
-                    || "".equals(nome_exercicio.getText())) {
-                JOptionPane.showMessageDialog(this, "Preencha todos os campos");
-                return;
-            }
-            int alvo_id = ((MusculoAlvo) musculo_alvo.getSelectedItem()).getIdAlvo();
-            MusculoAlvo alvo = musculoAlvoControle.buscar(alvo_id);
-            exercicio.setMusculoAlvo(alvo);
-            exercicio.setNomeExercicio(nome_exercicio.getText());
-
-//            definirImagem 
-            if (exercicio.getIdExercicio() == null || arquivo_selecionado != null) {
-                try {
-                    BufferedImage imagem = ImageIO.read(arquivo_selecionado);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ImageIO.write(imagem, "png", baos);
-                    byte[] imgBytes = baos.toByteArray();
-                    exercicio.setImagem(imgBytes);
-                } catch (IOException ex1) {
-                    Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-            }
-
-            if (exercicio.getIdExercicio() == null) {
-                exercicioControle.salvar(exercicio);
-                exercicioLista_modal.adicionarNovo(exercicio);
-            } else {
-                try {
-                    exercicioControle.salvar(exercicio);
-                    exercicioLista_modal.atualizar(exercicio);
-                } catch (Exception ex1) {
-                    Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex1);
-                }
-            }
-            dialog.dispose();
-        });
+    public ExercicioEdita(JFrame parentWindow, MusculoAlvoControle musculoAlvoControle, ExercicioControle exercicioControle, Exercicio exercicio) throws HeadlessException {
+        exercicioEditaPanel = new ExercicioEditaPanel(this, musculoAlvoControle, exercicioControle, exercicio);
+        setContentPane(exercicioEditaPanel);
+        pack();
+        setModal(true);
+        setTitle("Exercício Edita");
+        setLocationRelativeTo(parentWindow);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private class ExercicioEditaPanel extends JPanel {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        id_exercicio = new javax.swing.JTextField();
-        nome_exercicio = new javax.swing.JTextField();
-        nome_arquivo = new javax.swing.JTextField();
-        salvar = new javax.swing.JButton();
-        musculo_alvo = new javax.swing.JComboBox<>();
-        selecionar_imagem = new javax.swing.JButton();
+        private final ExercicioControle exercicioControle;
+        private final MusculoAlvoControle musculoAlvoControle;
+        private final Exercicio exercicio;
+        private final JDialog parentWindow;
 
-        setMinimumSize(new java.awt.Dimension(300, 280));
-        setPreferredSize(new java.awt.Dimension(340, 280));
+        private final GridBagLayout gridBagLayout;
+        private JLabel idLabel;
+        private JTextField idInput;
+        private JLabel nomeLabel;
+        private JTextField nomeInput;
+        private JLabel imagemLabel;
+        private JTextField imagemInput;
+        private JButton imagemButton;
+        private byte[] imagemSelecionada;
+        private JLabel musculoAlvoLabel;
+        private JComboBox musculoAlvoInput;
+        private JButton salvar;
+        private JButton cancelar;
 
-        jLabel1.setText("ID");
-
-        jLabel2.setText("Nome do Exercicio");
-
-        jLabel3.setText("Imagem");
-
-        jLabel4.setText("Musculo Alvo");
-
-        id_exercicio.setEditable(false);
-        id_exercicio.setColumns(8);
-        if (exercicio.getIdExercicio()!= null) {
-            id_exercicio.setText(exercicio.getIdExercicio().toString());
+        public ExercicioEditaPanel(JDialog parentWindow, MusculoAlvoControle musculoAlvoControle, ExercicioControle exercicioControle, Exercicio exercicio) {
+            this.parentWindow = parentWindow;
+            this.musculoAlvoControle = musculoAlvoControle;
+            this.exercicioControle = exercicioControle;
+            this.exercicio = exercicio;
+            this.imagemSelecionada = exercicio.getImagem();
+            gridBagLayout = new GridBagLayout();
+            setLayout(gridBagLayout);
+            initComponents();
         }
 
-        nome_exercicio.setColumns(8);
-        if (exercicio.getNomeExercicio()!= null) {
-            nome_exercicio.setText(exercicio.getNomeExercicio());
+        private void sair() {
+            parentWindow.dispose();
         }
 
-        nome_arquivo.setEditable(false);
-        nome_arquivo.setColumns(8);
-        nome_arquivo.setToolTipText("caminho até a imagem selecionada");
+        private void cancelarActionPerformed() {
+            sair();
+        }
 
-        salvar.setText("Salvar");
+        private boolean inputValido() {
+            StringBuilder stringBuilder = new StringBuilder();
+            int campos = 0;
 
-        musculo_alvo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+            if (nomeInput.getText().isBlank()) {
+                stringBuilder.append("Nome");
+                campos += 1;
+            }
+            if (musculoAlvoInput.getSelectedItem() == null) {
+                stringBuilder.append((stringBuilder.isEmpty()) ? "Músculo-Alvo" : ", Músculo-Alvo");
+                campos += 1;
+            }
+            if (imagemSelecionada == null) {
+                stringBuilder.append((stringBuilder.isEmpty()) ? "Imagem" : ", Imagem");
+                campos += 1;
+            }
+            switch (campos) {
+                case 0:
+                    return true;
+                case 1:
+                    stringBuilder.insert(0, "O campo: ");
+                    stringBuilder.append(" Precisa ser preenchido");
+                    break;
+                default:
+                    stringBuilder.insert(0, "Os campos: ");
+                    stringBuilder.append(" Precisam ser preenchidos");
+                    break;
+            }
+            JOptionPane.showMessageDialog(this, stringBuilder.toString());
+            return false;
+        }
 
-        selecionar_imagem.setText("...");
+        private void salvarActionPerformed() {
+            if (inputValido()) {
+                exercicio.setNomeExercicio(nomeInput.getText());
+                exercicio.setImagem(imagemSelecionada);
+                exercicio.setMusculoAlvo((MusculoAlvo) musculoAlvoInput.getSelectedItem());
+                exercicioControle.salvar(exercicio);
+                sair();
+            }
+        }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(salvar)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addGap(81, 81, 81)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nome_arquivo)
-                            .addComponent(nome_exercicio)
-                            .addComponent(id_exercicio)
-                            .addComponent(musculo_alvo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selecionar_imagem)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(id_exercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(nome_exercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(nome_arquivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(selecionar_imagem))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(musculo_alvo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
-                .addComponent(salvar)
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-    }// </editor-fold>//GEN-END:initComponents
+        private void imagemButtonActionPerformed() {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setMultiSelectionEnabled(false);
+            fileChooser.setFileFilter(new FileNameExtensionFilter("Permite somente imagens .png", "png"));
 
+            int fileChooserState = fileChooser.showOpenDialog(this);
+            if (fileChooserState == JFileChooser.APPROVE_OPTION) {
+                try {
+                    File file = fileChooser.getSelectedFile();
+                    BufferedImage bufferedImage = ImageIO.read(file);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageIO.write(bufferedImage, "png", baos);
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField id_exercicio;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JComboBox<String> musculo_alvo;
-    private javax.swing.JTextField nome_arquivo;
-    private javax.swing.JTextField nome_exercicio;
-    private javax.swing.JButton salvar;
-    private javax.swing.JButton selecionar_imagem;
-    // End of variables declaration//GEN-END:variables
+                    imagemSelecionada = baos.toByteArray();
+                    imagemInput.setText(file.getCanonicalPath());
+                } catch (IOException ex) {
+                    Logger.getLogger(ExercicioEditaPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        private void initComponents() {
+
+            GridBagConstraints labelConstraints = new GridBagConstraints();
+            GridBagConstraints inputConstraints = new GridBagConstraints();
+            GridBagConstraints buttonConstraints = new GridBagConstraints();
+
+            labelConstraints.anchor = GridBagConstraints.LINE_END;
+            labelConstraints.insets = new Insets(10, 10, 5, 5);
+            labelConstraints.gridwidth = 1;
+            labelConstraints.gridx = 0;
+            labelConstraints.gridy = 0;
+
+            inputConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+            inputConstraints.fill = GridBagConstraints.BOTH;
+            inputConstraints.weightx = 0.2d;
+            inputConstraints.weighty = 0.2d;
+            inputConstraints.insets = new Insets(10, 5, 5, 10);
+            inputConstraints.gridwidth = 2;
+            inputConstraints.gridx = 1;
+            inputConstraints.gridy = 0;
+
+            buttonConstraints.anchor = GridBagConstraints.FIRST_LINE_START;
+            buttonConstraints.fill = GridBagConstraints.BOTH;
+            buttonConstraints.weightx = 0.2d;
+            buttonConstraints.weighty = 0.2d;
+            buttonConstraints.insets = new Insets(10, 5, 10, 5);
+            buttonConstraints.gridwidth = 1;
+            buttonConstraints.gridx = 1;
+            buttonConstraints.gridy = 4;
+
+            idLabel = new JLabel("ID");
+            idInput = new JTextField();
+            idInput.setEditable(false);
+            idInput.setFocusable(false);
+            Integer idExercicio = exercicio.getIdExercicio();
+            idInput.setText((idExercicio != null) ? idExercicio.toString() : "");
+
+            nomeLabel = new JLabel("Nome");
+            nomeInput = new JTextField();
+            nomeInput.setText(exercicio.getNomeExercicio());
+
+            imagemLabel = new JLabel("Imagem");
+            imagemInput = new JTextField();
+            imagemInput.setEditable(false);
+            imagemInput.setFocusable(false);
+            String imagemInputText = (imagemSelecionada != null) ? imagemSelecionada.toString() : "";
+            imagemInput.setText(imagemInputText);
+            imagemButton = new JButton("...");
+            imagemButton.addActionListener((e) -> {
+                imagemButtonActionPerformed();
+            });
+
+            musculoAlvoLabel = new JLabel("Músculo-Alvo");
+            musculoAlvoInput = new JComboBox();
+            musculoAlvoInput.setModel(new DefaultComboBoxModel(musculoAlvoControle.getListaMusculoAlvo().toArray()));
+            musculoAlvoInput.setRenderer(new MusculoAlvoRenderer());
+            musculoAlvoInput.setSelectedItem(exercicio.getMusculoAlvo());
+            musculoAlvoInput.setEditable(false);
+
+            salvar = new JButton("Salvar");
+            salvar.addActionListener((e) -> {
+                salvarActionPerformed();
+            });
+            cancelar = new JButton("Cancelar");
+            cancelar.addActionListener((e) -> {
+                cancelarActionPerformed();
+            });
+
+            add(idLabel, labelConstraints);
+            labelConstraints.gridy++;
+            add(nomeLabel, labelConstraints);
+            labelConstraints.gridy++;
+            add(imagemLabel, labelConstraints);
+            labelConstraints.gridy++;
+            add(musculoAlvoLabel, labelConstraints);
+
+            add(idInput, inputConstraints);
+            inputConstraints.gridy++;
+            add(nomeInput, inputConstraints);
+            inputConstraints.gridy++;
+            add(imagemInput, inputConstraints);
+            inputConstraints.gridx += 2;
+            inputConstraints.gridwidth = 1;
+            add(imagemButton, inputConstraints);
+            inputConstraints.gridwidth = 2;
+            inputConstraints.gridx -= 2;
+            inputConstraints.gridy++;
+            add(musculoAlvoInput, inputConstraints);
+
+            add(cancelar, buttonConstraints);
+            buttonConstraints.gridx++;
+            add(salvar, buttonConstraints);
+        }
+
+    }
+
 }

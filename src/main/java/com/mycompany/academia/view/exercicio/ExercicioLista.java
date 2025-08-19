@@ -5,9 +5,8 @@
 package com.mycompany.academia.view.exercicio;
 
 import com.mycompany.academia.controle.ExercicioControle;
+import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.Exercicio;
-import java.awt.Dimension;
-import javax.swing.JDialog;
 
 /**
  *
@@ -16,6 +15,7 @@ import javax.swing.JDialog;
 public class ExercicioLista extends javax.swing.JFrame {
 
     private final ExercicioControle exercicioControle;
+    private final MusculoAlvoControle musculoAlvoControle;
     private final ExercicioModel exercicioModel;
 
     /**
@@ -23,6 +23,7 @@ public class ExercicioLista extends javax.swing.JFrame {
      */
     public ExercicioLista() {
         exercicioControle = new ExercicioControle();
+        musculoAlvoControle = new MusculoAlvoControle();
         exercicioModel = exercicioControle.getExercicioModel();
         initComponents();
     }
@@ -102,12 +103,7 @@ public class ExercicioLista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void adicionar_novo_exercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionar_novo_exercicioActionPerformed
-        JDialog dialog = new JDialog();
-        ExercicioEdita formulario_edita = new ExercicioEdita(new Exercicio(), dialog, exercicioModel);
-        dialog.add(formulario_edita);
-        dialog.setSize(new Dimension(380, 320));
-
-        dialog.setVisible(true);
+        new ExercicioEdita(this, musculoAlvoControle, exercicioControle, new Exercicio()).setVisible(true);
     }//GEN-LAST:event_adicionar_novo_exercicioActionPerformed
 
     private void deletar_exercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletar_exercicioActionPerformed
@@ -120,15 +116,10 @@ public class ExercicioLista extends javax.swing.JFrame {
     }//GEN-LAST:event_deletar_exercicioActionPerformed
 
     private void editar_exercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar_exercicioActionPerformed
-        JDialog dialog = new JDialog();
         int linha_selecionada = tabela_lista_exercicios.getSelectedRow();
         Integer id_entidade = Integer.valueOf(tabela_lista_exercicios.getValueAt(linha_selecionada, 0).toString());
         Exercicio exercicio = exercicioControle.buscar(id_entidade);
-        ExercicioEdita formulario_edita = new ExercicioEdita(exercicio, dialog, exercicioModel);
-        dialog.add(formulario_edita);
-        dialog.setSize(new Dimension(350, 280));
-
-        dialog.setVisible(true);
+        new ExercicioEdita(this, musculoAlvoControle, exercicioControle, exercicio).setVisible(true);
     }//GEN-LAST:event_editar_exercicioActionPerformed
 
 
