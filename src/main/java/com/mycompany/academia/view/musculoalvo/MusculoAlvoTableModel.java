@@ -14,16 +14,16 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author paulo
  */
-public class MusculoAlvoModel extends AbstractTableModel {
+public class MusculoAlvoTableModel extends AbstractTableModel {
 
-    private final String[] nomeColunas = {"id_musculo_alvo", "alvo"};
+    private final String[] nomeColunas = {"ID", "Músculo-Alvo"};
     private final List<MusculoAlvo> listaMusculoAlvo; // Remover final? ln:84
 
-    public MusculoAlvoModel() {
+    public MusculoAlvoTableModel() {
         listaMusculoAlvo = new ArrayList<>();
     }
 
-    public MusculoAlvoModel(List<MusculoAlvo> listaMusculoAlvo) {
+    public MusculoAlvoTableModel(List<MusculoAlvo> listaMusculoAlvo) {
         this.listaMusculoAlvo = listaMusculoAlvo;
     }
 

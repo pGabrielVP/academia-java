@@ -31,7 +31,7 @@ public class MusculoAlvoEdita extends JDialog {
         add(musculoAlvoEditaPanel);
         pack();
         setModal(true);
-        setTitle("Edita Musculo Alvo");
+        setTitle("Edita Músculo-Alvo");
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }

@@ -6,7 +6,7 @@ package com.mycompany.academia.controle;
 
 import com.mycompany.academia.facade.MusculoAlvoFacade;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
-import com.mycompany.academia.view.musculoalvo.MusculoAlvoModel;
+import com.mycompany.academia.view.musculoalvo.MusculoAlvoTableModel;
 import java.util.List;
 
 /**
@@ -16,11 +16,11 @@ import java.util.List;
 public class MusculoAlvoControle {
 
     private final MusculoAlvoFacade musculoAlvoFacade;
-    private final MusculoAlvoModel musculoAlvoModel;
+    private final MusculoAlvoTableModel musculoAlvoTableModel;
 
     public MusculoAlvoControle() {
         musculoAlvoFacade = new MusculoAlvoFacade();
-        musculoAlvoModel = new MusculoAlvoModel();
+        musculoAlvoTableModel = new MusculoAlvoTableModel();
     }
 
     public List<MusculoAlvo> getListaMusculoAlvo() {
@@ -33,19 +33,19 @@ public class MusculoAlvoControle {
 
     public void salvar(MusculoAlvo musculoAlvo) {
         musculoAlvoFacade.salvar(musculoAlvo);
-        musculoAlvoModel.oferecer(musculoAlvo);
+        musculoAlvoTableModel.oferecer(musculoAlvo);
     }
 
     public void excluir(MusculoAlvo musculoAlvo) {
         musculoAlvoFacade.remover(musculoAlvo);
-        musculoAlvoModel.deletar(musculoAlvo);
+        musculoAlvoTableModel.deletar(musculoAlvo);
     }
 
-    public void sincronizarMusculoAlvoModel() {
-        musculoAlvoModel.sincronizar(getListaMusculoAlvo());
+    public void sincronizarMusculoAlvoTableModel() {
+        musculoAlvoTableModel.sincronizar(getListaMusculoAlvo());
     }
 
-    public MusculoAlvoModel getMusculoAlvoModel() {
-        return musculoAlvoModel;
+    public MusculoAlvoTableModel getMusculoAlvoTableModel() {
+        return musculoAlvoTableModel;
     }
 }
