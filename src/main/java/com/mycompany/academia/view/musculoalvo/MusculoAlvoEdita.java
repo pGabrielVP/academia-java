@@ -27,8 +27,8 @@ public class MusculoAlvoEdita extends JDialog {
     private final MusculoAlvoEditaPanel musculoAlvoEditaPanel;
 
     public MusculoAlvoEdita(JFrame parentWindow, MusculoAlvoControle musculoAlvoControle, MusculoAlvo musculoAlvo) {
-        musculoAlvoEditaPanel = new MusculoAlvoEditaPanel(musculoAlvoControle, musculoAlvo);
-        add(musculoAlvoEditaPanel);
+        musculoAlvoEditaPanel = new MusculoAlvoEditaPanel(this, musculoAlvoControle, musculoAlvo);
+        setContentPane(musculoAlvoEditaPanel);
         pack();
         setModal(true);
         setTitle("Edita Músculo-Alvo");
@@ -40,6 +40,7 @@ public class MusculoAlvoEdita extends JDialog {
 
         private final MusculoAlvoControle musculoAlvoControle;
         private final MusculoAlvo musculoAlvo;
+        private final JDialog parentWindow;
 
         private final GridBagLayout gridBagLayout;
         private JLabel idLabel;
@@ -49,9 +50,10 @@ public class MusculoAlvoEdita extends JDialog {
         private JButton salvar;
         private JButton cancelar;
 
-        public MusculoAlvoEditaPanel(MusculoAlvoControle musculoAlvoControle, MusculoAlvo musculoAlvo) {
+        public MusculoAlvoEditaPanel(JDialog parentWindow, MusculoAlvoControle musculoAlvoControle, MusculoAlvo musculoAlvo) {
             this.musculoAlvoControle = musculoAlvoControle;
             this.musculoAlvo = musculoAlvo;
+            this.parentWindow = parentWindow;
             gridBagLayout = new GridBagLayout();
 
             setLayout(gridBagLayout);
@@ -60,7 +62,7 @@ public class MusculoAlvoEdita extends JDialog {
         }
 
         private void sair() {
-            MusculoAlvoEdita.this.dispose();
+            parentWindow.dispose();
         }
 
         private void cancelarActionPerformed() {
@@ -68,17 +70,20 @@ public class MusculoAlvoEdita extends JDialog {
         }
 
         private boolean inputValido() {
-            return !(nomeInput.getText().isBlank());
+            if (nomeInput.getText().isBlank()) {
+                String mensagem = "O campo Nome precisa ser preenchido";
+                JOptionPane.showMessageDialog(this, mensagem);
+                return false;
+            }
+            return true;
         }
 
         private void salvarActionPerformed() {
-            if (!inputValido()) {
-                JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
-                return;
+            if (inputValido()) {
+                musculoAlvo.setNomeAlvo(nomeInput.getText());
+                musculoAlvoControle.salvar(musculoAlvo);
+                sair();
             }
-            musculoAlvo.setNomeAlvo(nomeInput.getText());
-            musculoAlvoControle.salvar(musculoAlvo);
-            sair();
         }
 
         private void initComponents() {
@@ -109,7 +114,7 @@ public class MusculoAlvoEdita extends JDialog {
             GridBagConstraints inputField = new GridBagConstraints();
             GridBagConstraints botoes = new GridBagConstraints();
 
-            labels.anchor = GridBagConstraints.FIRST_LINE_START;
+            labels.anchor = GridBagConstraints.LINE_END;
             labels.insets = new Insets(10, 10, 5, 5);
             labels.gridwidth = 1;
             labels.gridx = 0;
@@ -128,7 +133,7 @@ public class MusculoAlvoEdita extends JDialog {
             botoes.fill = GridBagConstraints.BOTH;
             botoes.weightx = 0.2d;
             botoes.weighty = 0.2d;
-            botoes.insets = new Insets(5, 5, 10, 5);
+            botoes.insets = new Insets(10, 5, 10, 5);
             botoes.gridwidth = 1;
             botoes.gridx = 1;
             botoes.gridy = 2;
