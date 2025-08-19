@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia;
 
+import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.view.exercicio.ExercicioLista;
 import com.mycompany.academia.view.musculoalvo.MusculoAlvoLista;
 import com.mycompany.academia.view.rotina.Rotina;
@@ -15,12 +16,15 @@ import com.mycompany.academia.view.rotina.Rotina;
 public class Academia extends javax.swing.JFrame {
 
     private final ExercicioLista exercicioLista = new ExercicioLista();
-    private final MusculoAlvoLista musculoalvoLista = new MusculoAlvoLista();
+    private final MusculoAlvoLista musculoalvoLista;
+    private final MusculoAlvoControle musculoAlvoControle;
 
     /**
      * Creates new form Academia
      */
     public Academia() {
+        musculoAlvoControle = new MusculoAlvoControle();
+        musculoalvoLista = new MusculoAlvoLista(this, musculoAlvoControle);
         initComponents();
         setLocationRelativeTo(null);
 
@@ -29,7 +33,7 @@ public class Academia extends javax.swing.JFrame {
             exercicioLista.setVisible(!exercicioLista.isVisible());
         });
         musculo_alvo_menu.addActionListener((e) -> {
-            musculoalvoLista.sincronizar();
+            musculoAlvoControle.sincronizarMusculoAlvoTableModel();
             musculoalvoLista.setVisible(!musculoalvoLista.isVisible());
         });
 
