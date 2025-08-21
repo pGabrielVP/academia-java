@@ -6,7 +6,7 @@ package com.mycompany.academia.facade;
 
 import com.mycompany.academia.model.entidades.Exercicio;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -14,15 +14,19 @@ import javax.persistence.Persistence;
  */
 public class ExercicioFacade extends AbstractFacade<Exercicio> {
 
-    private final EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
 
-    public ExercicioFacade() {
+    public ExercicioFacade(EntityManagerFactory entityManagerFactory) {
         super(Exercicio.class);
-        entityManager = Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU").createEntityManager();
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
     protected EntityManager getEntityManager() {
+        if (entityManager == null || !entityManager.isOpen()) {
+            entityManager = entityManagerFactory.createEntityManager();
+        }
         return entityManager;
     }
 

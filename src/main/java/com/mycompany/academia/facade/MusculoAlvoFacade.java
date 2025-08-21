@@ -6,7 +6,7 @@ package com.mycompany.academia.facade;
 
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -14,15 +14,19 @@ import javax.persistence.Persistence;
  */
 public class MusculoAlvoFacade extends AbstractFacade<MusculoAlvo> {
 
-    private final EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
 
-    public MusculoAlvoFacade() {
+    public MusculoAlvoFacade(EntityManagerFactory entityManagerFactory) {
         super(MusculoAlvo.class);
-        entityManager = Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU").createEntityManager();
+        this.entityManagerFactory = entityManagerFactory;
     }
 
     @Override
     protected EntityManager getEntityManager() {
+        if (entityManager == null || !entityManager.isOpen()) {
+            entityManager = entityManagerFactory.createEntityManager();
+        }
         return entityManager;
     }
 
