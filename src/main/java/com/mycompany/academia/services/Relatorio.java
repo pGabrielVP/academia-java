@@ -37,7 +37,7 @@ public class Relatorio {
             JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
             JasperReport relatorioPrincipal = loadReport(REPORT_PRINCIPAL);
 
-            HashMap<String, Object> parametros = new HashMap();
+            HashMap<String, Object> parametros = new HashMap<>();
             JasperReport relatorioSuperSet = loadReport(REPORT_SUPERSET);
             JasperReport relatorioExercicios = loadReport(REPORT_EXERCICIOS);
             parametros.put("subreportSuperset", relatorioSuperSet);
@@ -68,7 +68,7 @@ public class Relatorio {
 
         for (int i = 0; i < exercicios.size(); i++) {
             HashMap<ExercicioWrapper, ExercicioWrapper> _hashmap = superset.get(i);
-            ArrayList<ExercicioWrapper> _exercicios = (ArrayList<ExercicioWrapper>) exercicios.get(i).clone();
+            ArrayList<ExercicioWrapper> _exercicios = new ArrayList<>(exercicios.get(i));
             ArrayList<ExercicioWrapper> _superset = new ArrayList<>();
             for (Map.Entry<ExercicioWrapper, ExercicioWrapper> ex_wpr : _hashmap.entrySet()) {
                 if (!_superset.contains(ex_wpr.getKey())) {

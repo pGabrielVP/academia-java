@@ -5,7 +5,6 @@
 package com.mycompany.academia.view.exercicio;
 
 import com.mycompany.academia.controle.ExercicioControle;
-import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import com.mycompany.academia.view.musculoalvo.MusculoAlvoRenderer;
@@ -41,8 +40,8 @@ public class ExercicioEdita extends JDialog {
 
     private final ExercicioEditaPanel exercicioEditaPanel;
 
-    public ExercicioEdita(JFrame parentWindow, MusculoAlvoControle musculoAlvoControle, ExercicioControle exercicioControle, Exercicio exercicio) throws HeadlessException {
-        exercicioEditaPanel = new ExercicioEditaPanel(this, musculoAlvoControle, exercicioControle, exercicio);
+    public ExercicioEdita(JFrame parentWindow, ExercicioControle exercicioControle, Exercicio exercicio) throws HeadlessException {
+        exercicioEditaPanel = new ExercicioEditaPanel(this, exercicioControle, exercicio);
         setContentPane(exercicioEditaPanel);
         pack();
         setModal(true);
@@ -54,7 +53,6 @@ public class ExercicioEdita extends JDialog {
     private class ExercicioEditaPanel extends JPanel {
 
         private final ExercicioControle exercicioControle;
-        private final MusculoAlvoControle musculoAlvoControle;
         private final Exercicio exercicio;
         private final JDialog parentWindow;
 
@@ -68,13 +66,12 @@ public class ExercicioEdita extends JDialog {
         private JButton imagemButton;
         private byte[] imagemSelecionada;
         private JLabel musculoAlvoLabel;
-        private JComboBox musculoAlvoInput;
+        private JComboBox<MusculoAlvo> musculoAlvoInput;
         private JButton salvar;
         private JButton cancelar;
 
-        public ExercicioEditaPanel(JDialog parentWindow, MusculoAlvoControle musculoAlvoControle, ExercicioControle exercicioControle, Exercicio exercicio) {
+        public ExercicioEditaPanel(JDialog parentWindow, ExercicioControle exercicioControle, Exercicio exercicio) {
             this.parentWindow = parentWindow;
-            this.musculoAlvoControle = musculoAlvoControle;
             this.exercicioControle = exercicioControle;
             this.exercicio = exercicio;
             this.imagemSelecionada = exercicio.getImagem();
@@ -83,12 +80,22 @@ public class ExercicioEdita extends JDialog {
             initComponents();
         }
 
+        private void cancelarActionPerformed() {
+            sair();
+        }
+
         private void sair() {
             parentWindow.dispose();
         }
 
-        private void cancelarActionPerformed() {
-            sair();
+        private void salvarActionPerformed() {
+            if (inputValido()) {
+                exercicio.setNomeExercicio(nomeInput.getText());
+                exercicio.setImagem(imagemSelecionada);
+                exercicio.setMusculoAlvo((MusculoAlvo) musculoAlvoInput.getSelectedItem());
+                exercicioControle.salvar(exercicio);
+                sair();
+            }
         }
 
         private boolean inputValido() {
@@ -121,16 +128,6 @@ public class ExercicioEdita extends JDialog {
             }
             JOptionPane.showMessageDialog(this, stringBuilder.toString());
             return false;
-        }
-
-        private void salvarActionPerformed() {
-            if (inputValido()) {
-                exercicio.setNomeExercicio(nomeInput.getText());
-                exercicio.setImagem(imagemSelecionada);
-                exercicio.setMusculoAlvo((MusculoAlvo) musculoAlvoInput.getSelectedItem());
-                exercicioControle.salvar(exercicio);
-                sair();
-            }
         }
 
         private void imagemButtonActionPerformed() {
@@ -207,8 +204,8 @@ public class ExercicioEdita extends JDialog {
             });
 
             musculoAlvoLabel = new JLabel("Músculo-Alvo");
-            musculoAlvoInput = new JComboBox();
-            musculoAlvoInput.setModel(new DefaultComboBoxModel(musculoAlvoControle.getListaMusculoAlvo().toArray()));
+            musculoAlvoInput = new JComboBox<>();
+            musculoAlvoInput.setModel(new DefaultComboBoxModel<>(exercicioControle.getListaMusculoAlvo().toArray(MusculoAlvo[]::new)));
             musculoAlvoInput.setRenderer(new MusculoAlvoRenderer());
             musculoAlvoInput.setSelectedItem(exercicio.getMusculoAlvo());
             musculoAlvoInput.setEditable(false);

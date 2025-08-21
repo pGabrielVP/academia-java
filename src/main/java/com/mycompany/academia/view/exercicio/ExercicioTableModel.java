@@ -14,16 +14,16 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author paulo
  */
-public class ExercicioModel extends AbstractTableModel {
+public class ExercicioTableModel extends AbstractTableModel {
 
-    private final String[] nomeColunas = {"exercicio_id", "nome_exercicio", "imagem", "musculo_alvo"};
+    private final String[] nomeColunas = {"ID", "Nome", "Imagem", "Músculo-Alvo"};
     private final List<Exercicio> listaExercicios; // Remover final? ln:84
 
-    public ExercicioModel() {
+    public ExercicioTableModel() {
         listaExercicios = new ArrayList<>();
     }
 
-    public ExercicioModel(List<Exercicio> listaExercicios) {
+    public ExercicioTableModel(List<Exercicio> listaExercicios) {
         this.listaExercicios = listaExercicios;
     }
 
@@ -59,21 +59,37 @@ public class ExercicioModel extends AbstractTableModel {
     }
 
     @Override
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
         return getValueAt(0, column).getClass();
     }
 
-    public void adicionarNovo(Exercicio exercicio) {
-        listaExercicios.add(exercicio);
-        fireTableDataChanged();
+    public void deletar(Exercicio exercicio) {
+        int linha = listaExercicios.indexOf(exercicio);
+        if (linha != -1) {
+            deletar(linha);
+        }
     }
 
-    public void deletar(int linhaSelecionada) {
+    private void deletar(int linhaSelecionada) {
         listaExercicios.remove(linhaSelecionada);
         fireTableDataChanged();
     }
 
-    public void atualizar(Exercicio exercicio) {
+    public void oferecer(Exercicio exercicio) {
+        int linha = listaExercicios.indexOf(exercicio);
+        if (linha == -1) {
+            adicionarNovo(exercicio);
+        } else {
+            atualizar(exercicio);
+        }
+    }
+
+    private void adicionarNovo(Exercicio exercicio) {
+        listaExercicios.add(exercicio);
+        fireTableDataChanged();
+    }
+
+    private void atualizar(Exercicio exercicio) {
         int linha = listaExercicios.indexOf(exercicio);
         listaExercicios.set(linha, exercicio);
         fireTableDataChanged();
