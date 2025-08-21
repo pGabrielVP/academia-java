@@ -55,19 +55,28 @@ public class MusculoAlvoTableModel extends AbstractTableModel {
     }
 
     @Override
-    public Class getColumnClass(int column) {
+    public Class<?> getColumnClass(int column) {
         return getValueAt(0, column).getClass();
-    }
-
-    public void deletar(int linhaSelecionada) {
-        listaMusculoAlvo.remove(linhaSelecionada);
-        fireTableDataChanged();
     }
 
     public void deletar(MusculoAlvo musculoAlvo) {
         int linha = listaMusculoAlvo.indexOf(musculoAlvo);
         if (linha != -1) {
             deletar(linha);
+        }
+    }
+
+    private void deletar(int linhaSelecionada) {
+        listaMusculoAlvo.remove(linhaSelecionada);
+        fireTableDataChanged();
+    }
+
+    public void oferecer(MusculoAlvo musculoAlvo) {
+        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
+        if (linha == -1) {
+            adicionarNovo(musculoAlvo);
+        } else {
+            atualizar(musculoAlvo);
         }
     }
 
@@ -80,15 +89,6 @@ public class MusculoAlvoTableModel extends AbstractTableModel {
         int linha = listaMusculoAlvo.indexOf(musculoAlvo);
         listaMusculoAlvo.set(linha, musculoAlvo);
         fireTableDataChanged();
-    }
-
-    public void oferecer(MusculoAlvo musculoAlvo) {
-        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
-        if (linha == -1) {
-            adicionarNovo(musculoAlvo);
-        } else {
-            atualizar(musculoAlvo);
-        }
     }
 
     public void sincronizar(Collection<MusculoAlvo> listaMusculoAlvo) {

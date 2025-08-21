@@ -153,11 +153,7 @@ public class RotinaTablePanel extends javax.swing.JPanel {
         ArrayList<String> titulos = get_titulos();
         ArrayList<ArrayList<ExercicioWrapper>> exercicios = get_exercicios();
         ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset = get_superset();
-        try {
-            Relatorio.imprimirRelatorio(titulos, exercicios, superset);
-        } catch (JRException ex) {
-            Logger.getLogger(RotinaTablePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Relatorio.imprimirRelatorio(titulos, exercicios, superset);
     }//GEN-LAST:event_imprimirMouseClicked
 
     private void resetar_formularioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetar_formularioActionPerformed
@@ -198,7 +194,7 @@ public class RotinaTablePanel extends javax.swing.JPanel {
     }
 
     private void atualizar_comboBox(JTable table) {
-        JComboBox comboBox = new JComboBox();
+        JComboBox<Exercicio> comboBox = new JComboBox<>();
 
         int linhas = table.getModel().getRowCount();
         for (int i = 0; i < linhas; i++) {

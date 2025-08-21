@@ -18,9 +18,13 @@ public class MusculoAlvoControle {
     private final MusculoAlvoFacade musculoAlvoFacade;
     private final MusculoAlvoTableModel musculoAlvoTableModel;
 
-    public MusculoAlvoControle() {
-        musculoAlvoFacade = new MusculoAlvoFacade();
-        musculoAlvoTableModel = new MusculoAlvoTableModel();
+    public MusculoAlvoControle(MusculoAlvoFacade musculoAlvoFacade, MusculoAlvoTableModel musculoAlvoTableModel) {
+        this.musculoAlvoFacade = musculoAlvoFacade;
+        this.musculoAlvoTableModel = musculoAlvoTableModel;
+    }
+
+    public void sincronizarMusculoAlvoTableModel() {
+        musculoAlvoTableModel.sincronizar(getListaMusculoAlvo());
     }
 
     public List<MusculoAlvo> getListaMusculoAlvo() {
@@ -41,11 +45,8 @@ public class MusculoAlvoControle {
         musculoAlvoTableModel.deletar(musculoAlvo);
     }
 
-    public void sincronizarMusculoAlvoTableModel() {
-        musculoAlvoTableModel.sincronizar(getListaMusculoAlvo());
-    }
-
     public MusculoAlvoTableModel getMusculoAlvoTableModel() {
         return musculoAlvoTableModel;
     }
+
 }

@@ -5,9 +5,12 @@
 package com.mycompany.academia.view.rotina.paginas;
 
 import com.mycompany.academia.controle.MusculoAlvoControle;
+import com.mycompany.academia.facade.MusculoAlvoFacade;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
+import com.mycompany.academia.view.musculoalvo.MusculoAlvoTableModel;
 import com.mycompany.academia.view.rotina.RotinaMenuLateral;
 import java.util.List;
+import javax.persistence.Persistence;
 import javax.swing.JButton;
 
 /**
@@ -16,7 +19,7 @@ import javax.swing.JButton;
  */
 public class HomePage extends javax.swing.JPanel {
 
-    private final MusculoAlvoControle musculoAlvoControle = new MusculoAlvoControle();
+    private final MusculoAlvoControle musculoAlvoControle = new MusculoAlvoControle(new MusculoAlvoFacade(Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU")), new MusculoAlvoTableModel());
     private List<MusculoAlvo> listaMusculoAlvo = musculoAlvoControle.getListaMusculoAlvo();
 
     /**

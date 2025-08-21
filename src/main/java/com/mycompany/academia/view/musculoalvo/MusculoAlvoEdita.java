@@ -58,15 +58,22 @@ public class MusculoAlvoEdita extends JDialog {
 
             setLayout(gridBagLayout);
             initComponents();
-            addComponents();
+        }
+
+        private void cancelarActionPerformed() {
+            sair();
         }
 
         private void sair() {
             parentWindow.dispose();
         }
 
-        private void cancelarActionPerformed() {
-            sair();
+        private void salvarActionPerformed() {
+            if (inputValido()) {
+                musculoAlvo.setNomeAlvo(nomeInput.getText());
+                musculoAlvoControle.salvar(musculoAlvo);
+                sair();
+            }
         }
 
         private boolean inputValido() {
@@ -78,24 +85,18 @@ public class MusculoAlvoEdita extends JDialog {
             return true;
         }
 
-        private void salvarActionPerformed() {
-            if (inputValido()) {
-                musculoAlvo.setNomeAlvo(nomeInput.getText());
-                musculoAlvoControle.salvar(musculoAlvo);
-                sair();
-            }
-        }
-
         private void initComponents() {
             idLabel = new JLabel("ID");
             idInput = new JTextField();
             idInput.setEditable(false);
             idInput.setFocusable(false);
-            Integer idVal = musculoAlvo.getIdAlvo();
-            idInput.setText((idVal != null) ? idVal.toString() : "");
+            Integer musculoAlvoID = musculoAlvo.getIdAlvo();
+            idInput.setText((musculoAlvoID != null) ? musculoAlvoID.toString() : "");
 
             nomeLabel = new JLabel("Nome");
             nomeInput = new JTextField();
+            String musculoAlvoNome = musculoAlvo.getNomeAlvo();
+            nomeInput.setText(musculoAlvoNome);
 
             salvar = new JButton("Salvar");
             salvar.addActionListener((e) -> {
@@ -106,9 +107,6 @@ public class MusculoAlvoEdita extends JDialog {
             cancelar.addActionListener((e) -> {
                 cancelarActionPerformed();
             });
-        }
-
-        private void addComponents() {
 
             GridBagConstraints labels = new GridBagConstraints();
             GridBagConstraints inputField = new GridBagConstraints();
@@ -149,7 +147,6 @@ public class MusculoAlvoEdita extends JDialog {
             add(cancelar, botoes);
             botoes.gridx++;
             add(salvar, botoes);
-
         }
 
     }

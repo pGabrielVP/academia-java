@@ -4,10 +4,17 @@
  */
 package com.mycompany.academia;
 
+import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.controle.MusculoAlvoControle;
+import com.mycompany.academia.facade.ExercicioFacade;
+import com.mycompany.academia.facade.MusculoAlvoFacade;
 import com.mycompany.academia.view.exercicio.ExercicioLista;
+import com.mycompany.academia.view.exercicio.ExercicioTableModel;
 import com.mycompany.academia.view.musculoalvo.MusculoAlvoLista;
+import com.mycompany.academia.view.musculoalvo.MusculoAlvoTableModel;
 import com.mycompany.academia.view.rotina.Rotina;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -15,21 +22,36 @@ import com.mycompany.academia.view.rotina.Rotina;
  */
 public class Academia extends javax.swing.JFrame {
 
-    private final ExercicioLista exercicioLista = new ExercicioLista();
-    private final MusculoAlvoLista musculoalvoLista;
+    private final EntityManagerFactory entityManagerFactory;
+    private final MusculoAlvoFacade musculoAlvoFacade;
+    private final MusculoAlvoTableModel musculoAlvoTableModel;
     private final MusculoAlvoControle musculoAlvoControle;
+    private final MusculoAlvoLista musculoalvoLista;
+    private final ExercicioFacade exercicioFacade;
+    private final ExercicioTableModel exercicioTableModel;
+    private final ExercicioControle exercicioControle;
+    private final ExercicioLista exercicioLista;
 
     /**
      * Creates new form Academia
      */
     public Academia() {
-        musculoAlvoControle = new MusculoAlvoControle();
+        entityManagerFactory = Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU");
+
+        musculoAlvoFacade = new MusculoAlvoFacade(entityManagerFactory);
+        musculoAlvoTableModel = new MusculoAlvoTableModel();
+        musculoAlvoControle = new MusculoAlvoControle(musculoAlvoFacade, musculoAlvoTableModel);
         musculoalvoLista = new MusculoAlvoLista(this, musculoAlvoControle);
+
+        exercicioFacade = new ExercicioFacade(entityManagerFactory);
+        exercicioTableModel = new ExercicioTableModel();
+        exercicioControle = new ExercicioControle(exercicioFacade, musculoAlvoFacade, exercicioTableModel);
+        exercicioLista = new ExercicioLista(this, exercicioControle);
+
         initComponents();
         setLocationRelativeTo(null);
-
         exercicio_menu.addActionListener((e) -> {
-            exercicioLista.sincronizar();
+            exercicioControle.sincronizarExercicioTableModel();
             exercicioLista.setVisible(!exercicioLista.isVisible());
         });
         musculo_alvo_menu.addActionListener((e) -> {
@@ -128,10 +150,8 @@ public class Academia extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Academia().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Academia().setVisible(true);
         });
     }
 
