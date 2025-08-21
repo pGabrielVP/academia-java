@@ -6,7 +6,7 @@ package com.mycompany.academia.facade;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -23,24 +23,40 @@ public abstract class AbstractFacade<T> {
     }
 
     public void salvar(T entity) {
-        getEntityManager().getTransaction().begin();
-        getEntityManager().persist(entity);
-        getEntityManager().merge(entity);
-        getEntityManager().getTransaction().commit();
+        try {
+            getEntityManager().getTransaction().begin();
+            getEntityManager().persist(entity);
+            getEntityManager().merge(entity);
+            getEntityManager().getTransaction().commit();
+        } finally {
+            getEntityManager().close();
+        }
     }
 
     public void remover(T entity) {
-        getEntityManager().getTransaction().begin();
-        getEntityManager().remove(getEntityManager().merge(entity));
-        getEntityManager().getTransaction().commit();
+        try {
+            getEntityManager().getTransaction().begin();
+            getEntityManager().remove(getEntityManager().merge(entity));
+            getEntityManager().getTransaction().commit();
+        } finally {
+            getEntityManager().close();
+        }
     }
 
     public T buscar(Object id) {
-        return getEntityManager().find(entityClass, id);
+        try {
+            return getEntityManager().find(entityClass, id);
+        } finally {
+            getEntityManager().close();
+        }
     }
 
     public List<T> listaTodos() {
-        Query q = getEntityManager().createNamedQuery(entityClass.getSimpleName() + ".findAll");
-        return q.getResultList();
+        try {
+            TypedQuery<T> typedQuery = getEntityManager().createNamedQuery(entityClass.getSimpleName() + ".findAll", entityClass);
+            return typedQuery.getResultList();
+        } finally {
+            getEntityManager().close();
+        }
     }
 }
