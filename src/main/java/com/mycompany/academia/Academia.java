@@ -52,10 +52,12 @@ public class Academia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         exercicio_menu.addActionListener((e) -> {
             exercicioControle.sincronizarExercicioTableModel();
+            exercicioLista.setLocationRelativeTo(this);
             exercicioLista.setVisible(!exercicioLista.isVisible());
         });
         musculo_alvo_menu.addActionListener((e) -> {
             musculoAlvoControle.sincronizarMusculoAlvoTableModel();
+            musculoalvoLista.setLocationRelativeTo(this);
             musculoalvoLista.setVisible(!musculoalvoLista.isVisible());
         });
 
