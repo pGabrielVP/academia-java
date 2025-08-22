@@ -8,10 +8,14 @@ import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import com.mycompany.academia.view.musculoalvo.MusculoAlvoRenderer;
+import com.mycompany.academia.view.efeitos.ComboBoxValidator;
+import com.mycompany.academia.view.efeitos.TextFieldValidator;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,11 +30,13 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.LayerUI;
 
 /**
  *
@@ -57,6 +63,8 @@ public final class ExercicioEdita extends JDialog {
         private final JDialog parentWindow;
 
         private final GridBagLayout gridBagLayout;
+        private final LayerUI<JComboBox<MusculoAlvo>> comboBoxLayerUI;
+        private final LayerUI<JTextField> textFieldLayerUI;
         private JLabel idLabel;
         private JTextField idInput;
         private JLabel nomeLabel;
@@ -76,6 +84,8 @@ public final class ExercicioEdita extends JDialog {
             this.exercicio = exercicio;
             this.imagemSelecionada = exercicio.getImagem();
             gridBagLayout = new GridBagLayout();
+            comboBoxLayerUI = new ComboBoxValidator();
+            textFieldLayerUI = new TextFieldValidator();
             setLayout(gridBagLayout);
             initComponents();
         }
@@ -130,7 +140,7 @@ public final class ExercicioEdita extends JDialog {
             return false;
         }
 
-        private void imagemButtonActionPerformed() {
+        private void requestFileChooser() {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setMultiSelectionEnabled(false);
             fileChooser.setFileFilter(new FileNameExtensionFilter("Permite somente imagens .png", "png"));
@@ -195,12 +205,24 @@ public final class ExercicioEdita extends JDialog {
             imagemLabel = new JLabel("Imagem");
             imagemInput = new JTextField();
             imagemInput.setEditable(false);
-            imagemInput.setFocusable(false);
+            imagemInput.setFocusable(true);
             String imagemInputText = (imagemSelecionada != null) ? imagemSelecionada.toString() : "";
             imagemInput.setText(imagemInputText);
+            imagemInput.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    e.getComponent().setFocusable(false);
+                    requestFileChooser();
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    e.getComponent().setFocusable(true);
+                }
+            });
             imagemButton = new JButton("...");
             imagemButton.addActionListener((e) -> {
-                imagemButtonActionPerformed();
+                requestFileChooser();
             });
 
             musculoAlvoLabel = new JLabel("Músculo-Alvo");
@@ -229,16 +251,16 @@ public final class ExercicioEdita extends JDialog {
 
             add(idInput, inputConstraints);
             inputConstraints.gridy++;
-            add(nomeInput, inputConstraints);
+            add(new JLayer<>(nomeInput, textFieldLayerUI), inputConstraints);
             inputConstraints.gridy++;
-            add(imagemInput, inputConstraints);
+            add(new JLayer<>(imagemInput, textFieldLayerUI), inputConstraints);
             inputConstraints.gridx += 2;
             inputConstraints.gridwidth = 1;
             add(imagemButton, inputConstraints);
             inputConstraints.gridwidth = 2;
             inputConstraints.gridx -= 2;
             inputConstraints.gridy++;
-            add(musculoAlvoInput, inputConstraints);
+            add(new JLayer<>(musculoAlvoInput, comboBoxLayerUI), inputConstraints);
 
             add(cancelar, buttonConstraints);
             buttonConstraints.gridx++;

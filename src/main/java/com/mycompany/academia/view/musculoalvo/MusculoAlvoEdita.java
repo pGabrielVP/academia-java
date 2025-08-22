@@ -6,6 +6,7 @@ package com.mycompany.academia.view.musculoalvo;
 
 import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
+import com.mycompany.academia.view.efeitos.TextFieldValidator;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,10 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.plaf.LayerUI;
 
 /**
  *
@@ -43,6 +46,7 @@ public final class MusculoAlvoEdita extends JDialog {
         private final JDialog parentWindow;
 
         private final GridBagLayout gridBagLayout;
+        private final LayerUI<JTextField> textFieldLayerUI;
         private JLabel idLabel;
         private JTextField idInput;
         private JLabel nomeLabel;
@@ -55,6 +59,7 @@ public final class MusculoAlvoEdita extends JDialog {
             this.musculoAlvo = musculoAlvo;
             this.parentWindow = parentWindow;
             gridBagLayout = new GridBagLayout();
+            textFieldLayerUI = new TextFieldValidator();
 
             setLayout(gridBagLayout);
             initComponents();
@@ -142,7 +147,7 @@ public final class MusculoAlvoEdita extends JDialog {
 
             add(idInput, inputField);
             inputField.gridy++;
-            add(nomeInput, inputField);
+            add(new JLayer<>(nomeInput, textFieldLayerUI), inputField);
 
             add(cancelar, botoes);
             botoes.gridx++;
