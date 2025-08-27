@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RotinaTableModel extends AbstractTableModel {
 
-    private final String[] nome_colunas = {"Exercicio", "Reps", "Sets", "Descanso", "Superset"};
+    private final String[] nomeColunas = {"Exercicio", "Reps", "Sets", "Descanso", "Superset"};
     private final ArrayList<ExercicioWrapper> exercicios;
     private final HashMap<Exercicio, Exercicio> superset;
 
@@ -33,7 +33,7 @@ public class RotinaTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return nome_colunas.length;
+        return nomeColunas.length;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RotinaTableModel extends AbstractTableModel {
             case 1: exercicioWrapper.setReps((int) aValue); break;
             case 2: exercicioWrapper.setSets((int) aValue); break;
             case 3: exercicioWrapper.setDescanso((int) aValue); break;
-            case 4: atualizar_supersets(exercicioWrapper.getExercicio(), (Exercicio) aValue); break;
+            case 4: atualizarSuperSets(exercicioWrapper.getExercicio(), (Exercicio) aValue); break;
         }
 
         fireTableCellUpdated(rowIndex, columnIndex);
@@ -67,7 +67,7 @@ public class RotinaTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return nome_colunas[column];
+        return nomeColunas[column];
     }
 
     @Override
@@ -87,12 +87,12 @@ public class RotinaTableModel extends AbstractTableModel {
         }
     }
 
-    private void atualizar_supersets(Exercicio ex1, Exercicio ex2) {
+    private void atualizarSuperSets(Exercicio ex1, Exercicio ex2) {
         if (ex2 != null && ex1 != ex2) {
-            adicionar_par(ex1, ex2);
+            adicionarPar(ex1, ex2);
         }
         if (ex2 == null) {
-            remover_par(ex1);
+            removerPar(ex1);
         }
         fireTableDataChanged();
     }
@@ -110,7 +110,7 @@ public class RotinaTableModel extends AbstractTableModel {
      * @param ex1
      * @param ex2
      */
-    private void adicionar_par(Exercicio ex1, Exercicio ex2) {
+    private void adicionarPar(Exercicio ex1, Exercicio ex2) {
         Exercicio _ex1 = superset.get(ex1);
         Exercicio _ex2 = superset.get(ex2);
 
@@ -123,7 +123,7 @@ public class RotinaTableModel extends AbstractTableModel {
         }
     }
 
-    private void remover_par(Exercicio ex1) {
+    private void removerPar(Exercicio ex1) {
         Exercicio _ex2 = superset.get(ex1);
         superset.remove(ex1, _ex2);
         superset.remove(_ex2, ex1);
@@ -144,7 +144,7 @@ public class RotinaTableModel extends AbstractTableModel {
 
     public void removeExercicioWrapper(int row) {
         Exercicio row_exercicio = (Exercicio) getValueAt(row, 0);
-        remover_par(row_exercicio);
+        removerPar(row_exercicio);
         exercicios.remove(row);
         fireTableDataChanged();
     }

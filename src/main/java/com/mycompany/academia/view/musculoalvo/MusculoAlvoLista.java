@@ -25,7 +25,7 @@ import com.mycompany.academia.view.ListaTableOperacoes;
  *
  * @author paulo
  */
-public class MusculoAlvoLista extends JFrame {
+public final class MusculoAlvoLista extends JFrame {
 
     private final MusculoAlvoListaPanel musculoAlvoListaPanel;
 
@@ -74,13 +74,8 @@ public class MusculoAlvoLista extends JFrame {
         public void deletar() {
             MusculoAlvo selecao = listaTable.getSelecao();
             if (selecao != null) {
-                StringBuilder stringBuilder = new StringBuilder()
-                        .append("O Músculo-Alvo: ")
-                        .append(selecao.getNomeAlvo())
-                        .append(" com ID: ")
-                        .append(selecao.getIdAlvo())
-                        .append(" será removido");
-                int confirmarDeletar = JOptionPane.showConfirmDialog(this, stringBuilder.toString(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                String mensagem = "O Músculo-Alvo: " + selecao.getNomeAlvo() + " com ID: " + selecao.getIdAlvo() + " será removido";
+                int confirmarDeletar = JOptionPane.showConfirmDialog(this, mensagem, "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (confirmarDeletar == JOptionPane.OK_OPTION) {
                     musculoAlvoControle.excluir(selecao);
                 }

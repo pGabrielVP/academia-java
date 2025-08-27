@@ -32,7 +32,7 @@ public class Relatorio {
     private static final String REPORT_SUPERSET = "/relatorios/Listar_Superset.jasper";
     private static final String REPORT_EXERCICIOS = "/relatorios/Listar_Exercicios.jasper";
 
-    public static void imprimirRelatorio(Collection<Sublista> lista) {
+    public void imprimirRelatorio(Collection<Sublista> lista) {
         try {
             JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
             JasperReport relatorioPrincipal = loadReport(REPORT_PRINCIPAL);
@@ -52,18 +52,18 @@ public class Relatorio {
         }
     }
 
-    public static void imprimirRelatorio(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
+    public void imprimirRelatorio(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
         Collection<Sublista> lista = asCollection(titulos, exercicios, superset);
         imprimirRelatorio(lista);
     }
 
-    private static JasperReport loadReport(String report_location) throws JRException {
+    private JasperReport loadReport(String report_location) throws JRException {
         InputStream inputStream = Relatorio.class.getResourceAsStream(report_location);
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
         return jasperReport;
     }
 
-    private static Collection<Sublista> asCollection(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
+    private Collection<Sublista> asCollection(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
         Collection<Sublista> lista = new ArrayList<>();
 
         for (int i = 0; i < exercicios.size(); i++) {
@@ -82,4 +82,5 @@ public class Relatorio {
         }
         return lista;
     }
+
 }
