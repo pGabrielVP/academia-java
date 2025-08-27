@@ -36,7 +36,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author paulo
  */
-public class ExercicioEdita extends JDialog {
+public final class ExercicioEdita extends JDialog {
 
     private final ExercicioEditaPanel exercicioEditaPanel;
 

@@ -22,7 +22,7 @@ import javax.swing.WindowConstants;
  *
  * @author paulo
  */
-public class MusculoAlvoEdita extends JDialog {
+public final class MusculoAlvoEdita extends JDialog {
 
     private final MusculoAlvoEditaPanel musculoAlvoEditaPanel;
 

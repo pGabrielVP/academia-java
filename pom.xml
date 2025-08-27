@@ -12,7 +12,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.mycompany.academia.Academia</mainClass>
+                            <mainClass>com.mycompany.academia.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -93,6 +93,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <exec.mainClass>com.mycompany.academia.Academia</exec.mainClass>
+        <exec.mainClass>com.mycompany.academia.Main</exec.mainClass>
     </properties>
 </project>

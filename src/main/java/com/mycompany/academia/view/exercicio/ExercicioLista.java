@@ -25,7 +25,7 @@ import javax.swing.WindowConstants;
  *
  * @author paulo
  */
-public class ExercicioLista extends JFrame {
+public final class ExercicioLista extends JFrame {
 
     private final ExercicioListaPanel exercicioListaPanel;
 

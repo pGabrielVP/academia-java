@@ -4,9 +4,10 @@
  */
 package com.mycompany.academia.view.rotina;
 
+import com.mycompany.academia.controle.RotinaControle;
 import com.mycompany.academia.model.entidades.Exercicio;
-import com.mycompany.academia.view.rotina.paginas.HomePage;
-import com.mycompany.academia.view.rotina.paginas.ExerciciosListar;
+import com.mycompany.academia.view.rotina.paginas.EscolherMusculoAlvo;
+import com.mycompany.academia.view.rotina.paginas.EscolherExercicio;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.util.List;
@@ -16,32 +17,32 @@ import javax.swing.JPanel;
  *
  * @author paulo
  */
-public class RotinaMenuLateral extends JPanel {
+public final class RotinaMenuLateral extends JPanel {
 
     private final String HOMEPAGE = "home_page";
     private final String LISTAR_EXERCICIOS = "listar_exercicios";
-    private final ExerciciosListar painel_exercicios;
-    private final HomePage painel_homepage;
+    private final EscolherExercicio exerciciosListar;
+    private final EscolherMusculoAlvo homepage;
     private final CardLayout cLayout;
 
-    public RotinaMenuLateral(RotinaTablePanel rotina_table_panel) {
-        painel_exercicios = new ExerciciosListar(this, rotina_table_panel);
-        painel_homepage = new HomePage(this);
+    public RotinaMenuLateral(RotinaConteudo siblingPanel, RotinaControle rotinaControle) {
+        exerciciosListar = new EscolherExercicio(this, siblingPanel);
+        homepage = new EscolherMusculoAlvo(this, rotinaControle);
         cLayout = new CardLayout();
 
         setLayout(cLayout);
         setPreferredSize(new Dimension(370, 551));
-        add(HOMEPAGE, painel_homepage);
-        add(LISTAR_EXERCICIOS, painel_exercicios);
+        add(HOMEPAGE, homepage);
+        add(LISTAR_EXERCICIOS, exerciciosListar);
     }
 
     public void showHomePage() {
-        painel_homepage.atualizar(this);
+        homepage.atualizar();
         cLayout.show(this, HOMEPAGE);
     }
 
     public void showListarExercicios(List<Exercicio> lista_exercicio) {
-        painel_exercicios.setExercicios(lista_exercicio);
+        exerciciosListar.setListaExercicios(lista_exercicio);
         cLayout.show(this, LISTAR_EXERCICIOS);
     }
 
