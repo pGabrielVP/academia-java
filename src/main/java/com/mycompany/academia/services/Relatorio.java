@@ -5,12 +5,8 @@
 package com.mycompany.academia.services;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-
-import com.mycompany.academia.model.dto.ExercicioWrapper;
 import com.mycompany.academia.model.dto.Sublista;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,35 +48,10 @@ public class Relatorio {
         }
     }
 
-    public void imprimirRelatorio(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
-        Collection<Sublista> lista = asCollection(titulos, exercicios, superset);
-        imprimirRelatorio(lista);
-    }
-
     private JasperReport loadReport(String report_location) throws JRException {
         InputStream inputStream = Relatorio.class.getResourceAsStream(report_location);
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
         return jasperReport;
-    }
-
-    private Collection<Sublista> asCollection(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
-        Collection<Sublista> lista = new ArrayList<>();
-
-        for (int i = 0; i < exercicios.size(); i++) {
-            HashMap<ExercicioWrapper, ExercicioWrapper> _hashmap = superset.get(i);
-            ArrayList<ExercicioWrapper> _exercicios = new ArrayList<>(exercicios.get(i));
-            ArrayList<ExercicioWrapper> _superset = new ArrayList<>();
-            for (Map.Entry<ExercicioWrapper, ExercicioWrapper> ex_wpr : _hashmap.entrySet()) {
-                if (!_superset.contains(ex_wpr.getKey())) {
-                    _superset.add(ex_wpr.getKey());
-                    _superset.add(_hashmap.get(ex_wpr.getKey()));
-                    _exercicios.remove(ex_wpr.getKey());
-                    _exercicios.remove(_hashmap.get(ex_wpr.getKey()));
-                }
-            }
-            lista.add(new Sublista(titulos.get(i), _exercicios, _superset));
-        }
-        return lista;
     }
 
 }

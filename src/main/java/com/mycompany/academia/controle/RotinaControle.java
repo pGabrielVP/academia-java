@@ -5,11 +5,10 @@
 package com.mycompany.academia.controle;
 
 import com.mycompany.academia.facade.MusculoAlvoFacade;
-import com.mycompany.academia.model.dto.ExercicioWrapper;
+import com.mycompany.academia.model.dto.Sublista;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import com.mycompany.academia.services.Relatorio;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,8 +29,8 @@ public class RotinaControle {
         return musculoAlvoFacade.listaTodos();
     }
 
-    public void imprimirRelatorio(ArrayList<String> titulos, ArrayList<ArrayList<ExercicioWrapper>> exercicios, ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superset) {
-        relatorio.imprimirRelatorio(titulos, exercicios, superset);
+    public void imprimirRelatorio(Collection<Sublista> lista) {
+        relatorio.imprimirRelatorio(lista);
     }
 
 }

@@ -6,12 +6,15 @@ package com.mycompany.academia.view.rotina;
 
 import com.mycompany.academia.controle.RotinaControle;
 import com.mycompany.academia.model.dto.ExercicioWrapper;
+import com.mycompany.academia.model.dto.Sublista;
 import com.mycompany.academia.model.entidades.Exercicio;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
@@ -110,7 +113,27 @@ public final class RotinaConteudo extends JPanel {
         ArrayList<ArrayList<ExercicioWrapper>> listaExercicios = getListaExercicios();
         ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> listaSuperset = getListaSuperset();
 
-        rotinaControle.imprimirRelatorio(listaTitulos, listaExercicios, listaSuperset);
+        Collection<Sublista> lista = new ArrayList<>();
+        for (int i = 0; i < listaExercicios.size(); i++) {
+            String tituloAtual = listaTitulos.get(i);
+            HashMap<ExercicioWrapper, ExercicioWrapper> superSetAtual = listaSuperset.get(i);
+            ArrayList<ExercicioWrapper> listaExerciciosAtual = new ArrayList<>(listaExercicios.get(i)); // Cria uma nova lista para não alterar a lista renderizada na interface.
+
+            ArrayList<ExercicioWrapper> listaSuperSetAtual = new ArrayList<>(); // Se um exercício está em superset adiciona para listaSuperset e remove de listaExercicios.
+            for (Map.Entry<ExercicioWrapper, ExercicioWrapper> entry : superSetAtual.entrySet()) {
+                ExercicioWrapper exercicioWrapper = entry.getKey();
+
+                if (!listaSuperSetAtual.contains(exercicioWrapper)) {
+                    listaSuperSetAtual.add(exercicioWrapper);
+                    listaSuperSetAtual.add(superSetAtual.get(exercicioWrapper));
+
+                    listaExerciciosAtual.remove(exercicioWrapper);
+                    listaExerciciosAtual.remove(superSetAtual.get(exercicioWrapper));
+                }
+            }
+            lista.add(new Sublista(tituloAtual, listaExerciciosAtual, listaSuperSetAtual));
+        }
+        rotinaControle.imprimirRelatorio(lista);
     }
 
     private ArrayList<String> getTitulos() {
