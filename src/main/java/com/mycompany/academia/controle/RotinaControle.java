@@ -30,7 +30,7 @@ public class RotinaControle {
     }
 
     public void imprimirRelatorio(Collection<Sublista> lista) {
-        relatorio.imprimirRelatorio(lista);
+        relatorio.verRelatorio(lista);
     }
 
 }
