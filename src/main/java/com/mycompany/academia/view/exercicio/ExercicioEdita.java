@@ -17,6 +17,7 @@ import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -125,19 +127,34 @@ public final class ExercicioEdita extends JDialog {
                 campos += 1;
             }
             switch (campos) {
-                case 0:
+                case 0 -> {
                     return true;
-                case 1:
+                }
+                case 1 -> {
                     stringBuilder.insert(0, "O campo: ");
                     stringBuilder.append(" Precisa ser preenchido");
-                    break;
-                default:
+                }
+                default -> {
                     stringBuilder.insert(0, "Os campos: ");
                     stringBuilder.append(" Precisam ser preenchidos");
-                    break;
+                }
             }
             JOptionPane.showMessageDialog(this, stringBuilder.toString());
             return false;
+        }
+
+        private void imagemInputFocusGained() {
+            if (imagemSelecionada != null) {
+                try {
+                    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imagemSelecionada);
+                    BufferedImage imagem = ImageIO.read(byteArrayInputStream);
+                    JOptionPane.showMessageDialog(this, new JLabel(new ImageIcon(imagem)), "Imagem", JOptionPane.PLAIN_MESSAGE);
+                } catch (IOException ex) {
+                    Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                requestFileChooser();
+            }
         }
 
         private void requestFileChooser() {
@@ -212,7 +229,7 @@ public final class ExercicioEdita extends JDialog {
                 @Override
                 public void focusGained(FocusEvent e) {
                     e.getComponent().setFocusable(false);
-                    requestFileChooser();
+                    imagemInputFocusGained();
                 }
 
                 @Override
