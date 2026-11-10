@@ -5,6 +5,7 @@
 package com.mycompany.academia.view.rotina;
 
 import com.mycompany.academia.model.entidades.Exercicio;
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.model.dto.ExercicioWrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,12 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RotinaTableModel extends AbstractTableModel {
 
-    private final String[] nomeColunas = {"Exercicio", "Reps", "Sets", "Descanso", "Superset"};
+    private final String exercise = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.exercise");
+    private final String reps = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.reps");
+    private final String sets = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.sets");
+    private final String rest = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.rest");
+    private final String supersetString = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.superset");
+    private final String[] nomeColunas = {exercise, reps, sets, rest, supersetString};
     private final ArrayList<ExercicioWrapper> exercicios;
     private final HashMap<Exercicio, Exercicio> superset;
 

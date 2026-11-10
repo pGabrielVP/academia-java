@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.rotina.paginas;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.view.rotina.RotinaMenuLateral;
 import com.mycompany.academia.view.rotina.RotinaConteudo;
@@ -93,7 +94,9 @@ public final class EscolherExercicio extends JPanel {
             });
             view.add(add_novo, gridConstraints);
         }
-        view.add(getFiller(listaExercicios), gridConstraints); // gridbag coloca os itens no centro da tela, esse filler fica no final da lista para puxar os itens para o topo do container
+        view.add(getFiller(listaExercicios), gridConstraints); // gridbag coloca os itens no centro da tela, esse filler
+                                                               // fica no final da lista para puxar os itens para o topo
+                                                               // do container
         view.validate();
     }
 
@@ -109,7 +112,8 @@ public final class EscolherExercicio extends JPanel {
         gridConstraints = new GridBagConstraints();
         view = new JPanel(new GridBagLayout());
         navBar = new JPanel();
-        voltar = new JButton("Voltar");
+        voltar = new JButton(
+                LocalizationManager.getString("localization.Strings", "routine.pages.choose.exercise.button.return"));
         voltar.addActionListener((ActionEvent evt) -> {
             voltarActionPerfomed();
         });

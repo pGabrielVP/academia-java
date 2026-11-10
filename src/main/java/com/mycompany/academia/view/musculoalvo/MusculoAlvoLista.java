@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.musculoalvo;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.awt.BorderLayout;
@@ -33,7 +34,7 @@ public final class MusculoAlvoLista extends JFrame {
         musculoAlvoListaPanel = new MusculoAlvoListaPanel(this, musculoAlvoControle);
         setContentPane(musculoAlvoListaPanel);
         pack();
-        setTitle("Lista Músculo-Alvo");
+        setTitle(LocalizationManager.getString("localization.Strings", "muscle.list.window.title"));
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
@@ -74,8 +75,12 @@ public final class MusculoAlvoLista extends JFrame {
         public void deletar() {
             MusculoAlvo selecao = listaTable.getSelecao();
             if (selecao != null) {
-                String mensagem = "O Músculo-Alvo: " + selecao.getNomeAlvo() + " com ID: " + selecao.getIdAlvo() + " será removido";
-                int confirmarDeletar = JOptionPane.showConfirmDialog(this, mensagem, "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                var deleteWarning = LocalizationManager.getFormattedString("localization.Strings",
+                        "muscle.list.delete.warning.message", selecao.getNomeAlvo(), selecao.getIdAlvo());
+                var buttonConfirm = LocalizationManager.getString("localization.Strings",
+                        "muscle.list.delete.confirmation.message");
+                int confirmarDeletar = JOptionPane.showConfirmDialog(this, deleteWarning, buttonConfirm,
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (confirmarDeletar == JOptionPane.OK_OPTION) {
                     musculoAlvoControle.excluir(selecao);
                 }
@@ -127,19 +132,20 @@ public final class MusculoAlvoLista extends JFrame {
                 Dimension buttonGap = new Dimension(0, 20);
                 Dimension topGap = new Dimension(60, 30);
 
-                criar = new JButton("Criar");
+                criar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.list.button.create"));
                 criar.setAlignmentX(alignment - 0.07f);
                 criar.addActionListener((e) -> {
                     requestCriar();
                 });
 
-                deletar = new JButton("Deletar");
+                deletar = new JButton(
+                        LocalizationManager.getString("localization.Strings", "muscle.list.button.delete"));
                 deletar.setAlignmentX(alignment);
                 deletar.addActionListener((e) -> {
                     requestDeletar();
                 });
 
-                editar = new JButton("Editar");
+                editar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.list.button.edit"));
                 editar.setAlignmentX(alignment - 0.03f);
                 editar.addActionListener((e) -> {
                     requestEditar();

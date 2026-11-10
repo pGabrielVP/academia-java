@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.musculoalvo;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +17,9 @@ import javax.swing.table.AbstractTableModel;
  */
 public class MusculoAlvoTableModel extends AbstractTableModel {
 
-    private final String[] nomeColunas = {"ID", "Músculo-Alvo"};
+    private final String id = LocalizationManager.getString("localization.Strings", "muscle.table.model.column.name.id");
+    private final String muscle = LocalizationManager.getString("localization.Strings", "muscle.table.model.column.name.name");
+    private final String[] nomeColunas = {id, muscle};
     private final List<MusculoAlvo> listaMusculoAlvo; // Remover final? ln:84
 
     public MusculoAlvoTableModel() {

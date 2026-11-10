@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.exercicio;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.model.entidades.Exercicio;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +17,15 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ExercicioTableModel extends AbstractTableModel {
 
-    private final String[] nomeColunas = {"ID", "Nome", "Imagem", "Músculo-Alvo"};
+    private final String id = LocalizationManager.getString("localization.Strings",
+            "exercise.table.model.column.name.id");
+    private final String name = LocalizationManager.getString("localization.Strings",
+            "exercise.table.model.column.name.name");
+    private final String image = LocalizationManager.getString("localization.Strings",
+            "exercise.table.model.column.name.image");
+    private final String muscle = LocalizationManager.getString("localization.Strings",
+            "exercise.table.model.column.name.muscle");
+    private final String[] nomeColunas = { id, name, image, muscle };
     private final List<Exercicio> listaExercicios; // Remover final? ln:84
 
     public ExercicioTableModel() {

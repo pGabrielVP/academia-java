@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.controle.RotinaControle;
@@ -79,7 +80,7 @@ public class MainView extends JFrame {
     }
 
     private void initComponents() {
-        setTitle("Rotinas");
+        setTitle(LocalizationManager.getString("localization.Strings", "main.view.window.title"));
         setLayout(new BorderLayout());
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,13 +90,15 @@ public class MainView extends JFrame {
         rotina.setDividerLocation(400);
 
         menuBar = new JMenuBar();
-        JMenu menu = new JMenu("Gerenciar");
+        JMenu menu = new JMenu(LocalizationManager.getString("localization.Strings", "main.view.jmenu.name"));
 
-        JMenuItem menuExercicios = new JMenuItem("Exercícios");
+        JMenuItem menuExercicios = new JMenuItem(
+                LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.exercise"));
         menuExercicios.addActionListener((e) -> {
             toggleExercicios();
         });
-        JMenuItem menuMusculoAlvo = new JMenuItem("Músculos-Alvo");
+        JMenuItem menuMusculoAlvo = new JMenuItem(
+                LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.muscle"));
         menuMusculoAlvo.addActionListener((e) -> {
             toggleMusculosAlvo();
         });

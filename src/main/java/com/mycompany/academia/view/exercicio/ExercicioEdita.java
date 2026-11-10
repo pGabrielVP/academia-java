@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.exercicio;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
@@ -21,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -48,12 +50,13 @@ public final class ExercicioEdita extends JDialog {
 
     private final ExercicioEditaPanel exercicioEditaPanel;
 
-    public ExercicioEdita(JFrame parentWindow, ExercicioControle exercicioControle, Exercicio exercicio) throws HeadlessException {
+    public ExercicioEdita(JFrame parentWindow, ExercicioControle exercicioControle, Exercicio exercicio)
+            throws HeadlessException {
         exercicioEditaPanel = new ExercicioEditaPanel(this, exercicioControle, exercicio);
         setContentPane(exercicioEditaPanel);
         pack();
         setModal(true);
-        setTitle("Exercício Edita");
+        setTitle(LocalizationManager.getString("localization.Strings", "exercise.edit.window.title"));
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
@@ -111,35 +114,18 @@ public final class ExercicioEdita extends JDialog {
         }
 
         private boolean inputValido() {
-            StringBuilder stringBuilder = new StringBuilder();
-            int campos = 0;
-
-            if (nomeInput.getText().isBlank()) {
-                stringBuilder.append("Nome");
-                campos += 1;
-            }
-            if (musculoAlvoInput.getSelectedItem() == null) {
-                stringBuilder.append((stringBuilder.isEmpty()) ? "Músculo-Alvo" : ", Músculo-Alvo");
-                campos += 1;
-            }
-            if (imagemSelecionada == null) {
-                stringBuilder.append((stringBuilder.isEmpty()) ? "Imagem" : ", Imagem");
-                campos += 1;
-            }
-            switch (campos) {
-                case 0 -> {
-                    return true;
-                }
-                case 1 -> {
-                    stringBuilder.insert(0, "O campo: ");
-                    stringBuilder.append(" Precisa ser preenchido");
-                }
-                default -> {
-                    stringBuilder.insert(0, "Os campos: ");
-                    stringBuilder.append(" Precisam ser preenchidos");
-                }
-            }
-            JOptionPane.showMessageDialog(this, stringBuilder.toString());
+            var errors = new ArrayList<String>();
+            if (nomeInput.getText().isBlank())
+                errors.add(LocalizationManager.getString("localization.Strings", "exercise.edit.label.name"));
+            if (musculoAlvoInput.getSelectedItem() == null)
+                errors.add(LocalizationManager.getString("localization.Strings", "exercise.edit.label.muscle"));
+            if (imagemSelecionada == null)
+                errors.add(LocalizationManager.getString("localization.Strings", "exercise.edit.label.image"));
+            if (errors.size() == 0)
+                return true;
+            var errorMessage = LocalizationManager.getFormattedString("localization.Strings",
+                    "exercise.edit.error.message", errors.size(), String.join(", ", errors));
+            JOptionPane.showMessageDialog(this, errorMessage);
             return false;
         }
 
@@ -148,7 +134,10 @@ public final class ExercicioEdita extends JDialog {
                 try {
                     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imagemSelecionada);
                     BufferedImage imagem = ImageIO.read(byteArrayInputStream);
-                    JOptionPane.showMessageDialog(this, new JLabel(new ImageIcon(imagem)), "Imagem", JOptionPane.PLAIN_MESSAGE);
+                    var imageString = LocalizationManager.getString("localization.Strings",
+                            "exercise.edit.label.image");
+                    JOptionPane.showMessageDialog(this, new JLabel(new ImageIcon(imagem)), imageString,
+                            JOptionPane.PLAIN_MESSAGE);
                 } catch (IOException ex) {
                     Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -160,7 +149,10 @@ public final class ExercicioEdita extends JDialog {
         private void requestFileChooser() {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setMultiSelectionEnabled(false);
-            fileChooser.setFileFilter(new FileNameExtensionFilter("Permite somente imagens .png", "png"));
+            var fileFormat = "png";
+            var allowedFormats = LocalizationManager.getFormattedString("localization.Strings",
+                    "exercise.edit.accepted.formats", fileFormat);
+            fileChooser.setFileFilter(new FileNameExtensionFilter(allowedFormats, fileFormat));
 
             int fileChooserState = fileChooser.showOpenDialog(this);
             if (fileChooserState == JFileChooser.APPROVE_OPTION) {
@@ -168,7 +160,7 @@ public final class ExercicioEdita extends JDialog {
                     File file = fileChooser.getSelectedFile();
                     BufferedImage bufferedImage = ImageIO.read(file);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ImageIO.write(bufferedImage, "png", baos);
+                    ImageIO.write(bufferedImage, fileFormat, baos);
 
                     imagemSelecionada = baos.toByteArray();
                     imagemInput.setText(file.getCanonicalPath());
@@ -208,18 +200,19 @@ public final class ExercicioEdita extends JDialog {
             buttonConstraints.gridx = 1;
             buttonConstraints.gridy = 4;
 
-            idLabel = new JLabel("ID");
+            idLabel = new JLabel(LocalizationManager.getString("localization.Strings", "exercise.edit.label.id"));
             idInput = new JTextField();
             idInput.setEditable(false);
             idInput.setFocusable(false);
             Integer idExercicio = exercicio.getIdExercicio();
             idInput.setText((idExercicio != null) ? idExercicio.toString() : "");
 
-            nomeLabel = new JLabel("Nome");
+            nomeLabel = new JLabel(LocalizationManager.getString("localization.Strings", "exercise.edit.label.name"));
             nomeInput = new JTextField();
             nomeInput.setText(exercicio.getNomeExercicio());
 
-            imagemLabel = new JLabel("Imagem");
+            imagemLabel = new JLabel(
+                    LocalizationManager.getString("localization.Strings", "exercise.edit.label.image"));
             imagemInput = new JTextField();
             imagemInput.setEditable(false);
             imagemInput.setFocusable(true);
@@ -237,23 +230,27 @@ public final class ExercicioEdita extends JDialog {
                     e.getComponent().setFocusable(true);
                 }
             });
-            imagemButton = new JButton("...");
+            imagemButton = new JButton(
+                    LocalizationManager.getString("localization.Strings", "exercise.edit.button.image.select"));
             imagemButton.addActionListener((e) -> {
                 requestFileChooser();
             });
 
-            musculoAlvoLabel = new JLabel("Músculo-Alvo");
+            musculoAlvoLabel = new JLabel(
+                    LocalizationManager.getString("localization.Strings", "exercise.edit.label.muscle"));
             musculoAlvoInput = new JComboBox<>();
-            musculoAlvoInput.setModel(new DefaultComboBoxModel<>(exercicioControle.getListaMusculoAlvo().toArray(MusculoAlvo[]::new)));
+            musculoAlvoInput.setModel(
+                    new DefaultComboBoxModel<>(exercicioControle.getListaMusculoAlvo().toArray(MusculoAlvo[]::new)));
             musculoAlvoInput.setRenderer(new MusculoAlvoRenderer());
             musculoAlvoInput.setSelectedItem(exercicio.getMusculoAlvo());
             musculoAlvoInput.setEditable(false);
 
-            salvar = new JButton("Salvar");
+            salvar = new JButton(LocalizationManager.getString("localization.Strings", "exercise.edit.button.save"));
             salvar.addActionListener((e) -> {
                 salvarActionPerformed();
             });
-            cancelar = new JButton("Cancelar");
+            cancelar = new JButton(
+                    LocalizationManager.getString("localization.Strings", "exercise.edit.button.cancel"));
             cancelar.addActionListener((e) -> {
                 cancelarActionPerformed();
             });

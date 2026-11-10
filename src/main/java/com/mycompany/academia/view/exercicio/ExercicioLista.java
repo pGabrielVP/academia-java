@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.exercicio;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.controle.ExercicioControle;
 import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.view.ListaTableOperacoes;
@@ -33,7 +34,7 @@ public final class ExercicioLista extends JFrame {
         exercicioListaPanel = new ExercicioListaPanel(this, exercicioControle);
         setContentPane(exercicioListaPanel);
         pack();
-        setTitle("Lista Exercícios");
+        setTitle(LocalizationManager.getString("localization.Strings", "exercise.list.window.title"));
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
@@ -74,13 +75,12 @@ public final class ExercicioLista extends JFrame {
         public void deletar() {
             Exercicio selecao = listaTable.getSelecao();
             if (selecao != null) {
-                StringBuilder stringBuilder = new StringBuilder()
-                        .append("O Exercício: ")
-                        .append(selecao.getNomeExercicio())
-                        .append(" com ID: ")
-                        .append(selecao.getIdExercicio())
-                        .append(" será removido");
-                int confirmarDeletar = JOptionPane.showConfirmDialog(this, stringBuilder.toString(), "Confirmar Remoção", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                var deleteWarning = LocalizationManager.getFormattedString("localization.Strings",
+                        "exercise.list.delete.warning.message", selecao.getNomeExercicio(), selecao.getIdExercicio());
+                var buttonConfirm = LocalizationManager.getString("localization.Strings",
+                        "exercise.list.delete.confirmation.message");
+                int confirmarDeletar = JOptionPane.showConfirmDialog(this, deleteWarning, buttonConfirm,
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (confirmarDeletar == JOptionPane.OK_OPTION) {
                     exercicioControle.excluir(selecao);
                 }
@@ -132,19 +132,22 @@ public final class ExercicioLista extends JFrame {
                 Dimension buttonGap = new Dimension(0, 20);
                 Dimension topGap = new Dimension(60, 30);
 
-                criar = new JButton("Criar");
+                criar = new JButton(
+                        LocalizationManager.getString("localization.Strings", "exercise.list.button.create"));
                 criar.setAlignmentX(alignment - 0.07f);
                 criar.addActionListener((e) -> {
                     requestCriar();
                 });
 
-                deletar = new JButton("Deletar");
+                deletar = new JButton(
+                        LocalizationManager.getString("localization.Strings", "exercise.list.button.delete"));
                 deletar.setAlignmentX(alignment);
                 deletar.addActionListener((e) -> {
                     requestDeletar();
                 });
 
-                editar = new JButton("Editar");
+                editar = new JButton(
+                        LocalizationManager.getString("localization.Strings", "exercise.list.button.edit"));
                 editar.setAlignmentX(alignment - 0.03f);
                 editar.addActionListener((e) -> {
                     requestEditar();

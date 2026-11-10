@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.musculoalvo;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.controle.MusculoAlvoControle;
 import com.mycompany.academia.model.entidades.MusculoAlvo;
 import com.mycompany.academia.view.efeitos.TextFieldValidator;
@@ -34,7 +35,7 @@ public final class MusculoAlvoEdita extends JDialog {
         setContentPane(musculoAlvoEditaPanel);
         pack();
         setModal(true);
-        setTitle("Edita Músculo-Alvo");
+        setTitle(LocalizationManager.getString("localization.Strings", "muscle.edit.window.title"));
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
@@ -54,7 +55,8 @@ public final class MusculoAlvoEdita extends JDialog {
         private JButton salvar;
         private JButton cancelar;
 
-        public MusculoAlvoEditaPanel(JDialog parentWindow, MusculoAlvoControle musculoAlvoControle, MusculoAlvo musculoAlvo) {
+        public MusculoAlvoEditaPanel(JDialog parentWindow, MusculoAlvoControle musculoAlvoControle,
+                MusculoAlvo musculoAlvo) {
             this.musculoAlvoControle = musculoAlvoControle;
             this.musculoAlvo = musculoAlvo;
             this.parentWindow = parentWindow;
@@ -83,32 +85,32 @@ public final class MusculoAlvoEdita extends JDialog {
 
         private boolean inputValido() {
             if (nomeInput.getText().isBlank()) {
-                String mensagem = "O campo Nome precisa ser preenchido";
-                JOptionPane.showMessageDialog(this, mensagem);
+                JOptionPane.showMessageDialog(this,
+                        LocalizationManager.getString("localization.Strings", "muscle.edit.error.name.message"));
                 return false;
             }
             return true;
         }
 
         private void initComponents() {
-            idLabel = new JLabel("ID");
+            idLabel = new JLabel(LocalizationManager.getString("localization.Strings", "muscle.edit.label.id"));
             idInput = new JTextField();
             idInput.setEditable(false);
             idInput.setFocusable(false);
             Integer musculoAlvoID = musculoAlvo.getIdAlvo();
             idInput.setText((musculoAlvoID != null) ? musculoAlvoID.toString() : "");
 
-            nomeLabel = new JLabel("Nome");
+            nomeLabel = new JLabel(LocalizationManager.getString("localization.Strings", "muscle.edit.label.name"));
             nomeInput = new JTextField();
             String musculoAlvoNome = musculoAlvo.getNomeAlvo();
             nomeInput.setText(musculoAlvoNome);
 
-            salvar = new JButton("Salvar");
+            salvar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.edit.label.save"));
             salvar.addActionListener((e) -> {
                 salvarActionPerformed();
             });
 
-            cancelar = new JButton("Cancelar");
+            cancelar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.edit.label.cancel"));
             cancelar.addActionListener((e) -> {
                 cancelarActionPerformed();
             });

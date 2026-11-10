@@ -4,6 +4,7 @@
  */
 package com.mycompany.academia.view.rotina;
 
+import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.controle.RotinaControle;
 import com.mycompany.academia.model.dto.ExercicioWrapper;
 import com.mycompany.academia.model.dto.Sublista;
@@ -87,7 +88,8 @@ public final class RotinaConteudo extends JPanel {
         RotinaTableModel tableModel = (RotinaTableModel) table.getModel();
         int selected_row = table.getSelectedRow();
         if (selected_row < 0) {
-            JOptionPane.showMessageDialog(this, "Nenhum exercício selecionado");
+            JOptionPane.showMessageDialog(this,
+                    LocalizationManager.getString("localization.Strings", "routine.content.error.dialog"));
             return;
         }
         tableModel.removeExercicioWrapper(selected_row);
@@ -117,9 +119,16 @@ public final class RotinaConteudo extends JPanel {
         for (int i = 0; i < listaExercicios.size(); i++) {
             String tituloAtual = listaTitulos.get(i);
             HashMap<ExercicioWrapper, ExercicioWrapper> superSetAtual = listaSuperset.get(i);
-            ArrayList<ExercicioWrapper> listaExerciciosAtual = new ArrayList<>(listaExercicios.get(i)); // Cria uma nova lista para não alterar a lista renderizada na interface.
+            ArrayList<ExercicioWrapper> listaExerciciosAtual = new ArrayList<>(listaExercicios.get(i)); // Cria uma nova
+                                                                                                        // lista para
+                                                                                                        // não alterar a
+                                                                                                        // lista
+                                                                                                        // renderizada
+                                                                                                        // na interface.
 
-            ArrayList<ExercicioWrapper> listaSuperSetAtual = new ArrayList<>(); // Se um exercício está em superset adiciona para listaSuperset e remove de listaExercicios.
+            ArrayList<ExercicioWrapper> listaSuperSetAtual = new ArrayList<>(); // Se um exercício está em superset
+                                                                                // adiciona para listaSuperset e remove
+                                                                                // de listaExercicios.
             for (Map.Entry<ExercicioWrapper, ExercicioWrapper> entry : superSetAtual.entrySet()) {
                 ExercicioWrapper exercicioWrapper = entry.getKey();
 
@@ -178,7 +187,7 @@ public final class RotinaConteudo extends JPanel {
         Dimension buttonGap = new Dimension(0, 20);
         Dimension topGap = new Dimension(60, 30);
 
-        resetar = new JButton("Resetar");
+        resetar = new JButton(LocalizationManager.getString("localization.Strings", "routine.content.button.reset"));
         resetar.setAlignmentX(alignment - 0.23f);
         resetar.setBackground(new Color(204, 0, 0));
         resetar.setForeground(new Color(255, 255, 255));
@@ -186,25 +195,28 @@ public final class RotinaConteudo extends JPanel {
             resetar();
         });
 
-        adicionarGuia = new JButton("Adicionar Guia");
+        adicionarGuia = new JButton(
+                LocalizationManager.getString("localization.Strings", "routine.content.button.add.tab"));
         adicionarGuia.setAlignmentX(alignment - 0.07f);
         adicionarGuia.addActionListener((e) -> {
             adicionarGuia();
         });
 
-        removerExercicio = new JButton("Remover Exercício");
+        removerExercicio = new JButton(
+                LocalizationManager.getString("localization.Strings", "routine.content.button.remove.exercise"));
         removerExercicio.setAlignmentX(alignment);
         removerExercicio.addActionListener((e) -> {
             removerExercicio();
         });
 
-        removerGuia = new JButton("Remover Guia");
+        removerGuia = new JButton(
+                LocalizationManager.getString("localization.Strings", "routine.content.button.remove.tab"));
         removerGuia.setAlignmentX(alignment - 0.08f);
         removerGuia.addActionListener((e) -> {
             removerGuia();
         });
 
-        imprimir = new JButton("Imprimir");
+        imprimir = new JButton(LocalizationManager.getString("localization.Strings", "routine.content.button.print"));
         imprimir.setAlignmentX(alignment - 0.22f);
         imprimir.addActionListener((e) -> {
             imprimir();
