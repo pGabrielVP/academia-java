@@ -1,0 +1,13 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence-unit name="com.mycompany_academia_jar_1PU" transaction-type="RESOURCE_LOCAL">
+<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+<class>com.mycompany.academia.model.entidades.Exercicio</class>
+<class>com.mycompany.academia.model.entidades.MusculoAlvo</class>
+<properties>
+<property name="javax.persistence.jdbc.url" value="jdbc:YOUR_DATABASE://ADDRESS:PORT/DATABASE_NAME"/>
+<property name="javax.persistence.jdbc.user" value="DATABASE_USER"/>
+<property name="javax.persistence.jdbc.driver" value="DATABASE_DRIVER"/>
+<property name="javax.persistence.jdbc.password" value="DATABASE_PASSWORD"/>
+</properties>
+</persistence-unit>
+</persistence>
