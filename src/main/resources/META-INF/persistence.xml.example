@@ -4,6 +4,8 @@
 <class>com.mycompany.academia.model.entidades.Exercicio</class>
 <class>com.mycompany.academia.model.entidades.MusculoAlvo</class>
 <properties>
+<!-- <property name="eclipselink.ddl-generation" value="create-tables" /> -->
+<!-- <property name="eclipselink.ddl-generation.output-mode" value="database" /> -->
 <property name="javax.persistence.jdbc.url" value="jdbc:YOUR_DATABASE://ADDRESS:PORT/DATABASE_NAME"/>
 <property name="javax.persistence.jdbc.user" value="DATABASE_USER"/>
 <property name="javax.persistence.jdbc.driver" value="DATABASE_DRIVER"/>
