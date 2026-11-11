@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author paulo
  */
-public class ExercicioTableModel extends AbstractTableModel {
+public class ExerciseTableModel extends AbstractTableModel {
 
     private final String id = LocalizationManager.getString("localization.Strings",
             "exercise.table.model.column.name.id");
@@ -29,11 +29,11 @@ public class ExercicioTableModel extends AbstractTableModel {
     private final String[] nomeColunas = { id, name, image, muscle };
     private final List<Exercicio> listaExercicios; // Remover final? ln:84
 
-    public ExercicioTableModel() {
+    public ExerciseTableModel() {
         listaExercicios = new ArrayList<>();
     }
 
-    public ExercicioTableModel(List<Exercicio> listaExercicios) {
+    public ExerciseTableModel(List<Exercicio> listaExercicios) {
         this.listaExercicios = listaExercicios;
     }
 

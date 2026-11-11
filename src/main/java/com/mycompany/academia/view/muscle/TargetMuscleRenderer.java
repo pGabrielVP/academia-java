@@ -15,9 +15,9 @@ import com.mycompany.academia.model.entity.MusculoAlvo;
  *
  * @author paulo
  */
-public class MusculoAlvoRenderer extends JLabel implements ListCellRenderer<Object> {
+public class TargetMuscleRenderer extends JLabel implements ListCellRenderer<Object> {
 
-    public MusculoAlvoRenderer() {
+    public TargetMuscleRenderer() {
         setOpaque(true);
         setHorizontalAlignment(CENTER);
         setVerticalAlignment(CENTER);

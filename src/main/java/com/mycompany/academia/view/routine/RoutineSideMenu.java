@@ -4,10 +4,10 @@
  */
 package com.mycompany.academia.view.routine;
 
-import com.mycompany.academia.controller.RotinaControle;
+import com.mycompany.academia.controller.RoutineController;
 import com.mycompany.academia.model.entity.Exercicio;
-import com.mycompany.academia.view.routine.page.EscolherExercicio;
-import com.mycompany.academia.view.routine.page.EscolherMusculoAlvo;
+import com.mycompany.academia.view.routine.page.ChooseExercise;
+import com.mycompany.academia.view.routine.page.ChooseTargetMuscle;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -18,17 +18,17 @@ import javax.swing.JPanel;
  *
  * @author paulo
  */
-public final class RotinaMenuLateral extends JPanel {
+public final class RoutineSideMenu extends JPanel {
 
     private final String HOMEPAGE = "home_page";
     private final String LISTAR_EXERCICIOS = "listar_exercicios";
-    private final EscolherExercicio exerciciosListar;
-    private final EscolherMusculoAlvo homepage;
+    private final ChooseExercise exerciciosListar;
+    private final ChooseTargetMuscle homepage;
     private final CardLayout cLayout;
 
-    public RotinaMenuLateral(RotinaConteudo siblingPanel, RotinaControle rotinaControle) {
-        exerciciosListar = new EscolherExercicio(this, siblingPanel);
-        homepage = new EscolherMusculoAlvo(this, rotinaControle);
+    public RoutineSideMenu(RoutineContent siblingPanel, RoutineController rotinaControle) {
+        exerciciosListar = new ChooseExercise(this, siblingPanel);
+        homepage = new ChooseTargetMuscle(this, rotinaControle);
         cLayout = new CardLayout();
 
         setLayout(cLayout);

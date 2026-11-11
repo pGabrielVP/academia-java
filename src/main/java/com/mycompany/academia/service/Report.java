@@ -23,7 +23,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author paulo
  */
-public class Relatorio {
+public class Report {
 
     private static final String REPORT_PRINCIPAL = "/relatorios/Report_Principal.jasper";
     private static final String REPORT_SUPERSET = "/relatorios/Listar_Superset.jasper";
@@ -42,7 +42,7 @@ public class Relatorio {
             JasperPrint jasperPrint = fillReport(lista);
             report = JasperExportManager.exportReportToPdf(jasperPrint);
         } catch (JRException ex) {
-            Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
         return report;
     }
@@ -60,13 +60,13 @@ public class Relatorio {
             parametros.put("subreportExercicios", relatorioExercicios);
             jasperPrint = JasperFillManager.fillReport(relatorioPrincipal, parametros, datasource);
         } catch (JRException ex) {
-            Logger.getLogger(Relatorio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
         return jasperPrint;
     }
 
     private JasperReport loadReport(String report_location) throws JRException {
-        InputStream inputStream = Relatorio.class.getResourceAsStream(report_location);
+        InputStream inputStream = Report.class.getResourceAsStream(report_location);
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
         return jasperReport;
     }

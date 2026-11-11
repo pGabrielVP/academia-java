@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.exercise;
+package com.mycompany.academia.view.muscle;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controller.ExercicioControle;
-import com.mycompany.academia.model.entity.Exercicio;
-import com.mycompany.academia.view.ListaTableOperacoes;
+import com.mycompany.academia.controller.TargetMuscleController;
+import com.mycompany.academia.model.entity.MusculoAlvo;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.HeadlessException;
@@ -21,37 +21,38 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import com.mycompany.academia.view.ListTableOperation;
 
 /**
  *
  * @author paulo
  */
-public final class ExercicioLista extends JFrame {
+public final class TargetMuscleList extends JFrame {
 
-    private final ExercicioListaPanel exercicioListaPanel;
+    private final MusculoAlvoListaPanel musculoAlvoListaPanel;
 
-    public ExercicioLista(JFrame parentWindow, ExercicioControle exercicioControle) throws HeadlessException {
-        exercicioListaPanel = new ExercicioListaPanel(this, exercicioControle);
-        setContentPane(exercicioListaPanel);
+    public TargetMuscleList(JFrame parentWindow, TargetMuscleController musculoAlvoControle) throws HeadlessException {
+        musculoAlvoListaPanel = new MusculoAlvoListaPanel(this, musculoAlvoControle);
+        setContentPane(musculoAlvoListaPanel);
         pack();
-        setTitle(LocalizationManager.getString("localization.Strings", "exercise.list.window.title"));
+        setTitle(LocalizationManager.getString("localization.Strings", "muscle.list.window.title"));
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
 
-    private class ExercicioListaPanel extends JPanel implements ListaTableOperacoes {
+    private class MusculoAlvoListaPanel extends JPanel implements ListTableOperation {
 
         private final JFrame parentWindow;
         private final BorderLayout borderLayout;
-        private final ExercicioControle exercicioControle;
+        private final TargetMuscleController musculoAlvoControle;
         private final ListaTable listaTable;
         private final MenuOperacoes menuOperacoes;
 
-        public ExercicioListaPanel(JFrame parentWindow, ExercicioControle exercicioControle) {
+        public MusculoAlvoListaPanel(JFrame parentWindow, TargetMuscleController musculoAlvoControle) {
             this.parentWindow = parentWindow;
-            this.exercicioControle = exercicioControle;
+            this.musculoAlvoControle = musculoAlvoControle;
             borderLayout = new BorderLayout();
-            listaTable = new ListaTable(exercicioControle);
+            listaTable = new ListaTable(musculoAlvoControle);
             menuOperacoes = new MenuOperacoes(this);
             setLayout(borderLayout);
             add(listaTable, BorderLayout.CENTER);
@@ -60,29 +61,29 @@ public final class ExercicioLista extends JFrame {
 
         @Override
         public void criar() {
-            new ExercicioEdita(parentWindow, exercicioControle, new Exercicio()).setVisible(true);
+            new TargetMuscleEdit(parentWindow, musculoAlvoControle, new MusculoAlvo()).setVisible(true);
         }
 
         @Override
         public void editar() {
-            Exercicio selecao = listaTable.getSelecao();
+            MusculoAlvo selecao = listaTable.getSelecao();
             if (selecao != null) {
-                new ExercicioEdita(parentWindow, exercicioControle, selecao).setVisible(true);
+                new TargetMuscleEdit(parentWindow, musculoAlvoControle, selecao).setVisible(true);
             }
         }
 
         @Override
         public void deletar() {
-            Exercicio selecao = listaTable.getSelecao();
+            MusculoAlvo selecao = listaTable.getSelecao();
             if (selecao != null) {
                 var deleteWarning = LocalizationManager.getFormattedString("localization.Strings",
-                        "exercise.list.delete.warning.message", selecao.getNomeExercicio(), selecao.getIdExercicio());
+                        "muscle.list.delete.warning.message", selecao.getNomeAlvo(), selecao.getIdAlvo());
                 var buttonConfirm = LocalizationManager.getString("localization.Strings",
-                        "exercise.list.delete.confirmation.message");
+                        "muscle.list.delete.confirmation.message");
                 int confirmarDeletar = JOptionPane.showConfirmDialog(this, deleteWarning, buttonConfirm,
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
                 if (confirmarDeletar == JOptionPane.OK_OPTION) {
-                    exercicioControle.excluir(selecao);
+                    musculoAlvoControle.excluir(selecao);
                 }
             }
         }
@@ -90,36 +91,36 @@ public final class ExercicioLista extends JFrame {
         private class ListaTable extends JScrollPane {
 
             private final JTable jTable;
-            private final ExercicioControle exercicioControle;
+            private final TargetMuscleController musculoAlvoControle;
 
-            public ListaTable(ExercicioControle exercicioControle) {
-                this.exercicioControle = exercicioControle;
-                jTable = new JTable(exercicioControle.getExercicioTableModel());
+            public ListaTable(TargetMuscleController musculoAlvoControle) {
+                this.musculoAlvoControle = musculoAlvoControle;
+                jTable = new JTable(musculoAlvoControle.getMusculoAlvoTableModel());
                 jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 jTable.getColumnModel().getColumn(0).setMaxWidth(50); // Reserva menos espaço para a coluna de ID.
                 setViewportView(jTable);
             }
 
-            private Exercicio getSelecao() {
+            private MusculoAlvo getSelecao() {
                 int linhaSelecionada = jTable.getSelectedRow();
                 if (linhaSelecionada == -1) {
                     return null;
                 }
                 int idMusculoAlvo = (Integer) jTable.getValueAt(linhaSelecionada, 0);
-                Exercicio exercicioSelecionado = exercicioControle.buscar(idMusculoAlvo);
-                return exercicioSelecionado;
+                MusculoAlvo musculoAlvoSelecionado = musculoAlvoControle.buscar(idMusculoAlvo);
+                return musculoAlvoSelecionado;
             }
         }
 
         private class MenuOperacoes extends JPanel {
 
-            private final ListaTableOperacoes parentWindow;
+            private final ListTableOperation parentWindow;
             private final BoxLayout boxLayout;
             private JButton criar;
             private JButton deletar;
             private JButton editar;
 
-            public MenuOperacoes(ListaTableOperacoes parentWindow) {
+            public MenuOperacoes(ListTableOperation parentWindow) {
                 this.parentWindow = parentWindow;
                 boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
                 setLayout(boxLayout);
@@ -132,22 +133,20 @@ public final class ExercicioLista extends JFrame {
                 Dimension buttonGap = new Dimension(0, 20);
                 Dimension topGap = new Dimension(60, 30);
 
-                criar = new JButton(
-                        LocalizationManager.getString("localization.Strings", "exercise.list.button.create"));
+                criar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.list.button.create"));
                 criar.setAlignmentX(alignment - 0.07f);
                 criar.addActionListener((e) -> {
                     requestCriar();
                 });
 
                 deletar = new JButton(
-                        LocalizationManager.getString("localization.Strings", "exercise.list.button.delete"));
+                        LocalizationManager.getString("localization.Strings", "muscle.list.button.delete"));
                 deletar.setAlignmentX(alignment);
                 deletar.addActionListener((e) -> {
                     requestDeletar();
                 });
 
-                editar = new JButton(
-                        LocalizationManager.getString("localization.Strings", "exercise.list.button.edit"));
+                editar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.list.button.edit"));
                 editar.setAlignmentX(alignment - 0.03f);
                 editar.addActionListener((e) -> {
                     requestEditar();

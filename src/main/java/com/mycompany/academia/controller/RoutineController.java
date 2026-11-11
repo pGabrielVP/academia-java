@@ -4,10 +4,10 @@
  */
 package com.mycompany.academia.controller;
 
-import com.mycompany.academia.facade.MusculoAlvoFacade;
+import com.mycompany.academia.facade.TargetMuscleFacade;
 import com.mycompany.academia.model.dto.Sublista;
 import com.mycompany.academia.model.entity.MusculoAlvo;
-import com.mycompany.academia.service.Relatorio;
+import com.mycompany.academia.service.Report;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,12 +16,12 @@ import java.util.List;
  *
  * @author paulo
  */
-public class RotinaControle {
+public class RoutineController {
 
-    private final MusculoAlvoFacade musculoAlvoFacade;
-    private final Relatorio relatorio;
+    private final TargetMuscleFacade musculoAlvoFacade;
+    private final Report relatorio;
 
-    public RotinaControle(MusculoAlvoFacade musculoAlvoFacade, Relatorio relatorio) {
+    public RoutineController(TargetMuscleFacade musculoAlvoFacade, Report relatorio) {
         this.musculoAlvoFacade = musculoAlvoFacade;
         this.relatorio = relatorio;
     }

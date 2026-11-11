@@ -6,8 +6,8 @@ package com.mycompany.academia.view.routine.page;
 
 import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.model.entity.Exercicio;
-import com.mycompany.academia.view.routine.RotinaConteudo;
-import com.mycompany.academia.view.routine.RotinaMenuLateral;
+import com.mycompany.academia.view.routine.RoutineContent;
+import com.mycompany.academia.view.routine.RoutineSideMenu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -29,10 +29,10 @@ import javax.swing.JTextField;
  *
  * @author paulo
  */
-public final class EscolherExercicio extends JPanel {
+public final class ChooseExercise extends JPanel {
 
-    private final RotinaMenuLateral parentWindow;
-    private final RotinaConteudo rotinaConteudo;
+    private final RoutineSideMenu parentWindow;
+    private final RoutineContent rotinaConteudo;
     private List<Exercicio> listaExercicios;
 
     private GridBagConstraints gridConstraints;
@@ -41,7 +41,7 @@ public final class EscolherExercicio extends JPanel {
     private JPanel view;
     private JPanel navBar;
 
-    public EscolherExercicio(RotinaMenuLateral parentWindow, RotinaConteudo rotinaConteudo) {
+    public ChooseExercise(RoutineSideMenu parentWindow, RoutineContent rotinaConteudo) {
         this.parentWindow = parentWindow;
         this.rotinaConteudo = rotinaConteudo;
         initComponents();

@@ -4,9 +4,9 @@
  */
 package com.mycompany.academia.view.routine.page;
 
-import com.mycompany.academia.controller.RotinaControle;
+import com.mycompany.academia.controller.RoutineController;
 import com.mycompany.academia.model.entity.MusculoAlvo;
-import com.mycompany.academia.view.routine.RotinaMenuLateral;
+import com.mycompany.academia.view.routine.RoutineSideMenu;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -19,15 +19,15 @@ import javax.swing.JScrollPane;
  *
  * @author paulo
  */
-public final class EscolherMusculoAlvo extends JScrollPane {
+public final class ChooseTargetMuscle extends JScrollPane {
 
-    private final RotinaControle rotinaControle;
-    private final RotinaMenuLateral parentWindow;
+    private final RoutineController rotinaControle;
+    private final RoutineSideMenu parentWindow;
     private List<MusculoAlvo> listaMusculoAlvo;
 
     private JPanel view;
 
-    public EscolherMusculoAlvo(RotinaMenuLateral parentWindow, RotinaControle rotinaControle) {
+    public ChooseTargetMuscle(RoutineSideMenu parentWindow, RoutineController rotinaControle) {
         this.parentWindow = parentWindow;
         this.rotinaControle = rotinaControle;
         initComponents();

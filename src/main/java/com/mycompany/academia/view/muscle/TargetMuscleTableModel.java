@@ -16,18 +16,18 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author paulo
  */
-public class MusculoAlvoTableModel extends AbstractTableModel {
+public class TargetMuscleTableModel extends AbstractTableModel {
 
     private final String id = LocalizationManager.getString("localization.Strings", "muscle.table.model.column.name.id");
     private final String muscle = LocalizationManager.getString("localization.Strings", "muscle.table.model.column.name.name");
     private final String[] nomeColunas = {id, muscle};
     private final List<MusculoAlvo> listaMusculoAlvo; // Remover final? ln:84
 
-    public MusculoAlvoTableModel() {
+    public TargetMuscleTableModel() {
         listaMusculoAlvo = new ArrayList<>();
     }
 
-    public MusculoAlvoTableModel(List<MusculoAlvo> listaMusculoAlvo) {
+    public TargetMuscleTableModel(List<MusculoAlvo> listaMusculoAlvo) {
         this.listaMusculoAlvo = listaMusculoAlvo;
     }
 

@@ -17,7 +17,7 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author paulo
  */
-public class RotinaTableModel extends AbstractTableModel {
+public class RoutineTableModel extends AbstractTableModel {
 
     private final String exercise = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.exercise");
     private final String reps = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.reps");
@@ -28,7 +28,7 @@ public class RotinaTableModel extends AbstractTableModel {
     private final ArrayList<ExercicioWrapper> exercicios;
     private final HashMap<Exercicio, Exercicio> superset;
 
-    public RotinaTableModel() {
+    public RoutineTableModel() {
         this.exercicios = new ArrayList<>();
         this.superset = new HashMap<>();
     }

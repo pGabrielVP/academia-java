@@ -5,7 +5,7 @@
 package com.mycompany.academia.view.routine;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controller.RotinaControle;
+import com.mycompany.academia.controller.RoutineController;
 import com.mycompany.academia.model.dto.ExercicioWrapper;
 import com.mycompany.academia.model.dto.Sublista;
 import com.mycompany.academia.model.entity.Exercicio;
@@ -33,9 +33,9 @@ import javax.swing.table.TableColumn;
  *
  * @author paulo
  */
-public final class RotinaConteudo extends JPanel {
+public final class RoutineContent extends JPanel {
 
-    private final RotinaControle rotinaControle;
+    private final RoutineController rotinaControle;
     private int janelasAdicionadas;
 
     private JTabbedPane guias;
@@ -46,7 +46,7 @@ public final class RotinaConteudo extends JPanel {
     private JButton removerGuia;
     private JButton imprimir;
 
-    public RotinaConteudo(RotinaControle rotinaControle) {
+    public RoutineContent(RoutineController rotinaControle) {
         this.rotinaControle = rotinaControle;
         janelasAdicionadas = 0;
         initComponents();
@@ -57,7 +57,7 @@ public final class RotinaConteudo extends JPanel {
         ExercicioWrapper novoExercicio = new ExercicioWrapper(exercicio, 12, 3, 30);
         JScrollPane guiaAtual = (JScrollPane) guias.getSelectedComponent();
         JTable table = (JTable) guiaAtual.getViewport().getView();
-        RotinaTableModel tableModel = (RotinaTableModel) table.getModel();
+        RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
         tableModel.addExercicioWrapper(novoExercicio);
         atualizarComboBox(table);
     }
@@ -77,7 +77,7 @@ public final class RotinaConteudo extends JPanel {
     }
 
     private void adicionarGuia() {
-        JTable table = new JTable(new RotinaTableModel());
+        JTable table = new JTable(new RoutineTableModel());
         atualizarComboBox(table);
         String letra = Character.toString(65 + janelasAdicionadas++);
         guias.insertTab(letra, null, new JScrollPane(table), "", guias.getTabCount());
@@ -86,7 +86,7 @@ public final class RotinaConteudo extends JPanel {
     private void removerExercicio() {
         JScrollPane guiaAtual = (JScrollPane) guias.getSelectedComponent();
         JTable table = (JTable) guiaAtual.getViewport().getView();
-        RotinaTableModel tableModel = (RotinaTableModel) table.getModel();
+        RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
         int selected_row = table.getSelectedRow();
         if (selected_row < 0) {
             JOptionPane.showMessageDialog(this,
@@ -160,7 +160,7 @@ public final class RotinaConteudo extends JPanel {
         for (int i = 0; i < guias.getTabCount(); i++) {
             JScrollPane guiaAtual = (JScrollPane) guias.getComponentAt(i);
             JTable table = (JTable) guiaAtual.getViewport().getView();
-            RotinaTableModel tableModel = (RotinaTableModel) table.getModel();
+            RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
             ArrayList<ExercicioWrapper> exercicios = tableModel.getExercicios();
             listaExercicios.add(exercicios);
         }
@@ -172,7 +172,7 @@ public final class RotinaConteudo extends JPanel {
         for (int i = 0; i < guias.getTabCount(); i++) {
             JScrollPane guiaAtual = (JScrollPane) guias.getComponentAt(i);
             JTable table = (JTable) guiaAtual.getViewport().getView();
-            RotinaTableModel tableModel = (RotinaTableModel) table.getModel();
+            RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
             HashMap<ExercicioWrapper, ExercicioWrapper> superset = tableModel.getSuperset();
             listaSuperset.add(superset);
         }

@@ -5,7 +5,7 @@
 package com.mycompany.academia.view.muscle;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controller.MusculoAlvoControle;
+import com.mycompany.academia.controller.TargetMuscleController;
 import com.mycompany.academia.model.entity.MusculoAlvo;
 import com.mycompany.academia.view.effect.TextFieldValidator;
 
@@ -27,11 +27,11 @@ import javax.swing.plaf.LayerUI;
  *
  * @author paulo
  */
-public final class MusculoAlvoEdita extends JDialog {
+public final class TargetMuscleEdit extends JDialog {
 
     private final MusculoAlvoEditaPanel musculoAlvoEditaPanel;
 
-    public MusculoAlvoEdita(JFrame parentWindow, MusculoAlvoControle musculoAlvoControle, MusculoAlvo musculoAlvo) {
+    public TargetMuscleEdit(JFrame parentWindow, TargetMuscleController musculoAlvoControle, MusculoAlvo musculoAlvo) {
         musculoAlvoEditaPanel = new MusculoAlvoEditaPanel(this, musculoAlvoControle, musculoAlvo);
         setContentPane(musculoAlvoEditaPanel);
         pack();
@@ -43,7 +43,7 @@ public final class MusculoAlvoEdita extends JDialog {
 
     private class MusculoAlvoEditaPanel extends JPanel {
 
-        private final MusculoAlvoControle musculoAlvoControle;
+        private final TargetMuscleController musculoAlvoControle;
         private final MusculoAlvo musculoAlvo;
         private final JDialog parentWindow;
 
@@ -56,7 +56,7 @@ public final class MusculoAlvoEdita extends JDialog {
         private JButton salvar;
         private JButton cancelar;
 
-        public MusculoAlvoEditaPanel(JDialog parentWindow, MusculoAlvoControle musculoAlvoControle,
+        public MusculoAlvoEditaPanel(JDialog parentWindow, TargetMuscleController musculoAlvoControle,
                 MusculoAlvo musculoAlvo) {
             this.musculoAlvoControle = musculoAlvoControle;
             this.musculoAlvo = musculoAlvo;

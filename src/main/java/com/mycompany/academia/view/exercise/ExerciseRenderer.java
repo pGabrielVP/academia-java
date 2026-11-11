@@ -15,9 +15,9 @@ import com.mycompany.academia.model.entity.Exercicio;
  *
  * @author paulo
  */
-public class ExercicioRenderer extends JLabel implements ListCellRenderer<Object> {
+public class ExerciseRenderer extends JLabel implements ListCellRenderer<Object> {
 
-    public ExercicioRenderer() {
+    public ExerciseRenderer() {
         setOpaque(true);
         setHorizontalAlignment(CENTER);
         setVerticalAlignment(CENTER);

@@ -4,11 +4,11 @@
  */
 package com.mycompany.academia.controller;
 
-import com.mycompany.academia.facade.ExercicioFacade;
-import com.mycompany.academia.facade.MusculoAlvoFacade;
+import com.mycompany.academia.facade.ExerciseFacade;
+import com.mycompany.academia.facade.TargetMuscleFacade;
 import com.mycompany.academia.model.entity.Exercicio;
 import com.mycompany.academia.model.entity.MusculoAlvo;
-import com.mycompany.academia.view.exercise.ExercicioTableModel;
+import com.mycompany.academia.view.exercise.ExerciseTableModel;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ import java.util.List;
  *
  * @author paulo
  */
-public class ExercicioControle {
+public class ExerciseController {
 
-    private final ExercicioFacade exercicioFacade;
-    private final MusculoAlvoFacade musculoAlvoFacade;
-    private final ExercicioTableModel exercicioTableModel;
+    private final ExerciseFacade exercicioFacade;
+    private final TargetMuscleFacade musculoAlvoFacade;
+    private final ExerciseTableModel exercicioTableModel;
 
-    public ExercicioControle(ExercicioFacade exercicioFacade, MusculoAlvoFacade musculoAlvoFacade, ExercicioTableModel exercicioTableModel) {
+    public ExerciseController(ExerciseFacade exercicioFacade, TargetMuscleFacade musculoAlvoFacade, ExerciseTableModel exercicioTableModel) {
         this.exercicioFacade = exercicioFacade;
         this.musculoAlvoFacade = musculoAlvoFacade;
         this.exercicioTableModel = exercicioTableModel;
@@ -54,7 +54,7 @@ public class ExercicioControle {
         exercicioTableModel.deletar(exercicio);
     }
 
-    public ExercicioTableModel getExercicioTableModel() {
+    public ExerciseTableModel getExercicioTableModel() {
         return exercicioTableModel;
     }
 

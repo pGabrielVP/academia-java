@@ -13,12 +13,12 @@ import com.mycompany.academia.model.entity.Exercicio;
  *
  * @author paulo
  */
-public class ExercicioFacade extends AbstractFacade<Exercicio> {
+public class ExerciseFacade extends AbstractFacade<Exercicio> {
 
     private final EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 
-    public ExercicioFacade(EntityManagerFactory entityManagerFactory) {
+    public ExerciseFacade(EntityManagerFactory entityManagerFactory) {
         super(Exercicio.class);
         this.entityManagerFactory = entityManagerFactory;
     }

@@ -13,12 +13,12 @@ import com.mycompany.academia.model.entity.MusculoAlvo;
  *
  * @author paulo
  */
-public class MusculoAlvoFacade extends AbstractFacade<MusculoAlvo> {
+public class TargetMuscleFacade extends AbstractFacade<MusculoAlvo> {
 
     private final EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
 
-    public MusculoAlvoFacade(EntityManagerFactory entityManagerFactory) {
+    public TargetMuscleFacade(EntityManagerFactory entityManagerFactory) {
         super(MusculoAlvo.class);
         this.entityManagerFactory = entityManagerFactory;
     }

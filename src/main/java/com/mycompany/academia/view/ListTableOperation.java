@@ -8,7 +8,7 @@ package com.mycompany.academia.view;
  *
  * @author paulo
  */
-public interface ListaTableOperacoes {
+public interface ListTableOperation {
 
     void criar();
 

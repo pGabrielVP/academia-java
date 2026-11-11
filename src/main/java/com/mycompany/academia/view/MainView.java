@@ -5,18 +5,18 @@
 package com.mycompany.academia.view;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controller.ExercicioControle;
-import com.mycompany.academia.controller.MusculoAlvoControle;
-import com.mycompany.academia.controller.RotinaControle;
-import com.mycompany.academia.facade.ExercicioFacade;
-import com.mycompany.academia.facade.MusculoAlvoFacade;
-import com.mycompany.academia.service.Relatorio;
-import com.mycompany.academia.view.exercise.ExercicioLista;
-import com.mycompany.academia.view.exercise.ExercicioTableModel;
-import com.mycompany.academia.view.muscle.MusculoAlvoLista;
-import com.mycompany.academia.view.muscle.MusculoAlvoTableModel;
-import com.mycompany.academia.view.routine.RotinaConteudo;
-import com.mycompany.academia.view.routine.RotinaMenuLateral;
+import com.mycompany.academia.controller.ExerciseController;
+import com.mycompany.academia.controller.TargetMuscleController;
+import com.mycompany.academia.controller.RoutineController;
+import com.mycompany.academia.facade.ExerciseFacade;
+import com.mycompany.academia.facade.TargetMuscleFacade;
+import com.mycompany.academia.service.Report;
+import com.mycompany.academia.view.exercise.ExerciseList;
+import com.mycompany.academia.view.exercise.ExerciseTableModel;
+import com.mycompany.academia.view.muscle.TargetMuscleList;
+import com.mycompany.academia.view.muscle.TargetMuscleTableModel;
+import com.mycompany.academia.view.routine.RoutineContent;
+import com.mycompany.academia.view.routine.RoutineSideMenu;
 
 import java.awt.BorderLayout;
 import java.util.Locale;
@@ -36,36 +36,36 @@ import javax.swing.JSplitPane;
 public class MainView extends JFrame {
 
     private final EntityManagerFactory entityManagerFactory;
-    private final MusculoAlvoFacade musculoAlvoFacade;
-    private final MusculoAlvoTableModel musculoAlvoTableModel;
-    private final MusculoAlvoControle musculoAlvoControle;
-    private final ExercicioFacade exercicioFacade;
-    private final ExercicioTableModel exercicioTableModel;
-    private final ExercicioControle exercicioControle;
-    private final Relatorio relatorio;
-    private final RotinaControle rotinaControle;
-    private final RotinaConteudo rotinaConteudo;
-    private final RotinaMenuLateral rotinaMenuLateral;
+    private final TargetMuscleFacade musculoAlvoFacade;
+    private final TargetMuscleTableModel musculoAlvoTableModel;
+    private final TargetMuscleController musculoAlvoControle;
+    private final ExerciseFacade exercicioFacade;
+    private final ExerciseTableModel exercicioTableModel;
+    private final ExerciseController exercicioControle;
+    private final Report relatorio;
+    private final RoutineController rotinaControle;
+    private final RoutineContent rotinaConteudo;
+    private final RoutineSideMenu rotinaMenuLateral;
 
     private JSplitPane rotina;
-    private MusculoAlvoLista musculoalvoLista;
-    private ExercicioLista exercicioLista;
+    private TargetMuscleList musculoalvoLista;
+    private ExerciseList exercicioLista;
     private JMenuBar menuBar;
 
     public MainView() {
         entityManagerFactory = Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU");
-        musculoAlvoFacade = new MusculoAlvoFacade(entityManagerFactory);
-        musculoAlvoTableModel = new MusculoAlvoTableModel();
-        musculoAlvoControle = new MusculoAlvoControle(musculoAlvoFacade, musculoAlvoTableModel);
+        musculoAlvoFacade = new TargetMuscleFacade(entityManagerFactory);
+        musculoAlvoTableModel = new TargetMuscleTableModel();
+        musculoAlvoControle = new TargetMuscleController(musculoAlvoFacade, musculoAlvoTableModel);
 
-        exercicioFacade = new ExercicioFacade(entityManagerFactory);
-        exercicioTableModel = new ExercicioTableModel();
-        exercicioControle = new ExercicioControle(exercicioFacade, musculoAlvoFacade, exercicioTableModel);
+        exercicioFacade = new ExerciseFacade(entityManagerFactory);
+        exercicioTableModel = new ExerciseTableModel();
+        exercicioControle = new ExerciseController(exercicioFacade, musculoAlvoFacade, exercicioTableModel);
 
-        relatorio = new Relatorio();
-        rotinaControle = new RotinaControle(musculoAlvoFacade, relatorio);
-        rotinaConteudo = new RotinaConteudo(rotinaControle);
-        rotinaMenuLateral = new RotinaMenuLateral(rotinaConteudo, rotinaControle);
+        relatorio = new Report();
+        rotinaControle = new RoutineController(musculoAlvoFacade, relatorio);
+        rotinaConteudo = new RoutineContent(rotinaControle);
+        rotinaMenuLateral = new RoutineSideMenu(rotinaConteudo, rotinaControle);
 
         initComponents();
     }
@@ -87,8 +87,8 @@ public class MainView extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        exercicioLista = new ExercicioLista(this, exercicioControle);
-        musculoalvoLista = new MusculoAlvoLista(this, musculoAlvoControle);
+        exercicioLista = new ExerciseList(this, exercicioControle);
+        musculoalvoLista = new TargetMuscleList(this, musculoAlvoControle);
         rotina = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, rotinaMenuLateral, rotinaConteudo);
         rotina.setDividerLocation(400);
 

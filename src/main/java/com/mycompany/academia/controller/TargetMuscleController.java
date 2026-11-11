@@ -4,9 +4,9 @@
  */
 package com.mycompany.academia.controller;
 
-import com.mycompany.academia.facade.MusculoAlvoFacade;
+import com.mycompany.academia.facade.TargetMuscleFacade;
 import com.mycompany.academia.model.entity.MusculoAlvo;
-import com.mycompany.academia.view.muscle.MusculoAlvoTableModel;
+import com.mycompany.academia.view.muscle.TargetMuscleTableModel;
 
 import java.util.List;
 
@@ -14,12 +14,12 @@ import java.util.List;
  *
  * @author paulo
  */
-public class MusculoAlvoControle {
+public class TargetMuscleController {
 
-    private final MusculoAlvoFacade musculoAlvoFacade;
-    private final MusculoAlvoTableModel musculoAlvoTableModel;
+    private final TargetMuscleFacade musculoAlvoFacade;
+    private final TargetMuscleTableModel musculoAlvoTableModel;
 
-    public MusculoAlvoControle(MusculoAlvoFacade musculoAlvoFacade, MusculoAlvoTableModel musculoAlvoTableModel) {
+    public TargetMuscleController(TargetMuscleFacade musculoAlvoFacade, TargetMuscleTableModel musculoAlvoTableModel) {
         this.musculoAlvoFacade = musculoAlvoFacade;
         this.musculoAlvoTableModel = musculoAlvoTableModel;
     }
@@ -46,7 +46,7 @@ public class MusculoAlvoControle {
         musculoAlvoTableModel.deletar(musculoAlvo);
     }
 
-    public MusculoAlvoTableModel getMusculoAlvoTableModel() {
+    public TargetMuscleTableModel getMusculoAlvoTableModel() {
         return musculoAlvoTableModel;
     }
 

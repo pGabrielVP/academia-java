@@ -5,12 +5,12 @@
 package com.mycompany.academia.view.exercise;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controller.ExercicioControle;
+import com.mycompany.academia.controller.ExerciseController;
 import com.mycompany.academia.model.entity.Exercicio;
 import com.mycompany.academia.model.entity.MusculoAlvo;
 import com.mycompany.academia.view.effect.ComboBoxValidator;
 import com.mycompany.academia.view.effect.TextFieldValidator;
-import com.mycompany.academia.view.muscle.MusculoAlvoRenderer;
+import com.mycompany.academia.view.muscle.TargetMuscleRenderer;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -47,11 +47,11 @@ import javax.swing.plaf.LayerUI;
  *
  * @author paulo
  */
-public final class ExercicioEdita extends JDialog {
+public final class ExerciseEdit extends JDialog {
 
     private final ExercicioEditaPanel exercicioEditaPanel;
 
-    public ExercicioEdita(JFrame parentWindow, ExercicioControle exercicioControle, Exercicio exercicio)
+    public ExerciseEdit(JFrame parentWindow, ExerciseController exercicioControle, Exercicio exercicio)
             throws HeadlessException {
         exercicioEditaPanel = new ExercicioEditaPanel(this, exercicioControle, exercicio);
         setContentPane(exercicioEditaPanel);
@@ -64,7 +64,7 @@ public final class ExercicioEdita extends JDialog {
 
     private class ExercicioEditaPanel extends JPanel {
 
-        private final ExercicioControle exercicioControle;
+        private final ExerciseController exercicioControle;
         private final Exercicio exercicio;
         private final JDialog parentWindow;
 
@@ -84,7 +84,7 @@ public final class ExercicioEdita extends JDialog {
         private JButton salvar;
         private JButton cancelar;
 
-        public ExercicioEditaPanel(JDialog parentWindow, ExercicioControle exercicioControle, Exercicio exercicio) {
+        public ExercicioEditaPanel(JDialog parentWindow, ExerciseController exercicioControle, Exercicio exercicio) {
             this.parentWindow = parentWindow;
             this.exercicioControle = exercicioControle;
             this.exercicio = exercicio;
@@ -140,7 +140,7 @@ public final class ExercicioEdita extends JDialog {
                     JOptionPane.showMessageDialog(this, new JLabel(new ImageIcon(imagem)), imageString,
                             JOptionPane.PLAIN_MESSAGE);
                 } catch (IOException ex) {
-                    Logger.getLogger(ExercicioEdita.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ExerciseEdit.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 requestFileChooser();
@@ -242,7 +242,7 @@ public final class ExercicioEdita extends JDialog {
             musculoAlvoInput = new JComboBox<>();
             musculoAlvoInput.setModel(
                     new DefaultComboBoxModel<>(exercicioControle.getListaMusculoAlvo().toArray(MusculoAlvo[]::new)));
-            musculoAlvoInput.setRenderer(new MusculoAlvoRenderer());
+            musculoAlvoInput.setRenderer(new TargetMuscleRenderer());
             musculoAlvoInput.setSelectedItem(exercicio.getMusculoAlvo());
             musculoAlvoInput.setEditable(false);
 
