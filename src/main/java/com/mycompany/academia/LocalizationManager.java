@@ -21,6 +21,7 @@ public class LocalizationManager {
 
     public static void setLocale(Locale newLocale) {
         currentLocale = newLocale;
+        Locale.setDefault(newLocale);
     }
 
 }

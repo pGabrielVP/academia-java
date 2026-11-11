@@ -19,6 +19,8 @@ import com.mycompany.academia.view.routine.RotinaConteudo;
 import com.mycompany.academia.view.routine.RotinaMenuLateral;
 
 import java.awt.BorderLayout;
+import java.util.Locale;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JFrame;
@@ -91,28 +93,50 @@ public class MainView extends JFrame {
         rotina.setDividerLocation(400);
 
         menuBar = new JMenuBar();
-        JMenu menu = new JMenu(LocalizationManager.getString("localization.Strings", "main.view.jmenu.name"));
+        JMenu manageMenu = new JMenu(
+                LocalizationManager.getString("localization.Strings", "main.view.jmenu.manage.name"));
+        JMenu configMenu = new JMenu(
+                LocalizationManager.getString("localization.Strings", "main.view.jmenu.config.name"));
 
-        JMenuItem menuExercicios = new JMenuItem(
+        JMenuItem menuItemExercicios = new JMenuItem(
                 LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.exercise"));
-        menuExercicios.addActionListener((e) -> {
+        menuItemExercicios.addActionListener((e) -> {
             toggleExercicios();
         });
-        JMenuItem menuMusculoAlvo = new JMenuItem(
+        JMenuItem menuItemMusculoAlvo = new JMenuItem(
                 LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.muscle"));
-        menuMusculoAlvo.addActionListener((e) -> {
+        menuItemMusculoAlvo.addActionListener((e) -> {
             toggleMusculosAlvo();
         });
 
-        menu.add(menuExercicios);
-        menu.add(menuMusculoAlvo);
+        var menuItemLang = new JMenuItem(
+                LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.language"));
+        menuItemLang.addActionListener((e) -> {
+            Locale swLocale = Locale.getDefault() == Locale.ENGLISH ? Locale.of("pt", "BR") : Locale.ENGLISH;
+            switchLocale(swLocale);
+        });
 
-        menuBar.add(menu);
+        manageMenu.add(menuItemExercicios);
+        manageMenu.add(menuItemMusculoAlvo);
+
+        configMenu.add(menuItemLang);
+
+        menuBar.add(manageMenu);
+        menuBar.add(configMenu);
 
         setJMenuBar(menuBar);
         add(rotina, BorderLayout.CENTER);
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void switchLocale(Locale locale) {
+        LocalizationManager.setLocale(locale);
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainView().setVisible(true);
+        });
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.dispose();
     }
 
 }
