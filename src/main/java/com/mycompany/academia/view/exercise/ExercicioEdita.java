@@ -2,15 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.exercicio;
+package com.mycompany.academia.view.exercise;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controle.ExercicioControle;
-import com.mycompany.academia.model.entidades.Exercicio;
-import com.mycompany.academia.model.entidades.MusculoAlvo;
-import com.mycompany.academia.view.musculoalvo.MusculoAlvoRenderer;
-import com.mycompany.academia.view.efeitos.ComboBoxValidator;
-import com.mycompany.academia.view.efeitos.TextFieldValidator;
+import com.mycompany.academia.controller.ExercicioControle;
+import com.mycompany.academia.model.entity.Exercicio;
+import com.mycompany.academia.model.entity.MusculoAlvo;
+import com.mycompany.academia.view.effect.ComboBoxValidator;
+import com.mycompany.academia.view.effect.TextFieldValidator;
+import com.mycompany.academia.view.muscle.MusculoAlvoRenderer;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;

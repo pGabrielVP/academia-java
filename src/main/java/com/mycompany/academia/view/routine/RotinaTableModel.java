@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.rotina;
+package com.mycompany.academia.view.routine;
 
-import com.mycompany.academia.model.entidades.Exercicio;
 import com.mycompany.academia.LocalizationManager;
 import com.mycompany.academia.model.dto.ExercicioWrapper;
+import com.mycompany.academia.model.entity.Exercicio;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

@@ -4,7 +4,7 @@
  */
 package com.mycompany.academia.model.dto;
 
-import com.mycompany.academia.model.entidades.Exercicio;
+import com.mycompany.academia.model.entity.Exercicio;
 
 /**
  *

@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.efeitos;
+package com.mycompany.academia.view.effect;
 
-import com.mycompany.academia.model.entidades.MusculoAlvo;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLayer;
 import javax.swing.plaf.LayerUI;
+
+import com.mycompany.academia.model.entity.MusculoAlvo;
 
 /**
  *

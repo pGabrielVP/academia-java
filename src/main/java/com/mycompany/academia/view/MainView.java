@@ -5,18 +5,19 @@
 package com.mycompany.academia.view;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.controle.ExercicioControle;
-import com.mycompany.academia.controle.MusculoAlvoControle;
-import com.mycompany.academia.controle.RotinaControle;
+import com.mycompany.academia.controller.ExercicioControle;
+import com.mycompany.academia.controller.MusculoAlvoControle;
+import com.mycompany.academia.controller.RotinaControle;
 import com.mycompany.academia.facade.ExercicioFacade;
 import com.mycompany.academia.facade.MusculoAlvoFacade;
-import com.mycompany.academia.services.Relatorio;
-import com.mycompany.academia.view.exercicio.ExercicioLista;
-import com.mycompany.academia.view.exercicio.ExercicioTableModel;
-import com.mycompany.academia.view.musculoalvo.MusculoAlvoLista;
-import com.mycompany.academia.view.musculoalvo.MusculoAlvoTableModel;
-import com.mycompany.academia.view.rotina.RotinaConteudo;
-import com.mycompany.academia.view.rotina.RotinaMenuLateral;
+import com.mycompany.academia.service.Relatorio;
+import com.mycompany.academia.view.exercise.ExercicioLista;
+import com.mycompany.academia.view.exercise.ExercicioTableModel;
+import com.mycompany.academia.view.muscle.MusculoAlvoLista;
+import com.mycompany.academia.view.muscle.MusculoAlvoTableModel;
+import com.mycompany.academia.view.routine.RotinaConteudo;
+import com.mycompany.academia.view.routine.RotinaMenuLateral;
+
 import java.awt.BorderLayout;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

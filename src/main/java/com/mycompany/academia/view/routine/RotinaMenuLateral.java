@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.rotina;
+package com.mycompany.academia.view.routine;
 
-import com.mycompany.academia.controle.RotinaControle;
-import com.mycompany.academia.model.entidades.Exercicio;
-import com.mycompany.academia.view.rotina.paginas.EscolherMusculoAlvo;
-import com.mycompany.academia.view.rotina.paginas.EscolherExercicio;
+import com.mycompany.academia.controller.RotinaControle;
+import com.mycompany.academia.model.entity.Exercicio;
+import com.mycompany.academia.view.routine.page.EscolherExercicio;
+import com.mycompany.academia.view.routine.page.EscolherMusculoAlvo;
+
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.util.List;

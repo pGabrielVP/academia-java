@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.academia.view.rotina.paginas;
+package com.mycompany.academia.view.routine.page;
 
 import com.mycompany.academia.LocalizationManager;
-import com.mycompany.academia.model.entidades.Exercicio;
-import com.mycompany.academia.view.rotina.RotinaMenuLateral;
-import com.mycompany.academia.view.rotina.RotinaConteudo;
+import com.mycompany.academia.model.entity.Exercicio;
+import com.mycompany.academia.view.routine.RotinaConteudo;
+import com.mycompany.academia.view.routine.RotinaMenuLateral;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;

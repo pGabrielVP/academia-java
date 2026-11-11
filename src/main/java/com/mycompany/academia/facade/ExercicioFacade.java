@@ -4,9 +4,10 @@
  */
 package com.mycompany.academia.facade;
 
-import com.mycompany.academia.model.entidades.Exercicio;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
+import com.mycompany.academia.model.entity.Exercicio;
 
 /**
  *
