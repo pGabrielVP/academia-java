@@ -21,40 +21,39 @@ import javax.swing.JScrollPane;
  */
 public final class ChooseTargetMuscle extends JScrollPane {
 
-    private final RoutineController rotinaControle;
+    private final RoutineController routineController;
     private final RoutineSideMenu parentWindow;
-    private List<MusculoAlvo> listaMusculoAlvo;
-
+    private List<MusculoAlvo> targetMuscleLIst;
     private JPanel view;
 
-    public ChooseTargetMuscle(RoutineSideMenu parentWindow, RoutineController rotinaControle) {
+    public ChooseTargetMuscle(RoutineSideMenu parentWindow, RoutineController routineController) {
         this.parentWindow = parentWindow;
-        this.rotinaControle = rotinaControle;
+        this.routineController = routineController;
         initComponents();
     }
 
-    public void atualizar() {
-        listaMusculoAlvo = rotinaControle.listaTodosMusculoAlvo();
-        adicionarBotoes();
+    public void update() {
+        targetMuscleLIst = routineController.listAllTargetMuscle();
+        addButtons();
     }
 
-    private void adicionarBotoes() {
+    private void addButtons() {
         view.removeAll();
-        listaMusculoAlvo.forEach((musculo_alvo) -> {
-            JButton botao = new JButton(musculo_alvo.getNomeAlvo());
-            botao.addActionListener((e) -> {
-                parentWindow.showListarExercicios(musculo_alvo.getExercicioList());
+        targetMuscleLIst.forEach((targetMuscle) -> {
+            JButton jButtonTargetMuscle = new JButton(targetMuscle.getNomeAlvo());
+            jButtonTargetMuscle.addActionListener((e) -> {
+                parentWindow.showListExercises(targetMuscle.getExercicioList());
             });
-            view.add(botao);
+            view.add(jButtonTargetMuscle);
         });
     }
 
     private void initComponents() {
-        int colunas = 3;
-        view = new JPanel(new GridLayout(0, colunas));
+        int columns = 3;
+        view = new JPanel(new GridLayout(0, columns));
         setPreferredSize(new Dimension(370, 551));
         setViewportView(view);
-        atualizar();
+        update();
     }
 
 }

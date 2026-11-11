@@ -18,20 +18,20 @@ import java.util.List;
  */
 public class RoutineController {
 
-    private final TargetMuscleFacade musculoAlvoFacade;
-    private final Report relatorio;
+    private final TargetMuscleFacade targetMuscleFacade;
+    private final Report report;
 
-    public RoutineController(TargetMuscleFacade musculoAlvoFacade, Report relatorio) {
-        this.musculoAlvoFacade = musculoAlvoFacade;
-        this.relatorio = relatorio;
+    public RoutineController(TargetMuscleFacade targetMuscleFacade, Report report) {
+        this.targetMuscleFacade = targetMuscleFacade;
+        this.report = report;
     }
 
-    public List<MusculoAlvo> listaTodosMusculoAlvo() {
-        return musculoAlvoFacade.listaTodos();
+    public List<MusculoAlvo> listAllTargetMuscle() {
+        return targetMuscleFacade.listAll();
     }
 
-    public void imprimirRelatorio(Collection<Sublista> lista) {
-        relatorio.verRelatorio(lista);
+    public void printReport(Collection<Sublista> list) {
+        report.viewReport(list);
     }
 
 }

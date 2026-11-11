@@ -16,38 +16,39 @@ import java.util.List;
  */
 public class TargetMuscleController {
 
-    private final TargetMuscleFacade musculoAlvoFacade;
-    private final TargetMuscleTableModel musculoAlvoTableModel;
+    private final TargetMuscleFacade targetMuscleFacade;
+    private final TargetMuscleTableModel targetMuscleTableModel;
 
-    public TargetMuscleController(TargetMuscleFacade musculoAlvoFacade, TargetMuscleTableModel musculoAlvoTableModel) {
-        this.musculoAlvoFacade = musculoAlvoFacade;
-        this.musculoAlvoTableModel = musculoAlvoTableModel;
+    public TargetMuscleController(TargetMuscleFacade targetMuscleFacade,
+            TargetMuscleTableModel targetMuscleTableModel) {
+        this.targetMuscleFacade = targetMuscleFacade;
+        this.targetMuscleTableModel = targetMuscleTableModel;
     }
 
-    public void sincronizarMusculoAlvoTableModel() {
-        musculoAlvoTableModel.sincronizar(getListaMusculoAlvo());
+    public void syncTargetMuscleTableModel() {
+        targetMuscleTableModel.sync(getTargetMuscleList());
     }
 
-    public List<MusculoAlvo> getListaMusculoAlvo() {
-        return musculoAlvoFacade.listaTodos();
+    public List<MusculoAlvo> getTargetMuscleList() {
+        return targetMuscleFacade.listAll();
     }
 
-    public MusculoAlvo buscar(Integer id) {
-        return musculoAlvoFacade.buscar(id);
+    public MusculoAlvo findById(Integer id) {
+        return targetMuscleFacade.find(id);
     }
 
-    public void salvar(MusculoAlvo musculoAlvo) {
-        musculoAlvoFacade.salvar(musculoAlvo);
-        musculoAlvoTableModel.oferecer(musculoAlvo);
+    public void save(MusculoAlvo targetMuscle) {
+        targetMuscleFacade.save(targetMuscle);
+        targetMuscleTableModel.offer(targetMuscle);
     }
 
-    public void excluir(MusculoAlvo musculoAlvo) {
-        musculoAlvoFacade.remover(musculoAlvo);
-        musculoAlvoTableModel.deletar(musculoAlvo);
+    public void delete(MusculoAlvo targetMuscle) {
+        targetMuscleFacade.delete(targetMuscle);
+        targetMuscleTableModel.delete(targetMuscle);
     }
 
-    public TargetMuscleTableModel getMusculoAlvoTableModel() {
-        return musculoAlvoTableModel;
+    public TargetMuscleTableModel getTargetMuscleTableModel() {
+        return targetMuscleTableModel;
     }
 
 }

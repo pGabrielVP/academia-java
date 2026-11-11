@@ -18,44 +18,45 @@ import java.util.List;
  */
 public class ExerciseController {
 
-    private final ExerciseFacade exercicioFacade;
-    private final TargetMuscleFacade musculoAlvoFacade;
-    private final ExerciseTableModel exercicioTableModel;
+    private final ExerciseFacade exerciseFacade;
+    private final TargetMuscleFacade targetMuscleFacade;
+    private final ExerciseTableModel exerciseTableModel;
 
-    public ExerciseController(ExerciseFacade exercicioFacade, TargetMuscleFacade musculoAlvoFacade, ExerciseTableModel exercicioTableModel) {
-        this.exercicioFacade = exercicioFacade;
-        this.musculoAlvoFacade = musculoAlvoFacade;
-        this.exercicioTableModel = exercicioTableModel;
+    public ExerciseController(ExerciseFacade exerciseFacade, TargetMuscleFacade targetMuscleFacade,
+            ExerciseTableModel exerciseTableModel) {
+        this.exerciseFacade = exerciseFacade;
+        this.targetMuscleFacade = targetMuscleFacade;
+        this.exerciseTableModel = exerciseTableModel;
     }
 
-    public void sincronizarExercicioTableModel() {
-        exercicioTableModel.sincronizar(getListaExercicio());
+    public void syncExerciseTableModel() {
+        exerciseTableModel.sync(getExerciseList());
     }
 
-    public List<Exercicio> getListaExercicio() {
-        return exercicioFacade.listaTodos();
+    public List<Exercicio> getExerciseList() {
+        return exerciseFacade.listAll();
     }
 
-    public List<MusculoAlvo> getListaMusculoAlvo() {
-        return musculoAlvoFacade.listaTodos();
+    public List<MusculoAlvo> getTargetMuscleList() {
+        return targetMuscleFacade.listAll();
     }
 
-    public Exercicio buscar(Integer id) {
-        return exercicioFacade.buscar(id);
+    public Exercicio findById(Integer id) {
+        return exerciseFacade.find(id);
     }
 
-    public void salvar(Exercicio exercicio) {
-        exercicioFacade.salvar(exercicio);
-        exercicioTableModel.oferecer(exercicio);
+    public void save(Exercicio exercise) {
+        exerciseFacade.save(exercise);
+        exerciseTableModel.offer(exercise);
     }
 
-    public void excluir(Exercicio exercicio) {
-        exercicioFacade.remover(exercicio);
-        exercicioTableModel.deletar(exercicio);
+    public void delete(Exercicio exercise) {
+        exerciseFacade.delete(exercise);
+        exerciseTableModel.delete(exercise);
     }
 
-    public ExerciseTableModel getExercicioTableModel() {
-        return exercicioTableModel;
+    public ExerciseTableModel getExerciseTableModel() {
+        return exerciseTableModel;
     }
 
 }

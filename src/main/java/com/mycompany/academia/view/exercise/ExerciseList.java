@@ -28,98 +28,96 @@ import javax.swing.WindowConstants;
  */
 public final class ExerciseList extends JFrame {
 
-    private final ExercicioListaPanel exercicioListaPanel;
+    private final JPanelExerciseList exerciseListPanel;
 
-    public ExerciseList(JFrame parentWindow, ExerciseController exercicioControle) throws HeadlessException {
-        exercicioListaPanel = new ExercicioListaPanel(this, exercicioControle);
-        setContentPane(exercicioListaPanel);
+    public ExerciseList(JFrame parentWindow, ExerciseController exerciseController) throws HeadlessException {
+        exerciseListPanel = new JPanelExerciseList(this, exerciseController);
+        setContentPane(exerciseListPanel);
         pack();
         setTitle(LocalizationManager.getString("localization.Strings", "exercise.list.window.title"));
         setLocationRelativeTo(parentWindow);
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     }
 
-    private class ExercicioListaPanel extends JPanel implements ListTableOperation {
+    private class JPanelExerciseList extends JPanel implements ListTableOperation {
 
         private final JFrame parentWindow;
         private final BorderLayout borderLayout;
-        private final ExerciseController exercicioControle;
-        private final ListaTable listaTable;
-        private final MenuOperacoes menuOperacoes;
+        private final ExerciseController exerciseController;
+        private final JScrollPaneExerciseList jTableExerciseList;
+        private final JPanelMenu jPanelMenu;
 
-        public ExercicioListaPanel(JFrame parentWindow, ExerciseController exercicioControle) {
+        public JPanelExerciseList(JFrame parentWindow, ExerciseController exerciseController) {
             this.parentWindow = parentWindow;
-            this.exercicioControle = exercicioControle;
+            this.exerciseController = exerciseController;
             borderLayout = new BorderLayout();
-            listaTable = new ListaTable(exercicioControle);
-            menuOperacoes = new MenuOperacoes(this);
+            jTableExerciseList = new JScrollPaneExerciseList(exerciseController);
+            jPanelMenu = new JPanelMenu(this);
             setLayout(borderLayout);
-            add(listaTable, BorderLayout.CENTER);
-            add(menuOperacoes, BorderLayout.EAST);
+            add(jTableExerciseList, BorderLayout.CENTER);
+            add(jPanelMenu, BorderLayout.EAST);
         }
 
         @Override
-        public void criar() {
-            new ExerciseEdit(parentWindow, exercicioControle, new Exercicio()).setVisible(true);
+        public void create() {
+            new ExerciseEdit(parentWindow, exerciseController, new Exercicio()).setVisible(true);
         }
 
         @Override
-        public void editar() {
-            Exercicio selecao = listaTable.getSelecao();
-            if (selecao != null) {
-                new ExerciseEdit(parentWindow, exercicioControle, selecao).setVisible(true);
+        public void edit() {
+            Exercicio selected = jTableExerciseList.getSelected();
+            if (selected != null) {
+                new ExerciseEdit(parentWindow, exerciseController, selected).setVisible(true);
             }
         }
 
         @Override
-        public void deletar() {
-            Exercicio selecao = listaTable.getSelecao();
-            if (selecao != null) {
-                var deleteWarning = LocalizationManager.getFormattedString("localization.Strings",
-                        "exercise.list.delete.warning.message", selecao.getNomeExercicio(), selecao.getIdExercicio());
-                var buttonConfirm = LocalizationManager.getString("localization.Strings",
+        public void delete() {
+            Exercicio selected = jTableExerciseList.getSelected();
+            if (selected != null) {
+                var deleteWarningText = LocalizationManager.getFormattedString("localization.Strings",
+                        "exercise.list.delete.warning.message", selected.getNomeExercicio(), selected.getIdExercicio());
+                var buttonConfirmText = LocalizationManager.getString("localization.Strings",
                         "exercise.list.delete.confirmation.message");
-                int confirmarDeletar = JOptionPane.showConfirmDialog(this, deleteWarning, buttonConfirm,
+                int selectedOption = JOptionPane.showConfirmDialog(this, deleteWarningText, buttonConfirmText,
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                if (confirmarDeletar == JOptionPane.OK_OPTION) {
-                    exercicioControle.excluir(selecao);
+                if (selectedOption == JOptionPane.OK_OPTION) {
+                    exerciseController.delete(selected);
                 }
             }
         }
 
-        private class ListaTable extends JScrollPane {
+        private class JScrollPaneExerciseList extends JScrollPane {
 
             private final JTable jTable;
-            private final ExerciseController exercicioControle;
+            private final ExerciseController exerciseController;
 
-            public ListaTable(ExerciseController exercicioControle) {
-                this.exercicioControle = exercicioControle;
-                jTable = new JTable(exercicioControle.getExercicioTableModel());
+            public JScrollPaneExerciseList(ExerciseController exerciseController) {
+                this.exerciseController = exerciseController;
+                jTable = new JTable(exerciseController.getExerciseTableModel());
                 jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                jTable.getColumnModel().getColumn(0).setMaxWidth(50); // Reserva menos espaço para a coluna de ID.
+                jTable.getColumnModel().getColumn(0).setMaxWidth(50); // Makes ID column smaller
                 setViewportView(jTable);
             }
 
-            private Exercicio getSelecao() {
-                int linhaSelecionada = jTable.getSelectedRow();
-                if (linhaSelecionada == -1) {
+            private Exercicio getSelected() {
+                int selectedLine = jTable.getSelectedRow();
+                if (selectedLine == -1)
                     return null;
-                }
-                int idMusculoAlvo = (Integer) jTable.getValueAt(linhaSelecionada, 0);
-                Exercicio exercicioSelecionado = exercicioControle.buscar(idMusculoAlvo);
-                return exercicioSelecionado;
+                int targetMuscleId = (Integer) jTable.getValueAt(selectedLine, 0);
+                return exerciseController.findById(targetMuscleId);
             }
         }
 
-        private class MenuOperacoes extends JPanel {
+        private class JPanelMenu extends JPanel {
 
             private final ListTableOperation parentWindow;
             private final BoxLayout boxLayout;
-            private JButton criar;
-            private JButton deletar;
-            private JButton editar;
+            private JButton buttonCreate;
+            private JButton buttonDelete;
+            private JButton buttonEdit;
 
-            public MenuOperacoes(ListTableOperation parentWindow) {
+            public JPanelMenu(ListTableOperation parentWindow) {
                 this.parentWindow = parentWindow;
                 boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
                 setLayout(boxLayout);
@@ -132,45 +130,45 @@ public final class ExerciseList extends JFrame {
                 Dimension buttonGap = new Dimension(0, 20);
                 Dimension topGap = new Dimension(60, 30);
 
-                criar = new JButton(
+                buttonCreate = new JButton(
                         LocalizationManager.getString("localization.Strings", "exercise.list.button.create"));
-                criar.setAlignmentX(alignment - 0.07f);
-                criar.addActionListener((e) -> {
-                    requestCriar();
+                buttonCreate.setAlignmentX(alignment - 0.07f);
+                buttonCreate.addActionListener((e) -> {
+                    requestCreateWindow();
                 });
 
-                deletar = new JButton(
+                buttonDelete = new JButton(
                         LocalizationManager.getString("localization.Strings", "exercise.list.button.delete"));
-                deletar.setAlignmentX(alignment);
-                deletar.addActionListener((e) -> {
-                    requestDeletar();
+                buttonDelete.setAlignmentX(alignment);
+                buttonDelete.addActionListener((e) -> {
+                    requestDeletion();
                 });
 
-                editar = new JButton(
+                buttonEdit = new JButton(
                         LocalizationManager.getString("localization.Strings", "exercise.list.button.edit"));
-                editar.setAlignmentX(alignment - 0.03f);
-                editar.addActionListener((e) -> {
-                    requestEditar();
+                buttonEdit.setAlignmentX(alignment - 0.03f);
+                buttonEdit.addActionListener((e) -> {
+                    requestEditWindow();
                 });
 
                 add(new Box.Filler(minimum, topGap, topGap));
-                add(criar);
+                add(buttonCreate);
                 add(new Box.Filler(minimum, buttonGap, buttonGap));
-                add(deletar);
+                add(buttonDelete);
                 add(new Box.Filler(minimum, buttonGap, buttonGap));
-                add(editar);
+                add(buttonEdit);
             }
 
-            private void requestCriar() {
-                parentWindow.criar();
+            private void requestCreateWindow() {
+                parentWindow.create();
             }
 
-            private void requestDeletar() {
-                parentWindow.deletar();
+            private void requestDeletion() {
+                parentWindow.delete();
             }
 
-            private void requestEditar() {
-                parentWindow.editar();
+            private void requestEditWindow() {
+                parentWindow.edit();
             }
 
         }

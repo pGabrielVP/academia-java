@@ -36,50 +36,49 @@ import javax.swing.JSplitPane;
 public class MainView extends JFrame {
 
     private final EntityManagerFactory entityManagerFactory;
-    private final TargetMuscleFacade musculoAlvoFacade;
-    private final TargetMuscleTableModel musculoAlvoTableModel;
-    private final TargetMuscleController musculoAlvoControle;
-    private final ExerciseFacade exercicioFacade;
-    private final ExerciseTableModel exercicioTableModel;
-    private final ExerciseController exercicioControle;
-    private final Report relatorio;
-    private final RoutineController rotinaControle;
-    private final RoutineContent rotinaConteudo;
-    private final RoutineSideMenu rotinaMenuLateral;
-
-    private JSplitPane rotina;
-    private TargetMuscleList musculoalvoLista;
-    private ExerciseList exercicioLista;
+    private final TargetMuscleFacade targetMuscleFacade;
+    private final TargetMuscleTableModel targetMuscleTableModel;
+    private final TargetMuscleController targetMuscleController;
+    private final ExerciseFacade exerciseFacade;
+    private final ExerciseTableModel exerciseTableModel;
+    private final ExerciseController exerciseController;
+    private final Report report;
+    private final RoutineController routineController;
+    private final RoutineContent routineContent;
+    private final RoutineSideMenu routineSideMenu;
+    private JSplitPane jSplitPaneRoutine;
+    private TargetMuscleList targetMuscleList;
+    private ExerciseList exerciseList;
     private JMenuBar menuBar;
 
     public MainView() {
         entityManagerFactory = Persistence.createEntityManagerFactory("com.mycompany_academia_jar_1PU");
-        musculoAlvoFacade = new TargetMuscleFacade(entityManagerFactory);
-        musculoAlvoTableModel = new TargetMuscleTableModel();
-        musculoAlvoControle = new TargetMuscleController(musculoAlvoFacade, musculoAlvoTableModel);
+        targetMuscleFacade = new TargetMuscleFacade(entityManagerFactory);
+        targetMuscleTableModel = new TargetMuscleTableModel();
+        targetMuscleController = new TargetMuscleController(targetMuscleFacade, targetMuscleTableModel);
 
-        exercicioFacade = new ExerciseFacade(entityManagerFactory);
-        exercicioTableModel = new ExerciseTableModel();
-        exercicioControle = new ExerciseController(exercicioFacade, musculoAlvoFacade, exercicioTableModel);
+        exerciseFacade = new ExerciseFacade(entityManagerFactory);
+        exerciseTableModel = new ExerciseTableModel();
+        exerciseController = new ExerciseController(exerciseFacade, targetMuscleFacade, exerciseTableModel);
 
-        relatorio = new Report();
-        rotinaControle = new RoutineController(musculoAlvoFacade, relatorio);
-        rotinaConteudo = new RoutineContent(rotinaControle);
-        rotinaMenuLateral = new RoutineSideMenu(rotinaConteudo, rotinaControle);
+        report = new Report();
+        routineController = new RoutineController(targetMuscleFacade, report);
+        routineContent = new RoutineContent(routineController);
+        routineSideMenu = new RoutineSideMenu(routineContent, routineController);
 
         initComponents();
     }
 
-    private void toggleExercicios() {
-        exercicioControle.sincronizarExercicioTableModel();
-        exercicioLista.setLocationRelativeTo(this);
-        exercicioLista.setVisible(!exercicioLista.isVisible());
+    private void toggleExercisesView() {
+        exerciseController.syncExerciseTableModel();
+        exerciseList.setLocationRelativeTo(this);
+        exerciseList.setVisible(!exerciseList.isVisible());
     }
 
-    private void toggleMusculosAlvo() {
-        musculoAlvoControle.sincronizarMusculoAlvoTableModel();
-        musculoalvoLista.setLocationRelativeTo(this);
-        musculoalvoLista.setVisible(!musculoalvoLista.isVisible());
+    private void toggleTargetMusclesView() {
+        targetMuscleController.syncTargetMuscleTableModel();
+        targetMuscleList.setLocationRelativeTo(this);
+        targetMuscleList.setVisible(!targetMuscleList.isVisible());
     }
 
     private void initComponents() {
@@ -87,10 +86,10 @@ public class MainView extends JFrame {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        exercicioLista = new ExerciseList(this, exercicioControle);
-        musculoalvoLista = new TargetMuscleList(this, musculoAlvoControle);
-        rotina = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, rotinaMenuLateral, rotinaConteudo);
-        rotina.setDividerLocation(400);
+        exerciseList = new ExerciseList(this, exerciseController);
+        targetMuscleList = new TargetMuscleList(this, targetMuscleController);
+        jSplitPaneRoutine = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, routineSideMenu, routineContent);
+        jSplitPaneRoutine.setDividerLocation(400);
 
         menuBar = new JMenuBar();
         JMenu manageMenu = new JMenu(
@@ -101,12 +100,12 @@ public class MainView extends JFrame {
         JMenuItem menuItemExercicios = new JMenuItem(
                 LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.exercise"));
         menuItemExercicios.addActionListener((e) -> {
-            toggleExercicios();
+            toggleExercisesView();
         });
         JMenuItem menuItemMusculoAlvo = new JMenuItem(
                 LocalizationManager.getString("localization.Strings", "main.view.jmenu.item.muscle"));
         menuItemMusculoAlvo.addActionListener((e) -> {
-            toggleMusculosAlvo();
+            toggleTargetMusclesView();
         });
 
         var menuItemLang = new JMenuItem(
@@ -125,7 +124,7 @@ public class MainView extends JFrame {
         menuBar.add(configMenu);
 
         setJMenuBar(menuBar);
-        add(rotina, BorderLayout.CENTER);
+        add(jSplitPaneRoutine, BorderLayout.CENTER);
         pack();
         setLocationRelativeTo(null);
     }

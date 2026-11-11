@@ -26,38 +26,38 @@ public class ExerciseTableModel extends AbstractTableModel {
             "exercise.table.model.column.name.image");
     private final String muscle = LocalizationManager.getString("localization.Strings",
             "exercise.table.model.column.name.muscle");
-    private final String[] nomeColunas = { id, name, image, muscle };
-    private final List<Exercicio> listaExercicios; // Remover final? ln:84
+    private final String[] columnNames = { id, name, image, muscle };
+    private final List<Exercicio> exerciseList; // Remover final? ln:84
 
     public ExerciseTableModel() {
-        listaExercicios = new ArrayList<>();
+        exerciseList = new ArrayList<>();
     }
 
-    public ExerciseTableModel(List<Exercicio> listaExercicios) {
-        this.listaExercicios = listaExercicios;
+    public ExerciseTableModel(List<Exercicio> exerciseList) {
+        this.exerciseList = exerciseList;
     }
 
     @Override
     public int getRowCount() {
-        return listaExercicios.size();
+        return exerciseList.size();
     }
 
     @Override
     public int getColumnCount() {
-        return nomeColunas.length;
+        return columnNames.length;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return listaExercicios.get(rowIndex).getIdExercicio();
+                return exerciseList.get(rowIndex).getIdExercicio();
             case 1:
-                return listaExercicios.get(rowIndex).getNomeExercicio();
+                return exerciseList.get(rowIndex).getNomeExercicio();
             case 2:
-                return listaExercicios.get(rowIndex).getImagem();
+                return exerciseList.get(rowIndex).getImagem();
             case 3:
-                return listaExercicios.get(rowIndex).getMusculoAlvo().getNomeAlvo();
+                return exerciseList.get(rowIndex).getMusculoAlvo().getNomeAlvo();
             default:
                 throw new Error("columnIndex value not in range");
         }
@@ -65,7 +65,7 @@ public class ExerciseTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return nomeColunas[column];
+        return columnNames[column];
     }
 
     @Override
@@ -73,41 +73,41 @@ public class ExerciseTableModel extends AbstractTableModel {
         return getValueAt(0, column).getClass();
     }
 
-    public void deletar(Exercicio exercicio) {
-        int linha = listaExercicios.indexOf(exercicio);
+    public void delete(Exercicio exercise) {
+        int linha = exerciseList.indexOf(exercise);
         if (linha != -1) {
-            deletar(linha);
+            delete(linha);
         }
     }
 
-    private void deletar(int linhaSelecionada) {
-        listaExercicios.remove(linhaSelecionada);
+    private void delete(int selectedLine) {
+        exerciseList.remove(selectedLine);
         fireTableDataChanged();
     }
 
-    public void oferecer(Exercicio exercicio) {
-        int linha = listaExercicios.indexOf(exercicio);
+    public void offer(Exercicio exercise) {
+        int linha = exerciseList.indexOf(exercise);
         if (linha == -1) {
-            adicionarNovo(exercicio);
+            addNew(exercise);
         } else {
-            atualizar(exercicio);
+            update(exercise);
         }
     }
 
-    private void adicionarNovo(Exercicio exercicio) {
-        listaExercicios.add(exercicio);
+    private void addNew(Exercicio exercise) {
+        exerciseList.add(exercise);
         fireTableDataChanged();
     }
 
-    private void atualizar(Exercicio exercicio) {
-        int linha = listaExercicios.indexOf(exercicio);
-        listaExercicios.set(linha, exercicio);
+    private void update(Exercicio exercise) {
+        int lineNumber = exerciseList.indexOf(exercise);
+        exerciseList.set(lineNumber, exercise);
         fireTableDataChanged();
     }
 
-    public void sincronizar(Collection<Exercicio> listaExercicios) {
-        this.listaExercicios.clear();
-        this.listaExercicios.addAll(listaExercicios); // Remover esse addAll()
+    public void sync(Collection<Exercicio> exerciseList) {
+        this.exerciseList.clear();
+        this.exerciseList.addAll(exerciseList); // Remover esse addAll()
         fireTableDataChanged();
     }
 }

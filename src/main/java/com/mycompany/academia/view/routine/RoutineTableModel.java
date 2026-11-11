@@ -24,57 +24,54 @@ public class RoutineTableModel extends AbstractTableModel {
     private final String sets = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.sets");
     private final String rest = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.rest");
     private final String supersetString = LocalizationManager.getString("localization.Strings", "routine.table.model.column.name.superset");
-    private final String[] nomeColunas = {exercise, reps, sets, rest, supersetString};
-    private final ArrayList<ExercicioWrapper> exercicios;
-    private final HashMap<Exercicio, Exercicio> superset;
+    private final String[] columnNames = {exercise, reps, sets, rest, supersetString};
+    private final ArrayList<ExercicioWrapper> exercises;
+    private final HashMap<Exercicio, Exercicio> supersets;
 
     public RoutineTableModel() {
-        this.exercicios = new ArrayList<>();
-        this.superset = new HashMap<>();
+        this.exercises = new ArrayList<>();
+        this.supersets = new HashMap<>();
     }
 
     @Override
     public int getRowCount() {
-        return exercicios.size();
+        return exercises.size();
     }
 
     @Override
     public int getColumnCount() {
-        return nomeColunas.length;
+        return columnNames.length;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ExercicioWrapper exercicio_wrapper = getExercicioWrapper(rowIndex);
-
+        ExercicioWrapper exerciseWrapper = getExerciseWrapper(rowIndex);
         switch (columnIndex) {
-            case 0: return exercicio_wrapper.getExercicio();
-            case 1: return exercicio_wrapper.getReps();
-            case 2: return exercicio_wrapper.getSets();
-            case 3: return exercicio_wrapper.getDescanso();
-            case 4: return superset.get(exercicio_wrapper.getExercicio());
+            case 0: return exerciseWrapper.getExercicio();
+            case 1: return exerciseWrapper.getReps();
+            case 2: return exerciseWrapper.getSets();
+            case 3: return exerciseWrapper.getDescanso();
+            case 4: return supersets.get(exerciseWrapper.getExercicio());
             default: return null;
         }
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        ExercicioWrapper exercicioWrapper = getExercicioWrapper(rowIndex);
-
+        ExercicioWrapper exercicioWrapper = getExerciseWrapper(rowIndex);
         switch (columnIndex) {
             case 0: exercicioWrapper.setExercicio((Exercicio) aValue); break;
             case 1: exercicioWrapper.setReps((int) aValue); break;
             case 2: exercicioWrapper.setSets((int) aValue); break;
             case 3: exercicioWrapper.setDescanso((int) aValue); break;
-            case 4: atualizarSuperSets(exercicioWrapper.getExercicio(), (Exercicio) aValue); break;
+            case 4: updateSupersets(exercicioWrapper.getExercicio(), (Exercicio) aValue); break;
         }
-
         fireTableCellUpdated(rowIndex, columnIndex);
     }
 
     @Override
     public String getColumnName(int column) {
-        return nomeColunas[column];
+        return columnNames[column];
     }
 
     @Override
@@ -94,13 +91,11 @@ public class RoutineTableModel extends AbstractTableModel {
         }
     }
 
-    private void atualizarSuperSets(Exercicio ex1, Exercicio ex2) {
-        if (ex2 != null && ex1 != ex2) {
-            adicionarPar(ex1, ex2);
-        }
-        if (ex2 == null) {
-            removerPar(ex1);
-        }
+    private void updateSupersets(Exercicio ex1, Exercicio ex2) {
+        if (ex2 != null && ex1 != ex2) 
+            addPair(ex1, ex2);
+        if (ex2 == null) 
+            removePair(ex1);
         fireTableDataChanged();
     }
 
@@ -117,70 +112,64 @@ public class RoutineTableModel extends AbstractTableModel {
      * @param ex1
      * @param ex2
      */
-    private void adicionarPar(Exercicio ex1, Exercicio ex2) {
-        Exercicio _ex1 = superset.get(ex1);
-        Exercicio _ex2 = superset.get(ex2);
-
-        superset.put(ex1, ex2);
-        superset.put(ex2, ex1);
-
-        if (_ex1 != superset.get(ex1)) {
-            superset.remove(_ex1);
-            superset.remove(_ex2);
+    private void addPair(Exercicio ex1, Exercicio ex2) {
+        Exercicio _ex1 = supersets.get(ex1);
+        Exercicio _ex2 = supersets.get(ex2);
+        supersets.put(ex1, ex2);
+        supersets.put(ex2, ex1);
+        if (_ex1 != supersets.get(ex1)) {
+            supersets.remove(_ex1);
+            supersets.remove(_ex2);
         }
     }
 
-    private void removerPar(Exercicio ex1) {
-        Exercicio _ex2 = superset.get(ex1);
-        superset.remove(ex1, _ex2);
-        superset.remove(_ex2, ex1);
+    private void removePair(Exercicio ex1) {
+        Exercicio _ex2 = supersets.get(ex1);
+        supersets.remove(ex1, _ex2);
+        supersets.remove(_ex2, ex1);
     }
 
-    private ExercicioWrapper getExercicioWrapper(int rowIndex) {
-        return exercicios.get(rowIndex);
+    private ExercicioWrapper getExerciseWrapper(int rowIndex) {
+        return exercises.get(rowIndex);
     }
 
-    public void addExercicioWrapper(ExercicioWrapper exercicioWrapper) {
-        insertExercicioWrapper(getRowCount(), exercicioWrapper);
+    public void addExerciseWrapper(ExercicioWrapper exerciseWrapper) {
+        insertExerciseWrapper(getRowCount(), exerciseWrapper);
     }
 
-    public void insertExercicioWrapper(int row, ExercicioWrapper exercicioWrapper) {
-        exercicios.add(row, exercicioWrapper);
+    public void insertExerciseWrapper(int row, ExercicioWrapper exerciseWrapper) {
+        exercises.add(row, exerciseWrapper);
         fireTableRowsInserted(row, row);
     }
 
-    public void removeExercicioWrapper(int row) {
-        Exercicio row_exercicio = (Exercicio) getValueAt(row, 0);
-        removerPar(row_exercicio);
-        exercicios.remove(row);
+    public void removeExerciseWrapper(int row) {
+        Exercicio exercise = (Exercicio) getValueAt(row, 0);
+        removePair(exercise);
+        exercises.remove(row);
         fireTableDataChanged();
     }
 
-    public ArrayList<ExercicioWrapper> getExercicios() {
-        return exercicios;
+    public ArrayList<ExercicioWrapper> getExercises() {
+        return exercises;
     }
 
-    public HashMap<ExercicioWrapper, ExercicioWrapper> getSuperset() {
+    public HashMap<ExercicioWrapper, ExercicioWrapper> getSupersets() {
         HashMap<ExercicioWrapper, ExercicioWrapper> _superset = new HashMap<>();
-        for (Map.Entry<Exercicio, Exercicio> set : superset.entrySet()) {
+        for (Map.Entry<Exercicio, Exercicio> set : supersets.entrySet()) {
             Exercicio key = set.getKey();
             Exercicio value = set.getValue();
-            ExercicioWrapper new_key = null;
-            ExercicioWrapper new_value = null;
-
-            for (ExercicioWrapper exwpr : exercicios) {
-                Exercicio cur_ex = exwpr.getExercicio();
-                if (cur_ex.equals(key)) {
-                    new_key = exwpr;
-                }
-                if (cur_ex.equals(value)) {
-                    new_value = exwpr;
-                }
-                if (new_key != null && new_value != null) {
+            ExercicioWrapper newKey = null;
+            ExercicioWrapper newValue = null;
+            for (ExercicioWrapper exerciseWrapper : exercises) {
+                Exercicio currentExercise = exerciseWrapper.getExercicio();
+                if (currentExercise.equals(key)) 
+                    newKey = exerciseWrapper;
+                if (currentExercise.equals(value)) 
+                    newValue = exerciseWrapper;
+                if (newKey != null && newValue != null) 
                     break;
-                }
             }
-            _superset.put(new_key, new_value);
+            _superset.put(newKey, newValue);
         }
         return _superset;
     }

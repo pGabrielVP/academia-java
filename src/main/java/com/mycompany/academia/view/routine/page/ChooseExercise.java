@@ -32,73 +32,73 @@ import javax.swing.JTextField;
 public final class ChooseExercise extends JPanel {
 
     private final RoutineSideMenu parentWindow;
-    private final RoutineContent rotinaConteudo;
-    private List<Exercicio> listaExercicios;
+    private final RoutineContent routineContent;
+    private List<Exercicio> exercisesList;
 
     private GridBagConstraints gridConstraints;
-    private JTextField buscar;
-    private JButton voltar;
-    private JPanel view;
-    private JPanel navBar;
+    private JTextField jTextFieldSearchTerm;
+    private JButton jButtonReturn;
+    private JPanel jPanelView;
+    private JPanel jPanelNavBar;
 
-    public ChooseExercise(RoutineSideMenu parentWindow, RoutineContent rotinaConteudo) {
+    public ChooseExercise(RoutineSideMenu parentWindow, RoutineContent routineContent) {
         this.parentWindow = parentWindow;
-        this.rotinaConteudo = rotinaConteudo;
+        this.routineContent = routineContent;
         initComponents();
     }
 
-    public void setListaExercicios(List<Exercicio> listaExercicios) {
-        this.listaExercicios = listaExercicios;
-        adicionarBotoes(listaExercicios);
+    public void setExercisesList(List<Exercicio> exercisesList) {
+        this.exercisesList = exercisesList;
+        addButtons(exercisesList);
     }
 
-    private void voltarActionPerfomed() {
-        parentWindow.showHomePage();
-        buscar.setText("");
+    private void returnActionPerfomed() {
+        parentWindow.showChooseTargetMuscle();
+        jTextFieldSearchTerm.setText("");
     }
 
-    private void buscarKeyReleasedEvent() {
-        filtrarLista(buscar.getText());
+    private void searchFieldKeyReleasedEvent() {
+        filterList(jTextFieldSearchTerm.getText());
     }
 
-    private void filtrarLista(String filtro) {
-        if (!filtro.isBlank()) {
-            List<Exercicio> listaFiltrada = new ArrayList<>();
-            for (Exercicio exercicio : listaExercicios) {
-                if (exercicio.getNomeExercicio().toLowerCase().contains(filtro.toLowerCase())) {
-                    listaFiltrada.add(exercicio);
+    private void filterList(String filterTerm) {
+        if (!filterTerm.isBlank()) {
+            List<Exercicio> filteredList = new ArrayList<>();
+            for (Exercicio exercise : exercisesList) {
+                if (exercise.getNomeExercicio().toLowerCase().contains(filterTerm.toLowerCase())) {
+                    filteredList.add(exercise);
                 }
             }
-            adicionarBotoes(listaFiltrada);
+            addButtons(filteredList);
         } else {
-            adicionarBotoes(listaExercicios);
+            addButtons(exercisesList);
         }
     }
 
-    private Component getFiller(List<Exercicio> listaExercicios) {
+    private Component getFiller(List<Exercicio> exercisesList) {
         setGridConstraint(1);
-        int tamanho_tela = view.getHeight();
-        int tamanho_elementos = (listaExercicios.size() + 1) * 100;
-        int tamanho_filler = tamanho_tela - tamanho_elementos;
-        Box.Filler filler = new Box.Filler(new Dimension(0, 0), new Dimension(0, tamanho_filler), new Dimension(0, 0));
-        return filler;
+        int screenHeight = jPanelView.getHeight();
+        int elementsHeight = (exercisesList.size() + 1) * 100;
+        int fillerHeight = screenHeight - elementsHeight;
+        return new Box.Filler(new Dimension(0, 0), new Dimension(0, fillerHeight), new Dimension(0, 0));
     }
 
-    private void adicionarBotoes(List<Exercicio> listaExercicios) {
-        view.removeAll();
+    private void addButtons(List<Exercicio> exercisesList) {
+        jPanelView.removeAll();
         setGridConstraint(0);
-        for (Exercicio exercicio : listaExercicios) {
-            JButton add_novo = new JButton(exercicio.getNomeExercicio());
-            add_novo.setPreferredSize(new Dimension(10, 100));
-            add_novo.addActionListener((e) -> {
-                rotinaConteudo.adicionarExercicio(exercicio);
+        for (Exercicio exercise : exercisesList) {
+            JButton jButtonExercise = new JButton(exercise.getNomeExercicio());
+            jButtonExercise.setPreferredSize(new Dimension(10, 100));
+            jButtonExercise.addActionListener((e) -> {
+                routineContent.addExercise(exercise);
             });
-            view.add(add_novo, gridConstraints);
+            jPanelView.add(jButtonExercise, gridConstraints);
         }
-        view.add(getFiller(listaExercicios), gridConstraints); // gridbag coloca os itens no centro da tela, esse filler
-                                                               // fica no final da lista para puxar os itens para o topo
-                                                               // do container
-        view.validate();
+        jPanelView.add(getFiller(exercisesList), gridConstraints); // gridbag coloca os itens no centro da tela, esse
+                                                                   // filler
+        // fica no final da lista para puxar os itens para o topo
+        // do container
+        jPanelView.validate();
     }
 
     private void setGridConstraint(int weighty) {
@@ -111,32 +111,32 @@ public final class ChooseExercise extends JPanel {
 
     private void initComponents() {
         gridConstraints = new GridBagConstraints();
-        view = new JPanel(new GridBagLayout());
-        navBar = new JPanel();
-        voltar = new JButton(
+        jPanelView = new JPanel(new GridBagLayout());
+        jPanelNavBar = new JPanel();
+        jButtonReturn = new JButton(
                 LocalizationManager.getString("localization.Strings", "routine.pages.choose.exercise.button.return"));
-        voltar.addActionListener((ActionEvent evt) -> {
-            voltarActionPerfomed();
+        jButtonReturn.addActionListener((ActionEvent evt) -> {
+            returnActionPerfomed();
         });
-        buscar = new JTextField(12);
-        buscar.setMaximumSize(new Dimension(70, 30));
-        buscar.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextFieldSearchTerm = new JTextField(12);
+        jTextFieldSearchTerm.setMaximumSize(new Dimension(70, 30));
+        jTextFieldSearchTerm.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent evt) {
-                buscarKeyReleasedEvent();
+                searchFieldKeyReleasedEvent();
             }
         });
 
-        BoxLayout boxLayout = new BoxLayout(navBar, BoxLayout.X_AXIS);
-        navBar.setLayout(boxLayout);
-        navBar.add(voltar);
-        navBar.add(Box.createGlue());
-        navBar.add(buscar);
+        BoxLayout boxLayout = new BoxLayout(jPanelNavBar, BoxLayout.X_AXIS);
+        jPanelNavBar.setLayout(boxLayout);
+        jPanelNavBar.add(jButtonReturn);
+        jPanelNavBar.add(Box.createGlue());
+        jPanelNavBar.add(jTextFieldSearchTerm);
 
         setPreferredSize(new Dimension(370, 551));
         setLayout(new BorderLayout());
-        add(navBar, BorderLayout.NORTH);
-        add(new JScrollPane(view), BorderLayout.CENTER);
+        add(jPanelNavBar, BorderLayout.NORTH);
+        add(new JScrollPane(jPanelView), BorderLayout.CENTER);
     }
 
 }

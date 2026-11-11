@@ -25,21 +25,21 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class Report {
 
-    private static final String REPORT_PRINCIPAL = "/relatorios/Report_Principal.jasper";
-    private static final String REPORT_SUPERSET = "/relatorios/Listar_Superset.jasper";
-    private static final String REPORT_EXERCICIOS = "/relatorios/Listar_Exercicios.jasper";
+    private static final String MAIN_REPORT = "/relatorios/Report_Principal.jasper";
+    private static final String SUPERSET_REPORT = "/relatorios/Listar_Superset.jasper";
+    private static final String EXERCISES_REPORT = "/relatorios/Listar_Exercicios.jasper";
 
-    public void verRelatorio(Collection<Sublista> lista) {
-        JasperPrint jasperPrint = fillReport(lista);
+    public void viewReport(Collection<Sublista> list) {
+        JasperPrint jasperPrint = fillReport(list);
         JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
         jasperViewer.setTitle("Rotina");
         jasperViewer.setVisible(true);
     }
 
-    public byte[] exportPdf(Collection<Sublista> lista) {
+    public byte[] exportPdf(Collection<Sublista> list) {
         byte[] report = {};
         try {
-            JasperPrint jasperPrint = fillReport(lista);
+            JasperPrint jasperPrint = fillReport(list);
             report = JasperExportManager.exportReportToPdf(jasperPrint);
         } catch (JRException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,18 +47,18 @@ public class Report {
         return report;
     }
 
-    private JasperPrint fillReport(Collection<Sublista> lista) {
+    private JasperPrint fillReport(Collection<Sublista> list) {
         JasperPrint jasperPrint = new JasperPrint();
         try {
-            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(lista);
-            JasperReport relatorioPrincipal = loadReport(REPORT_PRINCIPAL);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(list);
+            JasperReport mainReport = loadReport(MAIN_REPORT);
 
-            HashMap<String, Object> parametros = new HashMap<>();
-            JasperReport relatorioSuperSet = loadReport(REPORT_SUPERSET);
-            JasperReport relatorioExercicios = loadReport(REPORT_EXERCICIOS);
-            parametros.put("subreportSuperset", relatorioSuperSet);
-            parametros.put("subreportExercicios", relatorioExercicios);
-            jasperPrint = JasperFillManager.fillReport(relatorioPrincipal, parametros, datasource);
+            HashMap<String, Object> parameters = new HashMap<>();
+            JasperReport supersetReport = loadReport(SUPERSET_REPORT);
+            JasperReport exercisesReport = loadReport(EXERCISES_REPORT);
+            parameters.put("subreportSuperset", supersetReport);
+            parameters.put("subreportExercicios", exercisesReport);
+            jasperPrint = JasperFillManager.fillReport(mainReport, parameters, datasource);
         } catch (JRException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }

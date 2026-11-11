@@ -20,31 +20,31 @@ import javax.swing.JPanel;
  */
 public final class RoutineSideMenu extends JPanel {
 
-    private final String HOMEPAGE = "home_page";
-    private final String LISTAR_EXERCICIOS = "listar_exercicios";
-    private final ChooseExercise exerciciosListar;
-    private final ChooseTargetMuscle homepage;
+    private final String CHOOSE_TARGET_MUSCLE = "choose_target_muscle";
+    private final String CHOOSE_EXERCISE = "choose_exercise";
+    private final ChooseExercise chooseExercise;
+    private final ChooseTargetMuscle chooseTargetMuscle;
     private final CardLayout cLayout;
 
-    public RoutineSideMenu(RoutineContent siblingPanel, RoutineController rotinaControle) {
-        exerciciosListar = new ChooseExercise(this, siblingPanel);
-        homepage = new ChooseTargetMuscle(this, rotinaControle);
+    public RoutineSideMenu(RoutineContent siblingPanel, RoutineController routineController) {
+        chooseExercise = new ChooseExercise(this, siblingPanel);
+        chooseTargetMuscle = new ChooseTargetMuscle(this, routineController);
         cLayout = new CardLayout();
 
         setLayout(cLayout);
         setPreferredSize(new Dimension(370, 551));
-        add(HOMEPAGE, homepage);
-        add(LISTAR_EXERCICIOS, exerciciosListar);
+        add(CHOOSE_TARGET_MUSCLE, chooseTargetMuscle);
+        add(CHOOSE_EXERCISE, chooseExercise);
     }
 
-    public void showHomePage() {
-        homepage.atualizar();
-        cLayout.show(this, HOMEPAGE);
+    public void showChooseTargetMuscle() {
+        chooseTargetMuscle.update();
+        cLayout.show(this, CHOOSE_TARGET_MUSCLE);
     }
 
-    public void showListarExercicios(List<Exercicio> lista_exercicio) {
-        exerciciosListar.setListaExercicios(lista_exercicio);
-        cLayout.show(this, LISTAR_EXERCICIOS);
+    public void showListExercises(List<Exercicio> exerciseList) {
+        chooseExercise.setExercisesList(exerciseList);
+        cLayout.show(this, CHOOSE_EXERCISE);
     }
 
 }

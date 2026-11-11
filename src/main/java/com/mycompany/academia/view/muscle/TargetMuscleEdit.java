@@ -29,11 +29,12 @@ import javax.swing.plaf.LayerUI;
  */
 public final class TargetMuscleEdit extends JDialog {
 
-    private final MusculoAlvoEditaPanel musculoAlvoEditaPanel;
+    private final JPanelTargetMuscleEdit jPanelTargetMuscleEdit;
 
-    public TargetMuscleEdit(JFrame parentWindow, TargetMuscleController musculoAlvoControle, MusculoAlvo musculoAlvo) {
-        musculoAlvoEditaPanel = new MusculoAlvoEditaPanel(this, musculoAlvoControle, musculoAlvo);
-        setContentPane(musculoAlvoEditaPanel);
+    public TargetMuscleEdit(JFrame parentWindow, TargetMuscleController targetMuscleController,
+            MusculoAlvo targetMuscle) {
+        jPanelTargetMuscleEdit = new JPanelTargetMuscleEdit(this, targetMuscleController, targetMuscle);
+        setContentPane(jPanelTargetMuscleEdit);
         pack();
         setModal(true);
         setTitle(LocalizationManager.getString("localization.Strings", "muscle.edit.window.title"));
@@ -41,25 +42,25 @@ public final class TargetMuscleEdit extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-    private class MusculoAlvoEditaPanel extends JPanel {
+    private class JPanelTargetMuscleEdit extends JPanel {
 
-        private final TargetMuscleController musculoAlvoControle;
-        private final MusculoAlvo musculoAlvo;
+        private final TargetMuscleController targetMuscleController;
+        private final MusculoAlvo targetMuscle;
         private final JDialog parentWindow;
 
         private final GridBagLayout gridBagLayout;
         private final LayerUI<JTextField> textFieldLayerUI;
-        private JLabel idLabel;
-        private JTextField idInput;
-        private JLabel nomeLabel;
-        private JTextField nomeInput;
-        private JButton salvar;
-        private JButton cancelar;
+        private JLabel jLabelId;
+        private JTextField jTextFieldId;
+        private JLabel jLabelName;
+        private JTextField jTextFieldName;
+        private JButton jButtonSave;
+        private JButton jButtonCancel;
 
-        public MusculoAlvoEditaPanel(JDialog parentWindow, TargetMuscleController musculoAlvoControle,
-                MusculoAlvo musculoAlvo) {
-            this.musculoAlvoControle = musculoAlvoControle;
-            this.musculoAlvo = musculoAlvo;
+        public JPanelTargetMuscleEdit(JDialog parentWindow, TargetMuscleController targetMuscleController,
+                MusculoAlvo targetMuscle) {
+            this.targetMuscleController = targetMuscleController;
+            this.targetMuscle = targetMuscle;
             this.parentWindow = parentWindow;
             gridBagLayout = new GridBagLayout();
             textFieldLayerUI = new TextFieldValidator();
@@ -68,24 +69,24 @@ public final class TargetMuscleEdit extends JDialog {
             initComponents();
         }
 
-        private void cancelarActionPerformed() {
-            sair();
+        private void cancelActionPerformed() {
+            quit();
         }
 
-        private void sair() {
+        private void quit() {
             parentWindow.dispose();
         }
 
-        private void salvarActionPerformed() {
-            if (inputValido()) {
-                musculoAlvo.setNomeAlvo(nomeInput.getText());
-                musculoAlvoControle.salvar(musculoAlvo);
-                sair();
+        private void saveActionPerformed() {
+            if (isInputValid()) {
+                targetMuscle.setNomeAlvo(jTextFieldName.getText());
+                targetMuscleController.save(targetMuscle);
+                quit();
             }
         }
 
-        private boolean inputValido() {
-            if (nomeInput.getText().isBlank()) {
+        private boolean isInputValid() {
+            if (jTextFieldName.getText().isBlank()) {
                 JOptionPane.showMessageDialog(this,
                         LocalizationManager.getString("localization.Strings", "muscle.edit.error.name.message"));
                 return false;
@@ -94,67 +95,68 @@ public final class TargetMuscleEdit extends JDialog {
         }
 
         private void initComponents() {
-            idLabel = new JLabel(LocalizationManager.getString("localization.Strings", "muscle.edit.label.id"));
-            idInput = new JTextField();
-            idInput.setEditable(false);
-            idInput.setFocusable(false);
-            Integer musculoAlvoID = musculoAlvo.getIdAlvo();
-            idInput.setText((musculoAlvoID != null) ? musculoAlvoID.toString() : "");
+            jLabelId = new JLabel(LocalizationManager.getString("localization.Strings", "muscle.edit.label.id"));
+            jTextFieldId = new JTextField();
+            jTextFieldId.setEditable(false);
+            jTextFieldId.setFocusable(false);
+            Integer targetMuscleId = targetMuscle.getIdAlvo();
+            jTextFieldId.setText((targetMuscleId != null) ? targetMuscleId.toString() : "");
 
-            nomeLabel = new JLabel(LocalizationManager.getString("localization.Strings", "muscle.edit.label.name"));
-            nomeInput = new JTextField();
-            String musculoAlvoNome = musculoAlvo.getNomeAlvo();
-            nomeInput.setText(musculoAlvoNome);
+            jLabelName = new JLabel(LocalizationManager.getString("localization.Strings", "muscle.edit.label.name"));
+            jTextFieldName = new JTextField();
+            String targetMuscleName = targetMuscle.getNomeAlvo();
+            jTextFieldName.setText(targetMuscleName);
 
-            salvar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.edit.label.save"));
-            salvar.addActionListener((e) -> {
-                salvarActionPerformed();
+            jButtonSave = new JButton(LocalizationManager.getString("localization.Strings", "muscle.edit.label.save"));
+            jButtonSave.addActionListener((e) -> {
+                saveActionPerformed();
             });
 
-            cancelar = new JButton(LocalizationManager.getString("localization.Strings", "muscle.edit.label.cancel"));
-            cancelar.addActionListener((e) -> {
-                cancelarActionPerformed();
+            jButtonCancel = new JButton(
+                    LocalizationManager.getString("localization.Strings", "muscle.edit.label.cancel"));
+            jButtonCancel.addActionListener((e) -> {
+                cancelActionPerformed();
             });
 
-            GridBagConstraints labels = new GridBagConstraints();
-            GridBagConstraints inputField = new GridBagConstraints();
-            GridBagConstraints botoes = new GridBagConstraints();
+            GridBagConstraints labelConstraint = new GridBagConstraints();
+            GridBagConstraints inputFieldConstraint = new GridBagConstraints();
+            GridBagConstraints buttonConstraint = new GridBagConstraints();
 
-            labels.anchor = GridBagConstraints.LINE_END;
-            labels.insets = new Insets(10, 10, 5, 5);
-            labels.gridwidth = 1;
-            labels.gridx = 0;
-            labels.gridy = 0;
+            labelConstraint.anchor = GridBagConstraints.LINE_END;
+            labelConstraint.insets = new Insets(10, 10, 5, 5);
+            labelConstraint.gridwidth = 1;
+            labelConstraint.gridx = 0;
+            labelConstraint.gridy = 0;
 
-            inputField.anchor = GridBagConstraints.FIRST_LINE_START;
-            inputField.fill = GridBagConstraints.BOTH;
-            inputField.weightx = 0.2d;
-            inputField.weighty = 0.2d;
-            inputField.insets = new Insets(10, 5, 5, 10);
-            inputField.gridwidth = 2;
-            inputField.gridx = 1;
-            inputField.gridy = 0;
+            inputFieldConstraint.anchor = GridBagConstraints.FIRST_LINE_START;
+            inputFieldConstraint.fill = GridBagConstraints.BOTH;
+            inputFieldConstraint.weightx = 0.2d;
+            inputFieldConstraint.weighty = 0.2d;
+            inputFieldConstraint.insets = new Insets(10, 5, 5, 10);
+            inputFieldConstraint.gridwidth = 2;
+            inputFieldConstraint.gridx = 1;
+            inputFieldConstraint.gridy = 0;
 
-            botoes.anchor = GridBagConstraints.FIRST_LINE_START;
-            botoes.fill = GridBagConstraints.BOTH;
-            botoes.weightx = 0.2d;
-            botoes.weighty = 0.2d;
-            botoes.insets = new Insets(10, 5, 10, 5);
-            botoes.gridwidth = 1;
-            botoes.gridx = 1;
-            botoes.gridy = 2;
+            buttonConstraint.anchor = GridBagConstraints.FIRST_LINE_START;
+            buttonConstraint.fill = GridBagConstraints.BOTH;
+            buttonConstraint.weightx = 0.2d;
+            buttonConstraint.weighty = 0.2d;
+            buttonConstraint.insets = new Insets(10, 5, 10, 5);
+            buttonConstraint.gridwidth = 1;
+            buttonConstraint.gridx = 1;
+            buttonConstraint.gridy = 2;
 
-            add(idLabel, labels);
-            labels.gridy++;
-            add(nomeLabel, labels);
+            add(jLabelId, labelConstraint);
+            labelConstraint.gridy++;
+            add(jLabelName, labelConstraint);
 
-            add(idInput, inputField);
-            inputField.gridy++;
-            add(new JLayer<>(nomeInput, textFieldLayerUI), inputField);
+            add(jTextFieldId, inputFieldConstraint);
+            inputFieldConstraint.gridy++;
+            add(new JLayer<>(jTextFieldName, textFieldLayerUI), inputFieldConstraint);
 
-            add(cancelar, botoes);
-            botoes.gridx++;
-            add(salvar, botoes);
+            add(jButtonCancel, buttonConstraint);
+            buttonConstraint.gridx++;
+            add(jButtonSave, buttonConstraint);
         }
 
     }

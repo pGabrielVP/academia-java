@@ -20,34 +20,34 @@ public class TargetMuscleTableModel extends AbstractTableModel {
 
     private final String id = LocalizationManager.getString("localization.Strings", "muscle.table.model.column.name.id");
     private final String muscle = LocalizationManager.getString("localization.Strings", "muscle.table.model.column.name.name");
-    private final String[] nomeColunas = {id, muscle};
-    private final List<MusculoAlvo> listaMusculoAlvo; // Remover final? ln:84
+    private final String[] columnNames = {id, muscle};
+    private final List<MusculoAlvo> targetMuscleList; // Remover final? ln:84
 
     public TargetMuscleTableModel() {
-        listaMusculoAlvo = new ArrayList<>();
+        targetMuscleList = new ArrayList<>();
     }
 
-    public TargetMuscleTableModel(List<MusculoAlvo> listaMusculoAlvo) {
-        this.listaMusculoAlvo = listaMusculoAlvo;
+    public TargetMuscleTableModel(List<MusculoAlvo> targetMuscleList) {
+        this.targetMuscleList = targetMuscleList;
     }
 
     @Override
     public int getRowCount() {
-        return listaMusculoAlvo.size();
+        return targetMuscleList.size();
     }
 
     @Override
     public int getColumnCount() {
-        return nomeColunas.length;
+        return columnNames.length;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return listaMusculoAlvo.get(rowIndex).getIdAlvo();
+                return targetMuscleList.get(rowIndex).getIdAlvo();
             case 1:
-                return listaMusculoAlvo.get(rowIndex).getNomeAlvo();
+                return targetMuscleList.get(rowIndex).getNomeAlvo();
             default:
                 throw new AssertionError();
         }
@@ -55,7 +55,7 @@ public class TargetMuscleTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return nomeColunas[column];
+        return columnNames[column];
     }
 
     @Override
@@ -63,41 +63,41 @@ public class TargetMuscleTableModel extends AbstractTableModel {
         return getValueAt(0, column).getClass();
     }
 
-    public void deletar(MusculoAlvo musculoAlvo) {
-        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
+    public void delete(MusculoAlvo targetMuscle) {
+        int linha = targetMuscleList.indexOf(targetMuscle);
         if (linha != -1) {
-            deletar(linha);
+            delete(linha);
         }
     }
 
-    private void deletar(int linhaSelecionada) {
-        listaMusculoAlvo.remove(linhaSelecionada);
+    private void delete(int selectedLineNumber) {
+        targetMuscleList.remove(selectedLineNumber);
         fireTableDataChanged();
     }
 
-    public void oferecer(MusculoAlvo musculoAlvo) {
-        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
-        if (linha == -1) {
-            adicionarNovo(musculoAlvo);
+    public void offer(MusculoAlvo targetMuscle) {
+        int lineNumber = targetMuscleList.indexOf(targetMuscle);
+        if (lineNumber == -1) {
+            addNew(targetMuscle);
         } else {
-            atualizar(musculoAlvo);
+            update(targetMuscle);
         }
     }
 
-    private void adicionarNovo(MusculoAlvo musculoAlvo) {
-        listaMusculoAlvo.add(musculoAlvo);
+    private void addNew(MusculoAlvo targetMuscle) {
+        targetMuscleList.add(targetMuscle);
         fireTableDataChanged();
     }
 
-    private void atualizar(MusculoAlvo musculoAlvo) {
-        int linha = listaMusculoAlvo.indexOf(musculoAlvo);
-        listaMusculoAlvo.set(linha, musculoAlvo);
+    private void update(MusculoAlvo targetMuscle) {
+        int lineNumber = targetMuscleList.indexOf(targetMuscle);
+        targetMuscleList.set(lineNumber, targetMuscle);
         fireTableDataChanged();
     }
 
-    public void sincronizar(Collection<MusculoAlvo> listaMusculoAlvo) {
-        this.listaMusculoAlvo.clear();
-        this.listaMusculoAlvo.addAll(listaMusculoAlvo); // Remover esse addAll()
+    public void sync(Collection<MusculoAlvo> targetMuscleList) {
+        this.targetMuscleList.clear();
+        this.targetMuscleList.addAll(targetMuscleList); // Remover esse addAll()
         fireTableDataChanged();
     }
 }

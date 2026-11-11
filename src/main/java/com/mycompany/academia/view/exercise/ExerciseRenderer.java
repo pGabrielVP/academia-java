@@ -24,17 +24,15 @@ public class ExerciseRenderer extends JLabel implements ListCellRenderer<Object>
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        String nome;
-
+    public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus) {
+        String exerciseName;
         if (value != null) {
-            nome = ((Exercicio) value).getNomeExercicio();
+            exerciseName = ((Exercicio) value).getNomeExercicio();
         } else {
-            nome = "";
+            exerciseName = "";
         }
-
-        setText(nome);
-
+        setText(exerciseName);
         return this;
     }
 

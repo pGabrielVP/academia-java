@@ -10,9 +10,9 @@ package com.mycompany.academia.view;
  */
 public interface ListTableOperation {
 
-    void criar();
+    void create();
 
-    void editar();
+    void edit();
 
-    void deletar();
+    void delete();
 }

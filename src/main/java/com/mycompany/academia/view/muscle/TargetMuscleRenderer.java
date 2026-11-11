@@ -24,17 +24,15 @@ public class TargetMuscleRenderer extends JLabel implements ListCellRenderer<Obj
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        String nome;
-
+    public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus) {
+        String targetMuscleName;
         if (value != null) {
-            nome = ((MusculoAlvo) value).getNomeAlvo();
+            targetMuscleName = ((MusculoAlvo) value).getNomeAlvo();
         } else {
-            nome = "";
+            targetMuscleName = "";
         }
-
-        setText(nome);
-
+        setText(targetMuscleName);
         return this;
     }
 

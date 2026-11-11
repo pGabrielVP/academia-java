@@ -22,7 +22,7 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
-    public void salvar(T entity) {
+    public void save(T entity) {
         try {
             getEntityManager().getTransaction().begin();
             getEntityManager().persist(entity);
@@ -33,7 +33,7 @@ public abstract class AbstractFacade<T> {
         }
     }
 
-    public void remover(T entity) {
+    public void delete(T entity) {
         try {
             getEntityManager().getTransaction().begin();
             getEntityManager().remove(getEntityManager().merge(entity));
@@ -43,7 +43,7 @@ public abstract class AbstractFacade<T> {
         }
     }
 
-    public T buscar(Object id) {
+    public T find(Object id) {
         try {
             return getEntityManager().find(entityClass, id);
         } finally {
@@ -51,9 +51,10 @@ public abstract class AbstractFacade<T> {
         }
     }
 
-    public List<T> listaTodos() {
+    public List<T> listAll() {
         try {
-            TypedQuery<T> typedQuery = getEntityManager().createNamedQuery(entityClass.getSimpleName() + ".findAll", entityClass);
+            TypedQuery<T> typedQuery = getEntityManager().createNamedQuery(entityClass.getSimpleName() + ".findAll",
+                    entityClass);
             return typedQuery.getResultList();
         } finally {
             getEntityManager().close();

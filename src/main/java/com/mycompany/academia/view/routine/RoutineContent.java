@@ -35,211 +35,205 @@ import javax.swing.table.TableColumn;
  */
 public final class RoutineContent extends JPanel {
 
-    private final RoutineController rotinaControle;
-    private int janelasAdicionadas;
+    private final RoutineController routineController;
+    private int tabCount;
+    private JTabbedPane tabs;
+    private JPanel operations;
+    private JButton jButtonReset;
+    private JButton jButtonAddTab;
+    private JButton jButtonRemoveExercise;
+    private JButton jButtonRemoveTab;
+    private JButton jButtonPrint;
 
-    private JTabbedPane guias;
-    private JPanel operacoes;
-    private JButton resetar;
-    private JButton adicionarGuia;
-    private JButton removerExercicio;
-    private JButton removerGuia;
-    private JButton imprimir;
-
-    public RoutineContent(RoutineController rotinaControle) {
-        this.rotinaControle = rotinaControle;
-        janelasAdicionadas = 0;
+    public RoutineContent(RoutineController routineController) {
+        this.routineController = routineController;
+        tabCount = 0;
         initComponents();
-        adicionarGuia();
+        addTab();
     }
 
-    public void adicionarExercicio(Exercicio exercicio) {
-        ExercicioWrapper novoExercicio = new ExercicioWrapper(exercicio, 12, 3, 30);
-        JScrollPane guiaAtual = (JScrollPane) guias.getSelectedComponent();
-        JTable table = (JTable) guiaAtual.getViewport().getView();
+    public void addExercise(Exercicio exercise) {
+        ExercicioWrapper newExercise = new ExercicioWrapper(exercise, 12, 3, 30);
+        JScrollPane activeTab = (JScrollPane) tabs.getSelectedComponent();
+        JTable table = (JTable) activeTab.getViewport().getView();
         RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
-        tableModel.addExercicioWrapper(novoExercicio);
-        atualizarComboBox(table);
+        tableModel.addExerciseWrapper(newExercise);
+        updateComboBox(table);
     }
 
-    private void atualizarComboBox(JTable table) {
+    private void updateComboBox(JTable table) {
         JComboBox<Exercicio> comboBox = new JComboBox<>();
-
-        int linhas = table.getModel().getRowCount();
-        for (int i = 0; i < linhas; i++) {
-            Exercicio exercicio = (Exercicio) table.getModel().getValueAt(i, 0);
-            comboBox.addItem(exercicio);
+        int lineCount = table.getModel().getRowCount();
+        for (int i = 0; i < lineCount; i++) {
+            Exercicio exercise = (Exercicio) table.getModel().getValueAt(i, 0);
+            comboBox.addItem(exercise);
         }
         comboBox.addItem(null);
-
-        TableColumn colunaSuperset = table.getColumnModel().getColumn(4);
-        colunaSuperset.setCellEditor(new DefaultCellEditor(comboBox));
+        TableColumn superSetColumn = table.getColumnModel().getColumn(4);
+        superSetColumn.setCellEditor(new DefaultCellEditor(comboBox));
     }
 
-    private void adicionarGuia() {
+    private void addTab() {
         JTable table = new JTable(new RoutineTableModel());
-        atualizarComboBox(table);
-        String letra = Character.toString(65 + janelasAdicionadas++);
-        guias.insertTab(letra, null, new JScrollPane(table), "", guias.getTabCount());
+        updateComboBox(table);
+        String letter = Character.toString(65 + tabCount++); // A different letter for every created tab
+        tabs.insertTab(letter, null, new JScrollPane(table), "", tabs.getTabCount());
     }
 
-    private void removerExercicio() {
-        JScrollPane guiaAtual = (JScrollPane) guias.getSelectedComponent();
-        JTable table = (JTable) guiaAtual.getViewport().getView();
+    private void removeExercise() {
+        JScrollPane activeTab = (JScrollPane) tabs.getSelectedComponent();
+        JTable table = (JTable) activeTab.getViewport().getView();
         RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
-        int selected_row = table.getSelectedRow();
-        if (selected_row < 0) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow < 0) {
             JOptionPane.showMessageDialog(this,
                     LocalizationManager.getString("localization.Strings", "routine.content.error.dialog"));
             return;
         }
-        tableModel.removeExercicioWrapper(selected_row);
-        atualizarComboBox(table);
+        tableModel.removeExerciseWrapper(selectedRow);
+        updateComboBox(table);
     }
 
-    private void removerGuia() {
-        if (guias.getTabCount() == 1) {
+    private void deleteTab() {
+        if (tabs.getTabCount() == 1)
             return;
-        }
-        int selected_tab = guias.getSelectedIndex();
-        guias.remove(selected_tab);
+        int selectTabIndex = tabs.getSelectedIndex();
+        tabs.remove(selectTabIndex);
     }
 
-    private void resetar() {
-        guias.removeAll();
-        janelasAdicionadas = 0;
-        adicionarGuia();
+    private void reset() {
+        tabs.removeAll();
+        tabCount = 0;
+        addTab();
     }
 
-    private void imprimir() {
-        ArrayList<String> listaTitulos = getTitulos();
-        ArrayList<ArrayList<ExercicioWrapper>> listaExercicios = getListaExercicios();
-        ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> listaSuperset = getListaSuperset();
-
-        Collection<Sublista> lista = new ArrayList<>();
-        for (int i = 0; i < listaExercicios.size(); i++) {
-            String tituloAtual = listaTitulos.get(i);
-            HashMap<ExercicioWrapper, ExercicioWrapper> superSetAtual = listaSuperset.get(i);
-            ArrayList<ExercicioWrapper> listaExerciciosAtual = new ArrayList<>(listaExercicios.get(i)); // Cria uma nova
-                                                                                                        // lista para
-                                                                                                        // não alterar a
-                                                                                                        // lista
-                                                                                                        // renderizada
-                                                                                                        // na interface.
-
-            ArrayList<ExercicioWrapper> listaSuperSetAtual = new ArrayList<>(); // Se um exercício está em superset
-                                                                                // adiciona para listaSuperset e remove
-                                                                                // de listaExercicios.
-            for (Map.Entry<ExercicioWrapper, ExercicioWrapper> entry : superSetAtual.entrySet()) {
-                ExercicioWrapper exercicioWrapper = entry.getKey();
-
-                if (!listaSuperSetAtual.contains(exercicioWrapper)) {
-                    listaSuperSetAtual.add(exercicioWrapper);
-                    listaSuperSetAtual.add(superSetAtual.get(exercicioWrapper));
-
-                    listaExerciciosAtual.remove(exercicioWrapper);
-                    listaExerciciosAtual.remove(superSetAtual.get(exercicioWrapper));
+    private void print() {
+        ArrayList<String> titlesList = getTitles();
+        ArrayList<ArrayList<ExercicioWrapper>> exercisesList = getExercisesList();
+        ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> superSetList = getSupersetList();
+        Collection<Sublista> dataset = new ArrayList<>();
+        for (int i = 0; i < exercisesList.size(); i++) {
+            String currentTitle = titlesList.get(i);
+            HashMap<ExercicioWrapper, ExercicioWrapper> currentSuperset = superSetList.get(i);
+            ArrayList<ExercicioWrapper> currentExerciseList = new ArrayList<>(exercisesList.get(i)); // Cria uma nova
+                                                                                                     // lista para
+                                                                                                     // não alterar a
+                                                                                                     // lista
+                                                                                                     // renderizada
+                                                                                                     // na interface.
+            ArrayList<ExercicioWrapper> currentSupersetList = new ArrayList<>(); // Se um exercício está em superset
+                                                                                 // adiciona para listaSuperset e remove
+                                                                                 // de listaExercicios.
+            for (Map.Entry<ExercicioWrapper, ExercicioWrapper> entry : currentSuperset.entrySet()) {
+                ExercicioWrapper exerciseWrapper = entry.getKey();
+                if (!currentSupersetList.contains(exerciseWrapper)) {
+                    currentSupersetList.add(exerciseWrapper);
+                    currentSupersetList.add(currentSuperset.get(exerciseWrapper));
+                    currentExerciseList.remove(exerciseWrapper);
+                    currentExerciseList.remove(currentSuperset.get(exerciseWrapper));
                 }
             }
-            lista.add(new Sublista(tituloAtual, listaExerciciosAtual, listaSuperSetAtual));
+            dataset.add(new Sublista(currentTitle, currentExerciseList, currentSupersetList));
         }
-        rotinaControle.imprimirRelatorio(lista);
+        routineController.printReport(dataset);
     }
 
-    private ArrayList<String> getTitulos() {
-        ArrayList<String> listaTitulos = new ArrayList<>();
-        for (int i = 0; i < guias.getTabCount(); i++) {
-            String titulo = guias.getTitleAt(i);
-            listaTitulos.add(titulo);
+    private ArrayList<String> getTitles() {
+        ArrayList<String> titlesList = new ArrayList<>();
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+            String title = tabs.getTitleAt(i);
+            titlesList.add(title);
         }
-        return listaTitulos;
+        return titlesList;
     }
 
-    private ArrayList<ArrayList<ExercicioWrapper>> getListaExercicios() {
-        ArrayList<ArrayList<ExercicioWrapper>> listaExercicios = new ArrayList<>();
-        for (int i = 0; i < guias.getTabCount(); i++) {
-            JScrollPane guiaAtual = (JScrollPane) guias.getComponentAt(i);
-            JTable table = (JTable) guiaAtual.getViewport().getView();
+    private ArrayList<ArrayList<ExercicioWrapper>> getExercisesList() {
+        ArrayList<ArrayList<ExercicioWrapper>> exercisesList = new ArrayList<>();
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+            JScrollPane currentTab = (JScrollPane) tabs.getComponentAt(i);
+            JTable table = (JTable) currentTab.getViewport().getView();
             RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
-            ArrayList<ExercicioWrapper> exercicios = tableModel.getExercicios();
-            listaExercicios.add(exercicios);
+            ArrayList<ExercicioWrapper> exercises = tableModel.getExercises();
+            exercisesList.add(exercises);
         }
-        return listaExercicios;
+        return exercisesList;
     }
 
-    private ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> getListaSuperset() {
-        ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> listaSuperset = new ArrayList<>();
-        for (int i = 0; i < guias.getTabCount(); i++) {
-            JScrollPane guiaAtual = (JScrollPane) guias.getComponentAt(i);
-            JTable table = (JTable) guiaAtual.getViewport().getView();
+    private ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> getSupersetList() {
+        ArrayList<HashMap<ExercicioWrapper, ExercicioWrapper>> supersetList = new ArrayList<>();
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+            JScrollPane currentTab = (JScrollPane) tabs.getComponentAt(i);
+            JTable table = (JTable) currentTab.getViewport().getView();
             RoutineTableModel tableModel = (RoutineTableModel) table.getModel();
-            HashMap<ExercicioWrapper, ExercicioWrapper> superset = tableModel.getSuperset();
-            listaSuperset.add(superset);
+            HashMap<ExercicioWrapper, ExercicioWrapper> superset = tableModel.getSupersets();
+            supersetList.add(superset);
         }
-        return listaSuperset;
+        return supersetList;
     }
 
     private void initComponents() {
-        guias = new JTabbedPane();
-        operacoes = new JPanel();
+        tabs = new JTabbedPane();
+        operations = new JPanel();
 
         float alignment = 0.7f;
         Dimension minimum = new Dimension(0, 0);
         Dimension buttonGap = new Dimension(0, 20);
         Dimension topGap = new Dimension(60, 30);
 
-        resetar = new JButton(LocalizationManager.getString("localization.Strings", "routine.content.button.reset"));
-        resetar.setAlignmentX(alignment - 0.23f);
-        resetar.setBackground(new Color(204, 0, 0));
-        resetar.setForeground(new Color(255, 255, 255));
-        resetar.addActionListener((e) -> {
-            resetar();
+        jButtonReset = new JButton(
+                LocalizationManager.getString("localization.Strings", "routine.content.button.reset"));
+        jButtonReset.setAlignmentX(alignment - 0.23f);
+        jButtonReset.setBackground(new Color(204, 0, 0));
+        jButtonReset.setForeground(new Color(255, 255, 255));
+        jButtonReset.addActionListener((e) -> {
+            reset();
         });
 
-        adicionarGuia = new JButton(
+        jButtonAddTab = new JButton(
                 LocalizationManager.getString("localization.Strings", "routine.content.button.add.tab"));
-        adicionarGuia.setAlignmentX(alignment - 0.07f);
-        adicionarGuia.addActionListener((e) -> {
-            adicionarGuia();
+        jButtonAddTab.setAlignmentX(alignment - 0.07f);
+        jButtonAddTab.addActionListener((e) -> {
+            addTab();
         });
 
-        removerExercicio = new JButton(
+        jButtonRemoveExercise = new JButton(
                 LocalizationManager.getString("localization.Strings", "routine.content.button.remove.exercise"));
-        removerExercicio.setAlignmentX(alignment);
-        removerExercicio.addActionListener((e) -> {
-            removerExercicio();
+        jButtonRemoveExercise.setAlignmentX(alignment);
+        jButtonRemoveExercise.addActionListener((e) -> {
+            removeExercise();
         });
 
-        removerGuia = new JButton(
+        jButtonRemoveTab = new JButton(
                 LocalizationManager.getString("localization.Strings", "routine.content.button.remove.tab"));
-        removerGuia.setAlignmentX(alignment - 0.08f);
-        removerGuia.addActionListener((e) -> {
-            removerGuia();
+        jButtonRemoveTab.setAlignmentX(alignment - 0.08f);
+        jButtonRemoveTab.addActionListener((e) -> {
+            deleteTab();
         });
 
-        imprimir = new JButton(LocalizationManager.getString("localization.Strings", "routine.content.button.print"));
-        imprimir.setAlignmentX(alignment - 0.22f);
-        imprimir.addActionListener((e) -> {
-            imprimir();
+        jButtonPrint = new JButton(
+                LocalizationManager.getString("localization.Strings", "routine.content.button.print"));
+        jButtonPrint.setAlignmentX(alignment - 0.22f);
+        jButtonPrint.addActionListener((e) -> {
+            print();
         });
 
-        BoxLayout boxLayout = new BoxLayout(operacoes, BoxLayout.Y_AXIS);
-        operacoes.setLayout(boxLayout);
-        operacoes.add(new Box.Filler(minimum, topGap, topGap));
-        operacoes.add(resetar);
-        operacoes.add(new Box.Filler(minimum, buttonGap, buttonGap));
-        operacoes.add(adicionarGuia);
-        operacoes.add(new Box.Filler(minimum, buttonGap, buttonGap));
-        operacoes.add(removerExercicio);
-        operacoes.add(new Box.Filler(minimum, buttonGap, buttonGap));
-        operacoes.add(removerGuia);
-        operacoes.add(new Box.Filler(minimum, buttonGap, buttonGap));
-        operacoes.add(imprimir);
+        BoxLayout boxLayout = new BoxLayout(operations, BoxLayout.Y_AXIS);
+        operations.setLayout(boxLayout);
+        operations.add(new Box.Filler(minimum, topGap, topGap));
+        operations.add(jButtonReset);
+        operations.add(new Box.Filler(minimum, buttonGap, buttonGap));
+        operations.add(jButtonAddTab);
+        operations.add(new Box.Filler(minimum, buttonGap, buttonGap));
+        operations.add(jButtonRemoveExercise);
+        operations.add(new Box.Filler(minimum, buttonGap, buttonGap));
+        operations.add(jButtonRemoveTab);
+        operations.add(new Box.Filler(minimum, buttonGap, buttonGap));
+        operations.add(jButtonPrint);
 
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(819, 551));
-        add(guias, BorderLayout.CENTER);
-        add(operacoes, BorderLayout.EAST);
+        add(tabs, BorderLayout.CENTER);
+        add(operations, BorderLayout.EAST);
     }
 
 }
