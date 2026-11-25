@@ -14,7 +14,12 @@
 
 # Roadmap
 
- 1. Switching to spring boot
- 3. Adding a web interface with angular
- 4. Adding new report templates
- 5. Improving how images are stored
+- [x]  chore/english-name-variables-methods
+- [x]  feature/ui-multi-language-support
+- []  refactor/maven-multi-module-project
+- []  refactor/new-desktop-interface
+- []  chore/language-selection-menu
+- []  refactor/new-model-layer
+- []  refactor/new-report-templates
+- []  feature/spring-boot-web-api
+- []  feature/browser-version-web-app
